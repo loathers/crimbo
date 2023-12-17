@@ -1,3 +1,4 @@
+/* eslint-disable libram/verify-constants */
 import { Args } from "grimoire-kolmafia";
 import {
   descToItem,
@@ -21,44 +22,13 @@ import {
   $monster,
   Counter,
   CrystalBall,
+  flat,
   get,
   have,
   SourceTerminal,
 } from "libram";
 
 import * as OrbManager from "./orbmanager";
-
-/**
- * Find the best element of an array, where "best" is defined by some given criteria.
- * @param array The array to traverse and find the best element of.
- * @param optimizer Either a key on the objects we're looking at that corresponds to numerical values, or a function for mapping these objects to numbers. Essentially, some way of assigning value to the elements of the array.
- * @param reverse Make this true to find the worst element of the array, and false to find the best. Defaults to false.
- */
-export function maxBy<T>(
-  array: T[] | readonly T[],
-  optimizer: (element: T) => number,
-  reverse?: boolean
-): T;
-export function maxBy<S extends string | number | symbol, T extends { [x in S]: number }>(
-  array: T[] | readonly T[],
-  key: S,
-  reverse?: boolean
-): T;
-export function maxBy<S extends string | number | symbol, T extends { [x in S]: number }>(
-  array: T[] | readonly T[],
-  optimizer: ((element: T) => number) | S,
-  reverse = false
-): T {
-  if (typeof optimizer === "function") {
-    return maxBy(
-      array.map((key) => ({ key, value: optimizer(key) })),
-      "value",
-      reverse
-    ).key;
-  } else {
-    return array.reduce((a, b) => (a[optimizer] > b[optimizer] !== reverse ? a : b));
-  }
-}
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -88,83 +58,132 @@ export function sober() {
   return myInebriety() <= inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0);
 }
 
-const trainbots = {
-  caboose: {
-    brake: $monster`Brake-Operating Trainbot`,
-    pingpong: $monster`Ping-Pong-Playing Trainbot`,
-    track: $monster`Track-Switching Trainbot`,
-  },
-  passenger: {
-    drink: $monster`Drink-Delivery Trainbot`,
-    luggage: $monster`Luggage-Handling Trainbot`,
-    ticket: $monster`Ticket-Checking Trainbot`,
-  },
-  dining: {
-    bussy: $monster`Table-Bussing Trainbot`,
-    waiter: $monster`Table-Waiting Trainbot`,
-    wine: $monster`Wine-Pairing Trainbot`,
-  },
-  coal: {
-    coal: $monster`Coal-Shoveling Trainbot`,
-    slag: $monster`Slag-Processing Trainbot`,
-    steam: $monster`Steam-Routing Trainbot`,
-  },
+const neutralMonsters = {
+  recruit: $monster`Crimbuccaneer new recruit`,
+  privateer: $monster`Crimbuccaneer privateer`,
+  dropout: $monster`Crimbuccaneer military school dropout`,
+  conscript: $monster`Elf Guard conscript`,
+  convict: $monster`Elf Guard convict`,
+  private: $monster`Elf Guard private`,
 } as const;
 
-export const args = Args.create("railo", "A script for farming elf stuff", {
+const affiliatedZoneMonsters = {
+  armory: {
+    none: neutralMonsters,
+    elves: {
+      seal: $monster`Elf Guard arctic seal`,
+      armorer: $monster`Elf Guard armorer`,
+      beret: $monster`Elf Guard Red and White Beret`,
+    },
+    pirates: {
+      carpenter: $monster`Crimbuccaneer carpenter`,
+      freebooter: $monster`Crimbuccaneer freebooter`,
+      scrimshander: $monster`Crimbuccaneer scrimshander`,
+    },
+  },
+  bar: {
+    none: neutralMonsters,
+    elves: {
+      specialist: $monster`Elf Guard shore leave specialist`,
+      chemist: $monster`Elf Guard Chemist`,
+      sanitation: $monster`Elf Guard sanitation officer`,
+    },
+    pirates: {
+      barrrback: $monster`Crimbuccaneer barrrback`,
+      grognard: $monster`Crimbuccaneer grognard`,
+      brawler: $monster`Crimbuccaneer bar brawler`,
+    },
+  },
+  cafe: {
+    none: neutralMonsters,
+    elves: {
+      desserter: $monster`Elf Guard desserter`,
+      provisioner: $monster`Elf Guard provisioner`,
+      steward: $monster`Elf Guard steward`,
+    },
+    pirates: {
+      plunderer: $monster`Crimbuccaneer fruit plunderer`,
+      retiree: $monster`Crimbuccaneer retiree`,
+      whalehunter: $monster`Crimbuccaneer whalehunter`,
+    },
+  },
+  cottage: {
+    none: neutralMonsters,
+    elves: {
+      requisitions: $monster`Elf Guard requisitions officer`,
+      strategist: $monster`Elf Guard Strategist`,
+      general: $monster`Elf Guard general`,
+    },
+    pirates: {
+      mudlark: $monster`Crimbuccaneer mudlark`,
+      navigator: $monster`Crimbuccaneer navigator`,
+      captain: $monster`Crimbuccaneer vice-captain`,
+    },
+  },
+  foundry: { none: neutralMonsters, elves: {}, pirates: {} },
+} as const;
+
+export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   turns: Args.number({
     help: "The number of turns to run (use negative numbers for the number of turns remaining)",
     default: Infinity,
   }),
-  car: Args.string({
+  zone: Args.string({
     options: [
-      ["caboose", "Kill robots in the Caboose"],
-      ["passenger", "Kill robots in the Passenger Car"],
-      ["dining", "Kill robots in the Dining Car"],
-      ["coal", "Kill robots in the Coal Car"],
+      ["armory", "Armory"],
+      ["bar", "The Bar"],
+      ["cafe", "Cafe"],
+      ["cottage", "Abuela's Cottage"],
+      ["foundry", "Pirate Foundry"],
     ],
-    default: "caboose",
+    default: "cottage",
+  }),
+  affiliation: Args.string({
+    options: [
+      ["none", "Do not pick a side"],
+      ["elves", "Fight for the elves"],
+      ["pirates", "Fight for the Crimbuccaneers"],
+    ],
+    help: "The side to fight for.",
+    default: "elves",
   }),
   debug: Args.flag({
     help: "Turn on debug printing",
     default: false,
   }),
-  priority: Args.string({
-    options: [
-      ["elves", "rescue elves"],
-      ["parts", "gather train parts"],
-      ["pingpong", "pingpong"],
-    ],
-    default: "parts",
-  }),
-  tableware: Args.string({
-    options: [
-      ["food", "make platters"],
-      ["drink", "make goblets"],
-      ["both", "ensure an even number of foods and drinks"],
-    ],
-    default: "both",
-  }),
   orb: Args.string({
     options: [
-      ...[...Object.values(trainbots)]
-        .map((o) => Object.keys(o))
-        .flat()
-        .map((key) => [key, `Target the ${key} trainbot with the orb.`] as [string, string]),
-      ["none", "Don't use it!"],
+      Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))[ //.map(([key, val]) => [key, `${val}`] as [string, string]),
+        // .map((key) => [key, `${key}`] as [string, string]),
+        ("none", "Don't use it")
+      ],
     ],
+    help: "Monster to target with the orb.",
     default: "none",
   }),
 });
 
+export function chosenSide(): "elves" | "pirates" {
+  switch (args.affiliation) {
+    case "elves":
+      return "elves";
+    case "pirates":
+      return "pirates";
+    default:
+      throw `Unknown side ${args.affiliation}`;
+  }
+}
+
 let orbTarget: Monster | null = null;
-export function validateAndSetOrbTarget(target: string, car: string) {
+export function validateAndSetOrbTarget(target: string, zone: string, affiliation: string) {
   if (target === "none") return;
   if (!have($item`miniature crystal ball`)) return;
-  if (!(car in trainbots)) throw new Error("Invalid car specified!");
-  const carTargets = trainbots[car as keyof typeof trainbots];
-  if (!(target in carTargets)) throw new Error("Invalid target specified");
-  orbTarget = carTargets[target as keyof typeof carTargets];
+  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
+  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
+  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
+  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
+  if (!(target in monsters)) throw new Error("Invalid target specified");
+  orbTarget = monsters[target as keyof typeof monsters];
 }
 export function getOrbTarget(): Monster | null {
   return orbTarget;

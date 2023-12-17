@@ -1,7 +1,7 @@
 import { Location } from "kolmafia";
-import { $location } from "libram";
+import { $location, maxBy } from "libram";
 
-import { maxBy, printh, sober } from "../lib";
+import { printh, sober } from "../lib";
 
 import { guzzlrFactory } from "./guzzlr";
 import {

@@ -8,11 +8,11 @@ import {
   findLeprechaunMultiplier,
   get,
   have,
+  maxBy,
   Robortender,
 } from "libram";
 
 import { garboAverageValue, garboValue } from "../garboValue";
-import { maxBy } from "../lib";
 
 import { GeneralFamiliar, MenuOptions } from "./lib";
 

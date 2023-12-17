@@ -20,12 +20,13 @@ import {
   $stat,
   get,
   have,
+  maxBy,
   SongBoom,
   StrictMacro,
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
-import { maxBy, shouldRedigitize } from "./lib";
+import { shouldRedigitize } from "./lib";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },

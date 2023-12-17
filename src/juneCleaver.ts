@@ -1,8 +1,7 @@
 import { Item } from "kolmafia";
-import { $item, get, JuneCleaver } from "libram";
+import { $item, get, JuneCleaver, maxBy } from "libram";
 
 import { garboValue } from "./garboValue";
-import { maxBy } from "./lib";
 
 export const juneCleaverChoiceValues = {
   1467: {

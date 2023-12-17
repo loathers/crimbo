@@ -12,7 +12,7 @@ import {
 import { $familiar, $item, CrownOfThrones, get, JuneCleaver, PropertiesManager } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { args, printd, sober, unsupportedChoices } from "./lib";
+import { printd, sober, unsupportedChoices } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
@@ -42,7 +42,7 @@ export function resetNcForced() {
   printd("Reset NC forcing");
   ncForced = false;
 }
-CrownOfThrones.createRiderMode("default", () => 0);
+CrownOfThrones.createRiderMode("default", {});
 const chooseRider = () => CrownOfThrones.pickRider("default");
 export class CrimboEngine extends Engine<never, CrimboTask> {
   do(task: CrimboTask): void {
@@ -65,13 +65,6 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
   initPropertiesManager(manager: PropertiesManager): void {
     super.initPropertiesManager(manager);
     for (const choices of unsupportedChoices.values()) manager.setChoices(choices);
-    const priority = args.priority as "elves" | "parts" | "pingpong";
-    // Caboose
-    manager.setChoice(1486, { parts: 1, elves: 2, pingpong: 3 }[priority]);
-    // Passenger; only one option
-    manager.setChoice(1487, 1);
-    // Dining: always pick option one (luggage)
-    manager.setChoice(1488, 1);
   }
 
   dress(task: CrimboTask, outfit: Outfit): void {

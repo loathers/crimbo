@@ -5,11 +5,10 @@ import {
   Location,
   toMonster,
 } from "kolmafia";
-import { sum } from "libram";
+import { maxBy, sum } from "libram";
 
 import { freeFightFamiliarData } from "../familiar/freeFightFamiliar";
 import { garboValue } from "../garboValue";
-import { maxBy } from "../lib";
 
 import {
   canAdventureOrUnlock,

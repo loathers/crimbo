@@ -29,13 +29,13 @@ import {
   withProperty,
 } from "libram";
 
-import * as QUESTS from "./cars";
 import { CrimboEngine, CrimboQuest, CrimboStrategy, CrimboTask } from "./engine";
 import { args, printh, validateAndSetOrbTarget } from "./lib";
 import Macro from "./macro";
 import { chooseQuestOutfit } from "./outfit";
 import { setup } from "./setup";
 import { drunkSafeWander } from "./wanderer";
+import * as QUESTS from "./zones";
 
 export function main(command?: string) {
   Args.fill(args, command);
@@ -45,7 +45,7 @@ export function main(command?: string) {
     return;
   }
 
-  validateAndSetOrbTarget(args.orb, args.car);
+  validateAndSetOrbTarget(args.orb, args.zone, args.affiliation);
   setDefaultMaximizeOptions({ preventSlot: $slots`crown-of-thrones, buddy-bjorn` });
 
   sinceKolmafiaRevision(27022);
@@ -57,7 +57,7 @@ export function main(command?: string) {
 
   let digitizes = get("_sourceTerminalDigitizeMonsterCount");
 
-  const quest: CrimboQuest = { ...QUESTS[args.car as keyof typeof QUESTS], completed };
+  const quest: CrimboQuest = { ...QUESTS[args.zone as keyof typeof QUESTS], completed };
   const global: Quest<CrimboTask> = {
     name: "Global",
     completed,

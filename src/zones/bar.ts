@@ -6,9 +6,10 @@ import { toasterGazeIfNecessary } from "../lib";
 import Macro from "../macro";
 import { chooseQuestOutfit, drunkSpec, orbSpec } from "../outfit";
 
-const location = $location`Crimbo Train (Caboose)`;
-const caboose: CrimboQuest = {
-  name: "Caboose",
+// eslint-disable-next-line libram/verify-constants
+const location = $location`The Bar at War`;
+const bar: CrimboQuest = {
+  name: "Bar",
   location,
   tasks: [
     {
@@ -25,4 +26,4 @@ const caboose: CrimboQuest = {
   ],
 };
 
-export default caboose;
+export default bar;

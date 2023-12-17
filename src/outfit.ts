@@ -6,8 +6,6 @@ import {
   Item,
   itemAmount,
   Location,
-  myMaxmp,
-  myMp,
   toSlot,
   totalTurnsPlayed,
 } from "kolmafia";
@@ -15,7 +13,6 @@ import {
   $familiar,
   $familiars,
   $item,
-  $locations,
   CrystalBall,
   get,
   getRemainingStomach,
@@ -25,7 +22,7 @@ import {
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
 import { garboValue } from "./garboValue";
-import { args, getOrbTarget, realmAvailable, sober } from "./lib";
+import { chosenSide, getOrbTarget, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 
 export function ifHave(
@@ -66,7 +63,6 @@ export function chooseQuestOutfit(
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
     ifHave("famequip", equipmentFamiliars.get(familiar)),
-    ifHave("famequip", $item`white arm towel`, () => location.zone === "Crimbo22"),
     ifHave("famequip", $item`tiny stillsuit`),
     ifHave("famequip", $item`amulet coin`)
   );
@@ -80,11 +76,8 @@ export function chooseQuestOutfit(
       "offhand",
       $item`cursed magnifying glass`,
       () => !isFree && get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13
-    ),
-    ifHave("offhand", $item`Abuela Crimbo's special magnet`, () => location.zone === "Crimbo22")
+    )
   );
-
-  const useHarness = harnessIsEffective(location);
 
   const backs = mergeSpecs(
     ifHave(
@@ -95,11 +88,10 @@ export function chooseQuestOutfit(
         get("nextParanormalActivity") <= totalTurnsPlayed() &&
         sober()
     ),
-    ifHave("back", $item`Trainbot harness`, () => useHarness),
     ifHave("back", $item`Buddy Bjorn`)
   );
   const spec = mergeSpecs(
-    ifHave("hat", $item`Crown of Thrones`, () => useHarness || !have($item`Buddy Bjorn`)),
+    ifHave("hat", $item`Crown of Thrones`, () => !have($item`Buddy Bjorn`)),
     weapons,
     offhands,
     backs,
@@ -128,9 +120,7 @@ export function chooseQuestOutfit(
   }
   const mergedSpec = mergeSpecs(...outfits, spec);
 
-  const [goodFammy, lessGoodFammy] = useHarness
-    ? [$item`Crown of Thrones`, $item`Buddy Bjorn`]
-    : [$item`Buddy Bjorn`, $item`Crown of Thrones`];
+  const [goodFammy, lessGoodFammy] = [$item`Buddy Bjorn`, $item`Crown of Thrones`];
   const lessGoodSlot = toSlot(lessGoodFammy).toString() as OutfitSlot;
   if (!have(goodFammy) && have(lessGoodFammy) && !(lessGoodSlot in mergedSpec)) {
     mergedSpec[lessGoodSlot] = lessGoodFammy;
@@ -139,13 +129,6 @@ export function chooseQuestOutfit(
   }
 
   return mergedSpec;
-}
-
-function harnessIsEffective(location: Location) {
-  return (
-    $locations`Crimbo Train (Passenger Car), Crimbo Train (Dining Car)`.includes(location) &&
-    args.priority === "elves"
-  );
 }
 
 const equipmentFamiliars = new Map<Familiar, Item>([
@@ -195,20 +178,21 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     valueFunction: () => 220,
   },
   {
-    item: $item`Trainbot luggage hook`,
+    // eslint-disable-next-line libram/verify-constants
+    item: $item`pegfinger`,
     valueFunction: ({ location }) =>
-      $locations`Crimbo Train (Passenger Car)`.includes(location)
-        ? (1 / 3) * garboValue($item`lost elf luggage`)
-        : 0,
+      location.zone === "Crimbo23" && chosenSide() === "pirates" ? 10000 : 0,
   },
   {
-    item: $item`Trainbot radar monocle`,
-    valueFunction: ({ location }) => (location.zone === "Crimbo22" ? 1000 : 0),
+    // eslint-disable-next-line libram/verify-constants
+    item: $item`Elf Guard commandeering gloves`,
+    valueFunction: ({ location }) =>
+      location.zone === "Crimbo23" && chosenSide() === "elves" ? 10000 : 0,
   },
   {
-    item: $item`automatic wine thief`,
-    valueFunction: ({ location }) =>
-      location.zone === "Crimbo22" && myMaxmp() >= 3000 && myMp() < 500 ? 15000 : 0,
+    // eslint-disable-next-line libram/verify-constants
+    item: $item`Elf Guard clipboard`,
+    valueFunction: ({ location }) => (location.zone === "Crimbo23" ? 15000 : 0),
   },
 ];
 
