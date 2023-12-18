@@ -155,10 +155,11 @@ export const setup: Quest<CrimboTask> = {
     {
       name: "Autumn-Aton",
       completed: () => AutumnAton.currentlyIn() !== null,
-      do: () =>
+      do: (): void => {
         AutumnAton.sendTo(
           $locations`The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`
-        ),
+        );
+      },
       ready: () => AutumnAton.available() && AutumnAton.turnsForQuest() < myAdventures() + 10,
       sobriety: "either",
     },
