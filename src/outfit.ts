@@ -194,6 +194,11 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     item: $item`Elf Guard clipboard`,
     valueFunction: ({ location }) => (location.zone === "Crimbo23" ? 15000 : 0),
   },
+  {
+    // eslint-disable-next-line libram/verify-constants
+    item: $item`Crimbuccaneer Lantern`,
+    valueFunction: ({ location }) => (location.zone === "Crimbo23" ? 15000 : 0),
+  },
 ];
 
 function getBestAccessories(location: Location, isFree?: boolean) {
