@@ -163,7 +163,7 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   }),
 });
 
-export function chosenSide(): "none" | "elves" | "pirates" {
+export function chosenAffiliation(): "none" | "elves" | "pirates" {
   switch (args.affiliation) {
     case "none":
       return "none";

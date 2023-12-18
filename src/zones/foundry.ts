@@ -7,9 +7,9 @@ import Macro from "../macro";
 import { affiliationSpec, chooseQuestOutfit, drunkSpec, orbSpec } from "../outfit";
 
 // eslint-disable-next-line libram/verify-constants
-const location = $location`The Bar at War`;
-const bar: CrimboQuest = {
-  name: "Bar",
+const location = $location`The Embattled Factory`;
+const foundry: CrimboQuest = {
+  name: "Foundry",
   location,
   tasks: [
     {
@@ -32,4 +32,4 @@ const bar: CrimboQuest = {
   ],
 };
 
-export default bar;
+export default foundry;

@@ -22,7 +22,7 @@ import {
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
 import { garboValue } from "./garboValue";
-import { chosenSide, getOrbTarget, realmAvailable, sober } from "./lib";
+import { chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 
 export function ifHave(
@@ -36,6 +36,18 @@ export function ifHave(
 }
 
 export const drunkSpec = sober() ? {} : { offhand: $item`Drunkula's wineglass` };
+export const affiliationSpec = () => {
+  switch (chosenAffiliation()) {
+    case "elves":
+      // eslint-disable-next-line libram/verify-constants
+      return { hat: $item`Elf Guard patrol cap`, pants: $item`Elf Guard hotpants` };
+    case "pirates":
+      // eslint-disable-next-line libram/verify-constants
+      return { hat: $item`Crimbuccaneer tricorn`, pants: $item`Crimbuccaneer breeches` };
+    default:
+      return {};
+  }
+};
 export const orbSpec = (location: Location) => {
   const prediction = OrbManager.ponder().get(location);
   return !!getOrbTarget() && (!prediction || prediction === getOrbTarget())
@@ -72,6 +84,10 @@ export function chooseQuestOutfit(
     ifHave("weapon", $item`Fourth of May Cosplay Saber`)
   );
   const offhands = mergeSpecs(
+    // eslint-disable-next-line libram/verify-constants
+    ifHave("offhand", $item`Elf Guard clipboard`, () => location.zone === "Crimbo23"),
+    // eslint-disable-next-line libram/verify-constants
+    ifHave("offhand", $item`Crimbuccaneer Lantern`, () => location.zone === "Crimbo23"),
     ifHave(
       "offhand",
       $item`cursed magnifying glass`,
@@ -181,23 +197,13 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     // eslint-disable-next-line libram/verify-constants
     item: $item`pegfinger`,
     valueFunction: ({ location }) =>
-      location.zone === "Crimbo23" && chosenSide() === "pirates" ? 10000 : 0,
+      location.zone === "Crimbo23" && chosenAffiliation() === "pirates" ? 10000 : 0,
   },
   {
     // eslint-disable-next-line libram/verify-constants
     item: $item`Elf Guard commandeering gloves`,
     valueFunction: ({ location }) =>
-      location.zone === "Crimbo23" && chosenSide() === "elves" ? 10000 : 0,
-  },
-  {
-    // eslint-disable-next-line libram/verify-constants
-    item: $item`Elf Guard clipboard`,
-    valueFunction: ({ location }) => (location.zone === "Crimbo23" ? 15000 : 0),
-  },
-  {
-    // eslint-disable-next-line libram/verify-constants
-    item: $item`Crimbuccaneer Lantern`,
-    valueFunction: ({ location }) => (location.zone === "Crimbo23" ? 15000 : 0),
+      location.zone === "Crimbo23" && chosenAffiliation() === "elves" ? 10000 : 0,
   },
 ];
 
