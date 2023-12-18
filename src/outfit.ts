@@ -22,7 +22,7 @@ import {
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
 import { garboValue } from "./garboValue";
-import { chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
+import { args, chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 
 export function ifHave(
@@ -61,10 +61,16 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
-const chooseFamiliar = (options: MenuOptions = {}): Familiar =>
-  (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
-    have(f)
-  ) ?? freeFightFamiliar(options);
+const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
+  if (args.shrub && options.location?.zone === "Crimbo23" && get("shrubGifts") === "Gifts") {
+    return $familiar`Crimbo Shrub`;
+  }
+  return (
+    (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
+      have(f)
+    ) ?? freeFightFamiliar(options)
+  );
+};
 
 type TaskOptions = { location: Location; isFree?: boolean };
 export function chooseQuestOutfit(
