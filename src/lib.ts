@@ -147,6 +147,10 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     help: "The side to fight for.",
     default: "elves",
   }),
+  shrub: Args.boolean({
+    help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
+    default: false,
+  }),
   debug: Args.flag({
     help: "Turn on debug printing",
     default: false,

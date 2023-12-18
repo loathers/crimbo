@@ -12,6 +12,7 @@ import {
   myMaxhp,
   myMaxmp,
   myMp,
+  myPrimestat,
   putCloset,
   restoreMp,
   runChoice,
@@ -30,6 +31,7 @@ import {
   $phylum,
   $skill,
   AutumnAton,
+  CrimboShrub,
   get,
   have,
   Snapper,
@@ -38,7 +40,7 @@ import {
 } from "libram";
 
 import { CrimboTask } from "./engine";
-import { CMCEnvironment, countEnvironment, tryGetCMCItem } from "./lib";
+import { args, CMCEnvironment, countEnvironment, tryGetCMCItem } from "./lib";
 
 const poisons = $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned`;
 function cmcTarget(): { item: Item; environment: CMCEnvironment } {
@@ -110,6 +112,13 @@ export const setup: Quest<CrimboTask> = {
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
       sobriety: "sober",
+    },
+    {
+      name: "Decorations",
+      completed: () => !args.shrub || !CrimboShrub.have() || get("_shrubDecorated"),
+      do: () =>
+        CrimboShrub.decorate(myPrimestat().toString(), "Prismatic Damage", "Blocking", "Gifts"),
+      sobriety: "either",
     },
     {
       name: "MCD",
