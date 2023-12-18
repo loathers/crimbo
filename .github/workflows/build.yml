@@ -2,9 +2,9 @@ name: Build & Lint
 
 on:
   push:
-    branches: [main]
+    branches: [crimbo23]
   pull_request:
-    branches: [main]
+    branches: [crimbo23]
   workflow_dispatch:
 
 env:
