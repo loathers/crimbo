@@ -163,14 +163,16 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   }),
 });
 
-export function chosenSide(): "elves" | "pirates" {
+export function chosenSide(): "none" | "elves" | "pirates" {
   switch (args.affiliation) {
+    case "none":
+      return "none";
     case "elves":
       return "elves";
     case "pirates":
       return "pirates";
     default:
-      throw `Unknown side ${args.affiliation}`;
+      throw `Unknown affiliation ${args.affiliation}`;
   }
 }
 
