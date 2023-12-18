@@ -153,10 +153,10 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   }),
   orb: Args.string({
     options: [
-      Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))[ //.map(([key, val]) => [key, `${val}`] as [string, string]),
-        // .map((key) => [key, `${key}`] as [string, string]),
-        ("none", "Don't use it")
-      ],
+      ...Object.entries(
+        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
+      ).map(([key, val]) => [key, `${val}`] as [string, string]),
+      ["none", "Don't use it"],
     ],
     help: "Monster to target with the orb.",
     default: "none",
