@@ -14,6 +14,9 @@ const bar: CrimboQuest = {
   tasks: [
     {
       name: "Crimbo",
+      prepare: (): void => {
+        if(myHp() <= myMaxhp()/2) restoreHp(myMaxhp()); //The bar is a dangerous place.
+      },
       completed: () => false,
       do: location,
       outfit: () =>
@@ -24,7 +27,7 @@ const bar: CrimboQuest = {
           orbSpec(location)
         ),
       effects: () =>
-        $effects`Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce`.filter((effect) => have(toSkill(effect))),
+        $effects`Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell, Feeling Peaceful`.filter((effect) => have(toSkill(effect))),
       combat: new CrimboStrategy(() => Macro.standardCombat()),
       sobriety: "either",
       post: toasterGazeIfNecessary,
