@@ -27,21 +27,24 @@ export function invalidate(): void {
   ponderIsValid = false;
 }
 
-export function toasterGaze(): void {
-  const shore = $location`The Shore, Inc. Travel Agency`;
-  const pass = $item`Desert Bus pass`;
-  if (!canAdventure(shore) && !have(pass)) {
-    retrieveItem(pass);
-  }
+export function shrineGaze(): void {
+  if (get("hiddenBowlingAlleyProgress") !== 8) return;
+
+  const shrine = $location`An Overgrown Shrine (Southeast)`;
+
+  if (!canAdventure(shrine)) return;
+
   try {
-    const store = visitUrl(toUrl(shore));
-    if (!store.includes("Check out the gift shop")) {
-      printh("Unable to stare longingly at toast");
+    const encounter = visitUrl(toUrl(shrine));
+    if (!encounter.includes("Fire When Ready")) {
+      print("Unable to stare longingly at a shrine ball cradle");
     }
-    runChoice(4);
+    // Walk away
+    runChoice(6);
   } catch (e) {
-    printd(`We ran into an issue when gazing at toast: ${e}.`);
-  } finally {
-    visitUrl("main.php");
+    print(
+      `We ran into an issue when gazing at a shrine for balls: ${e}.`,
+      "red"
+    );
   }
 }
