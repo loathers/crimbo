@@ -1,5 +1,6 @@
 import { OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
 import {
+  availableAmount,
   canEquip,
   canInteract,
   Familiar,
@@ -13,6 +14,8 @@ import {
   $familiar,
   $familiars,
   $item,
+  $items,
+  CrimboShrub,
   CrystalBall,
   get,
   getRemainingStomach,
@@ -59,11 +62,24 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
   return outfits.reduce((current, next) => ({ ...next, ...current }), {});
 }
 
+// eslint-disable-next-line libram/verify-constants
+const crimboOffhands = $items`Elf Guard clipboard, Crimbuccaneer Lantern`;
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (args.shrub && options.location?.zone === "Crimbo23" && get("shrubGifts") === "Gifts") {
+  if (
+    args.shrub &&
+    options.location?.zone === "Crimbo23" &&
+    CrimboShrub.have() &&
+    get("shrubGifts") === "Gifts"
+  ) {
     return $familiar`Crimbo Shrub`;
+  }
+  if (
+    crimboOffhands.map((item) => availableAmount(item)).reduce((a, b) => a + b, 0) &&
+    have($familiar`Left-Hand Man`)
+  ) {
+    return $familiar`Left-Hand Man`;
   }
   return (
     (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
@@ -80,6 +96,10 @@ export function chooseQuestOutfit(
   const mergedOutfits = mergeSpecs(...outfits);
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
+    ifHave(
+      "famequip",
+      crimboOffhands.find((item) => have(item))
+    ),
     ifHave("famequip", equipmentFamiliars.get(familiar)),
     ifHave("famequip", $item`tiny stillsuit`),
     ifHave("famequip", $item`amulet coin`)
