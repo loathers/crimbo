@@ -2,6 +2,7 @@
 import { Args } from "grimoire-kolmafia";
 import {
   descToItem,
+  haveEquipped,
   inebrietyLimit,
   isDarkMode,
   Item,
@@ -20,11 +21,14 @@ import {
   $location,
   $monster,
   Counter,
+  CrystalBall,
   flat,
   get,
   have,
   SourceTerminal,
 } from "libram";
+
+import * as OrbManager from "./orbmanager";
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -306,6 +310,6 @@ export function digitizedMonstersRemaining(): number {
   );
 }
 
-export function toasterGazeIfNecessary(): void {
-  // nope
+export function shrineGazeIfNecessary(): void {
+  if (getOrbTarget() && !haveEquipped(CrystalBall.orb)) OrbManager.shrineGaze();
 }
