@@ -2,14 +2,11 @@ import {
   canAdventure,
   Location,
   Monster,
-  retrieveItem,
   runChoice,
   toUrl,
   visitUrl,
 } from "kolmafia";
-import { $item, $location, CrystalBall, have } from "libram";
-
-import { printd, printh } from "./lib";
+import { $location, CrystalBall } from "libram";
 
 let currentPonder = CrystalBall.ponder();
 let ponderIsValid = true;
