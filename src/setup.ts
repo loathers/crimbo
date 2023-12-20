@@ -116,8 +116,10 @@ export const setup: Quest<CrimboTask> = {
     {
       name: "Decorations",
       completed: () => !args.shrub || !CrimboShrub.have() || get("_shrubDecorated"),
-      do: () =>
-        CrimboShrub.decorate(myPrimestat().toString(), "Prismatic Damage", "Blocking", "Gifts"),
+      do: () => {
+        if (!have($item`box of old Crimbo decorations`)) useFamiliar($familiar`Crimbo Shrub`);
+        CrimboShrub.decorate(myPrimestat().toString(), "Prismatic Damage", "Blocking", "Gifts");
+      },
       sobriety: "either",
     },
     {
