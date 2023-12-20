@@ -6,10 +6,12 @@ import {
   Item,
   itemAmount,
   Location,
+  myClass,
   toSlot,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
+  $classes,
   $familiar,
   $familiars,
   $item,
@@ -210,6 +212,12 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     item: $item`Elf Guard commandeering gloves`,
     valueFunction: ({ location }) =>
       location.zone === "Crimbo23" && chosenAffiliation() === "elves" ? 10000 : 0,
+  },
+  {
+    item: $item`mime army infiltration glove`,
+    // if we can already pickpocket, it's worthless; otherwise it's worth ~5% of a common drop
+    // which is about 2k for the farmables at the moment
+    valueFunction: () => $classes`Disco Bandit, Accordion Thief`.includes(myClass()) ? 0 : 2000,
   },
 ];
 
