@@ -1,5 +1,6 @@
 import {
   canAdventure,
+  equip,
   Location,
   Monster,
   print,
@@ -33,6 +34,7 @@ export function shrineGaze(): void {
   if (!canAdventure(shrine)) return;
 
   try {
+    equip(CrystalBall.orb);
     const encounter = visitUrl(toUrl(shrine));
     if (!encounter.includes("Fire When Ready")) {
       print("Unable to stare longingly at a shrine ball cradle");
