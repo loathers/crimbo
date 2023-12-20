@@ -8094,7 +8094,7 @@ var adventuresFamiliars = function(allowEquipment) {
   return allowEquipment ? $familiars(_templateObject627 || (_templateObject627 = _taggedTemplateLiteral23(["Temporal Riftlet, Reagnimated Gnome"]))) : $familiars(_templateObject725 || (_templateObject725 = _taggedTemplateLiteral23(["Temporal Riftlet"])));
 }, chooseFamiliar = function() {
   var _options$location, _find, options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-  return args.shrub && ((_options$location = options.location) === null || _options$location === void 0 ? void 0 : _options$location.zone) === "Crimbo23" && get("shrubGifts") === "Gifts" ? $familiar(_templateObject824 || (_templateObject824 = _taggedTemplateLiteral23(["Crimbo Shrub"]))) : (_find = ((0, import_kolmafia34.canInteract)() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find(function(f) {
+  return args.shrub && ((_options$location = options.location) === null || _options$location === void 0 ? void 0 : _options$location.zone) === "Crimbo23" && get("shrubGifts") === "gifts" ? $familiar(_templateObject824 || (_templateObject824 = _taggedTemplateLiteral23(["Crimbo Shrub"]))) : (_find = ((0, import_kolmafia34.canInteract)() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find(function(f) {
     return have(f);
   })) !== null && _find !== void 0 ? _find : freeFightFamiliar(options);
 };
