@@ -299,5 +299,5 @@ export function digitizedMonstersRemaining(): number {
 }
 
 export function toasterGazeIfNecessary(): void {
-  if (getOrbTarget() && haveEquipped(CrystalBall.orb)) OrbManager.toasterGaze();
+  // nope
 }
