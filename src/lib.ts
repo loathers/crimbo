@@ -66,12 +66,12 @@ const neutralMonsters = {
 const affiliatedZoneMonsters = {
   armory: {
     none: neutralMonsters,
-    elves: {
+    pirates: {
       seal: $monster`Elf Guard arctic seal`,
       armorer: $monster`Elf Guard armorer`,
       beret: $monster`Elf Guard Red and White Beret`,
     },
-    pirates: {
+    elves: {
       carpenter: $monster`Crimbuccaneer carpenter`,
       freebooter: $monster`Crimbuccaneer freebooter`,
       scrimshander: $monster`Crimbuccaneer scrimshander`,
@@ -79,12 +79,12 @@ const affiliatedZoneMonsters = {
   },
   bar: {
     none: neutralMonsters,
-    elves: {
+    pirates: {
       specialist: $monster`Elf Guard shore leave specialist`,
       chemist: $monster`Elf Guard Chemist`,
       sanitation: $monster`Elf Guard sanitation officer`,
     },
-    pirates: {
+    elves: {
       barrrback: $monster`Crimbuccaneer barrrback`,
       grognard: $monster`Crimbuccaneer grognard`,
       brawler: $monster`Crimbuccaneer bar brawler`,
@@ -92,12 +92,12 @@ const affiliatedZoneMonsters = {
   },
   cafe: {
     none: neutralMonsters,
-    elves: {
+    pirates: {
       desserter: $monster`Elf Guard desserter`,
       provisioner: $monster`Elf Guard provisioner`,
       steward: $monster`Elf Guard steward`,
     },
-    pirates: {
+    elves: {
       plunderer: $monster`Crimbuccaneer fruit plunderer`,
       retiree: $monster`Crimbuccaneer retiree`,
       whalehunter: $monster`Crimbuccaneer whalehunter`,
@@ -105,18 +105,30 @@ const affiliatedZoneMonsters = {
   },
   cottage: {
     none: neutralMonsters,
-    elves: {
+    pirates: {
       requisitions: $monster`Elf Guard requisitions officer`,
       strategist: $monster`Elf Guard Strategist`,
       general: $monster`Elf Guard general`,
     },
-    pirates: {
+    elves: {
       mudlark: $monster`Crimbuccaneer mudlark`,
       navigator: $monster`Crimbuccaneer navigator`,
       captain: $monster`Crimbuccaneer vice-captain`,
     },
   },
-  foundry: { none: neutralMonsters, elves: {}, pirates: {} },
+  foundry: {
+    none: neutralMonsters,
+    pirates: {
+      courier: $monster`Elf Guard fuel courier`,
+      engineer: $monster`Elf Guard Engineer`,
+      packer: $monster`Elf Guard ordnance packer`,
+    },
+    elves: {
+      rigger: $monster`Crimbuccaneer Rigging Rigger`,
+      lamplighter: $monster`Crimbuccaneer Lamplighter`,
+      bombjack: $monster`Crimbuccaneer bombjack`,
+    },
+  },
 } as const;
 
 export const args = Args.create("crimbo23", "A script for farming elf stuff", {
