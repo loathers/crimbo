@@ -34,6 +34,7 @@ export function shrineGaze(): void {
   if (!canAdventure(shrine)) return;
 
   try {
+    print("Gazing at a shrine to reset the orb prediction");
     equip(CrystalBall.orb);
     const encounter = visitUrl(toUrl(shrine));
     if (!encounter.includes("Fire When Ready")) {
