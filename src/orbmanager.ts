@@ -43,9 +43,6 @@ export function shrineGaze(): void {
     // Walk away
     runChoice(6);
   } catch (e) {
-    print(
-      `We ran into an issue when gazing at a shrine for balls: ${e}.`,
-      "red"
-    );
+    print(`We ran into an issue when gazing at a shrine for balls: ${e}.`, "red");
   }
 }

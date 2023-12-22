@@ -18,7 +18,7 @@ You can specify the number of turns to run (use negative numbers for the number 
 
 `crimbo turns=10`
 
-You can specify which zone to adventure in, default is caboose.
+You can specify which zone to adventure in, default rotates on availability.
 
 `crimbo zone=bar`
 `crimbo zone=cottage`

@@ -82,7 +82,7 @@ export const setup: Quest<CrimboTask> = {
     {
       name: "Recover",
       ready: () => have($skill`Cannelloni Cocoon`),
-      completed: () => myHp() / myMaxhp() >= 0.75,
+      completed: () => myHp() / myMaxhp() >= (args.zone === "bar" ? 1 : 0.75),
       do: () => {
         useSkill($skill`Cannelloni Cocoon`);
       },
