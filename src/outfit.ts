@@ -15,6 +15,7 @@ import {
   $familiar,
   $familiars,
   $item,
+  $location,
   CrystalBall,
   get,
   getRemainingStomach,
@@ -23,7 +24,7 @@ import {
 } from "libram";
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
-import { garboValue } from "./garboValue";
+import { garboAverageValue, garboValue } from "./garboValue";
 import { args, chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 
@@ -215,9 +216,51 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
   },
   {
     item: $item`mime army infiltration glove`,
-    // if we can already pickpocket, it's worthless; otherwise it's worth ~5% of a common drop
-    // which is about 2k for the farmables at the moment
-    valueFunction: () => $classes`Disco Bandit, Accordion Thief`.includes(myClass()) ? 0 : 2000,
+    valueFunction: ({ location }) => {
+      // if we can already pickpocket or can't even with this, it's worthless
+      if ($classes`Disco Bandit, Accordion Thief`.includes(myClass()) || !sober()) {
+        return 0;
+      }
+      // about 5% of a common drop
+      const aff = chosenAffiliation();
+      if (location == $location`Abuela's Cottage (Contested)`) {
+        if (aff == "pirates") {
+          return 0.05 * garboAverageValue($item`Elf Guard officer's sidearm`, $item`Elf Guard commandeering gloves`, $item`Elf Guard eyedrops`);
+        }
+        if (aff == "elves") {
+          return 0.05 * garboAverageValue($item`Crimbuccaneer shirt`, $item`Crimbuccaneer captain's purse`);
+        }
+      } else if (location == $location`The Embattled Factory`) {
+        if (aff == "pirates") {
+          return 0.05 * garboAverageValue($item`military-grade peppermint oil`, $item`Elf Guard tinsel grenade`);
+        }
+        if (aff == "elves") {
+          return 0.05 * garboAverageValue($item`Crimbuccaneer mologrog cocktail`, $item`Crimbuccaneer whale oil`, $item`Crimbuccaneer rigging lasso`);
+        }
+      } else if (location == $location`The Bar At War`) {
+        if (aff == "pirates") {
+          return 0.05 * garboAverageValue($item`bottle of whiskey`, $item`peppermint bomb`, $item`officer's nog`);
+        }
+        if (aff == "elves") {
+          return 0.05 * garboAverageValue($item`grog nuts`, $item`sawed-off blunderbuss`, $item`old-school pirate grog`);
+        }
+      } else if (location == $location`A Cafe Divided`) {
+        if (aff == "pirates") {
+          return 0.05 * garboAverageValue($item`sundae ration`, $item`peppermint tack`, $item`Elf Guard payroll bag`);
+        }
+        if (aff == "elves") {
+          return 0.05 * garboAverageValue($item`orange`, $item`pegfinger`, $item`whalesteak`);
+        }
+      } else if (location == $location`The Armory Up In Arms`) {
+        if (aff == "pirates") {
+          return 0.05 * garboAverageValue($item`Elf Guard mouthknife`, $item`Kelflar vest`, $item`red and white claret`);
+        }
+        if (aff == "elves") {
+          return 0.05 * garboAverageValue($item`shipwright's hammer`, $item`cannonbomb`, $item`whale cerebrospinal fluid`);
+        }
+      }
+      return 0;
+    },
   },
 ];
 
