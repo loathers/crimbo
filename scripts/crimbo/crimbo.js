@@ -8299,7 +8299,7 @@ var setup = {
       return have($skill(_templateObject923 || (_templateObject923 = _taggedTemplateLiteral25(["Cannelloni Cocoon"]))));
     },
     completed: function() {
-      return (0, import_kolmafia35.myHp)() / (0, import_kolmafia35.myMaxhp)() >= 0.75;
+      return (0, import_kolmafia35.myHp)() / (0, import_kolmafia35.myMaxhp)() >= (args.zone === "bar" ? 1 : 0.75);
     },
     do: function() {
       (0, import_kolmafia35.useSkill)($skill(_templateObject1019 || (_templateObject1019 = _taggedTemplateLiteral25(["Cannelloni Cocoon"]))));
@@ -9038,7 +9038,7 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
       }, drunkSpec, affiliationSpec(), orbSpec(location2));
     },
     effects: function() {
-      return $effects(_templateObject2101 || (_templateObject2101 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini"]))).filter(function(effect) {
+      return $effects(_templateObject2101 || (_templateObject2101 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell, Feeling Peaceful"]))).filter(function(effect) {
         return have((0, import_kolmafia40.toSkill)(effect));
       });
     },
