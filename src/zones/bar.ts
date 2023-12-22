@@ -24,7 +24,7 @@ const bar: CrimboQuest = {
           orbSpec(location)
         ),
       effects: () =>
-        $effects`Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell, Feeling Peaceful`.filter(
+        $effects`Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell`.filter(
           (effect) => have(toSkill(effect))
         ),
       combat: new CrimboStrategy(() => Macro.standardCombat()),
