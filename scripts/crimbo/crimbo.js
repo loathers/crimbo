@@ -9038,7 +9038,7 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
       }, drunkSpec, affiliationSpec(), orbSpec(location2));
     },
     effects: function() {
-      return $effects(_templateObject2101 || (_templateObject2101 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell, Feeling Peaceful"]))).filter(function(effect) {
+      return $effects(_templateObject2101 || (_templateObject2101 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell"]))).filter(function(effect) {
         return have((0, import_kolmafia40.toSkill)(effect));
       });
     },
