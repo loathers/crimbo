@@ -171,7 +171,8 @@ export default class Macro extends StrictMacro {
   }
 
   standardCombat(): this {
-    return this.tryHaveSkill($skill`Curse of Weaksauce`)
+    return this.if_("!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer", "pickpocket")
+      .tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
       .externalIf(
         SongBoom.song() === "Total Eclipse of Your Meat",
