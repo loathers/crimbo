@@ -62,7 +62,7 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (args.shrub && options.location?.zone === "Crimbo23" && get("shrubGifts") === "Gifts") {
+  if (args.shrub && options.location?.zone === "Crimbo23" && get("shrubGifts") === "gifts") {
     return $familiar`Crimbo Shrub`;
   }
   return (
