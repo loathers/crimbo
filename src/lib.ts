@@ -177,6 +177,16 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     help: "Monster to target with the orb.",
     default: "none",
   }),
+  sniff: Args.string({
+    options: [
+      ...Object.entries(
+        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
+      ).map(([key, val]) => [key, `${val}`] as [string, string]),
+      ["none", "Don't use it"],
+    ],
+    help: "Monster to sniff with a prank Crimbo card or trick coin (does not autobuy)",
+    default: "none",
+  }),
 });
 
 export function chosenAffiliation(): "none" | "elves" | "pirates" {
@@ -205,6 +215,20 @@ export function validateAndSetOrbTarget(target: string, zone: string, affiliatio
 }
 export function getOrbTarget(): Monster | null {
   return orbTarget;
+}
+
+let sniffTarget: Monster | null = null;
+export function validateAndSetSniffTarget(target: string, zone: string, affiliation: string) {
+  if (target === "none") return;
+  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
+  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
+  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
+  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
+  if (!(target in monsters)) throw new Error("Invalid target specified");
+  sniffTarget = monsters[target as keyof typeof monsters];
+}
+export function getSniffTarget(): Monster | null {
+  return sniffTarget;
 }
 
 function getCMCChoices(): { [choice: string]: number } {
