@@ -21,6 +21,7 @@ import {
   $skill,
   $slot,
   $stat,
+  Counter,
   get,
   have,
   maxBy,
@@ -178,12 +179,12 @@ export default class Macro extends StrictMacro {
     if (monster === null) return this;
     if (monster.phylum === $phylum`elf`) {
       const prankCardMonster = toMonster(get('_prankCardMonster'));
-      if (prankCardMonster === monster) return this;
+      if (prankCardMonster === monster && Counter.get("Prank Card Monster") !== Infinity) return this;
       // eslint-disable-next-line libram/verify-constants
       return this.if_(monster, Macro.tryHaveItem($item`prank Crimbo card`));
     } else if (monster.phylum === $phylum`pirate`) {
       const trickCoinMonster = toMonster(get('_trickCoinMonster'));
-      if (trickCoinMonster === monster) return this;
+      if (trickCoinMonster === monster && Counter.get("Trick Coin Monster") !== Infinity) return this;
       // eslint-disable-next-line libram/verify-constants
       return this.if_(monster, Macro.tryHaveItem($item`trick coin`));
     }
