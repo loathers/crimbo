@@ -1,5 +1,5 @@
-import { toSkill } from "kolmafia";
-import { $effects, $location, have } from "libram";
+import { toSkill, useSkill } from "kolmafia";
+import { $effect, $effects, $item, $location, $skill, have } from "libram";
 
 import { CrimboQuest, CrimboStrategy } from "../engine";
 import { shrineGazeIfNecessary } from "../lib";
@@ -12,6 +12,14 @@ const bar: CrimboQuest = {
   name: "Bar",
   location,
   tasks: [
+    {
+      name: "Scariersauce",
+      ready: () => have($item`velour viscometer`),
+      completed: () => have($effect`Scariersauce`),
+      outfit: { acc1: $item`velour viscometer` },
+      do: () => useSkill($skill`Scarysauce`),
+      sobriety: "either",
+    },
     {
       name: "Crimbo",
       completed: () => false,
