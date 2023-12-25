@@ -8,13 +8,16 @@ import {
   myFamiliar,
   myPrimestat,
   Skill,
+  toMonster,
   visitUrl,
 } from "kolmafia";
 import {
   $class,
   $familiar,
+  $item,
   $items,
   $monster,
+  $phylum,
   $skill,
   $slot,
   $stat,
@@ -26,7 +29,7 @@ import {
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
-import { shouldRedigitize } from "./lib";
+import { getSniffTarget, shouldRedigitize } from "./lib";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },
@@ -170,9 +173,31 @@ export default class Macro extends StrictMacro {
     return new Macro().gooKill();
   }
 
+  trySniff(): this {
+    const monster = getSniffTarget();
+    if (monster === null) return this;
+    if (monster.phylum === $phylum`elf`) {
+      const prankCardMonster = toMonster(get('_prankCardMonster'));
+      if (prankCardMonster === monster) return this;
+      // eslint-disable-next-line libram/verify-constants
+      return this.if_(monster, Macro.tryHaveItem($item`prank Crimbo card`));
+    } else if (monster.phylum === $phylum`pirate`) {
+      const trickCoinMonster = toMonster(get('_trickCoinMonster'));
+      if (trickCoinMonster === monster) return this;
+      // eslint-disable-next-line libram/verify-constants
+      return this.if_(monster, Macro.tryHaveItem($item`trick coin`));
+    }
+    return this;
+  }
+
+  static trySniff(): Macro {
+    return new Macro().trySniff();
+  }
+
   standardCombat(): this {
     return this.if_("!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer", "pickpocket")
       .tryHaveSkill($skill`Curse of Weaksauce`)
+      .trySniff()
       .familiarActions()
       .externalIf(
         SongBoom.song() === "Total Eclipse of Your Meat",

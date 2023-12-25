@@ -30,7 +30,7 @@ import {
 } from "libram";
 
 import { CrimboEngine, CrimboQuest, CrimboStrategy, CrimboTask } from "./engine";
-import { args, printh, validateAndSetOrbTarget } from "./lib";
+import { args, printh, validateAndSetOrbTarget, validateAndSetSniffTarget } from "./lib";
 import Macro from "./macro";
 import { chooseQuestOutfit } from "./outfit";
 import { setup } from "./setup";
@@ -46,9 +46,10 @@ export function main(command?: string) {
   }
 
   validateAndSetOrbTarget(args.orb, args.zone, args.affiliation);
+  validateAndSetSniffTarget(args.sniff, args.zone, args.affiliation);
   setDefaultMaximizeOptions({ preventSlot: $slots`crown-of-thrones, buddy-bjorn` });
 
-  sinceKolmafiaRevision(27022);
+  sinceKolmafiaRevision(27753);
   const turncount = myTurncount();
   const completed =
     args.turns > 0
