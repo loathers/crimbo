@@ -9066,7 +9066,7 @@ var location = $location(_templateObject300 || (_templateObject300 = _taggedTemp
 // src/zones/bar.ts
 init_kolmafia_polyfill();
 var import_kolmafia40 = require("kolmafia");
-var _templateObject301, _templateObject2102;
+var _templateObject301, _templateObject2102, _templateObject380, _templateObject449, _templateObject540, _templateObject634;
 function _taggedTemplateLiteral31(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
@@ -9074,6 +9074,21 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
   name: "Bar",
   location: location2,
   tasks: [{
+    name: "Scariersauce",
+    ready: function() {
+      return have($item(_templateObject2102 || (_templateObject2102 = _taggedTemplateLiteral31(["velour viscometer"]))));
+    },
+    completed: function() {
+      return have($effect(_templateObject380 || (_templateObject380 = _taggedTemplateLiteral31(["Scariersauce"]))));
+    },
+    outfit: {
+      acc1: $item(_templateObject449 || (_templateObject449 = _taggedTemplateLiteral31(["velour viscometer"])))
+    },
+    do: function() {
+      return (0, import_kolmafia40.useSkill)($skill(_templateObject540 || (_templateObject540 = _taggedTemplateLiteral31(["Scarysauce"]))));
+    },
+    sobriety: "either"
+  }, {
     name: "Crimbo",
     completed: function() {
       return !1;
@@ -9086,7 +9101,7 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
       }, drunkSpec, affiliationSpec(), orbSpec(location2));
     },
     effects: function() {
-      return $effects(_templateObject2102 || (_templateObject2102 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell"]))).filter(function(effect) {
+      return $effects(_templateObject634 || (_templateObject634 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell"]))).filter(function(effect) {
         return have((0, import_kolmafia40.toSkill)(effect));
       });
     },
@@ -9101,11 +9116,11 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
 // src/zones/cafe.ts
 init_kolmafia_polyfill();
 var import_kolmafia41 = require("kolmafia");
-var _templateObject380, _templateObject2103;
+var _templateObject381, _templateObject2103;
 function _taggedTemplateLiteral32(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
-var location3 = $location(_templateObject380 || (_templateObject380 = _taggedTemplateLiteral32(["A Cafe Divided"]))), cafe = {
+var location3 = $location(_templateObject381 || (_templateObject381 = _taggedTemplateLiteral32(["A Cafe Divided"]))), cafe = {
   name: "Cafe",
   location: location3,
   tasks: [{
@@ -9136,11 +9151,11 @@ var location3 = $location(_templateObject380 || (_templateObject380 = _taggedTem
 // src/zones/cottage.ts
 init_kolmafia_polyfill();
 var import_kolmafia42 = require("kolmafia");
-var _templateObject381, _templateObject2104;
+var _templateObject389, _templateObject2104;
 function _taggedTemplateLiteral33(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
-var location4 = $location(_templateObject381 || (_templateObject381 = _taggedTemplateLiteral33(["Abuela's Cottage (Contested)"]))), cottage = {
+var location4 = $location(_templateObject389 || (_templateObject389 = _taggedTemplateLiteral33(["Abuela's Cottage (Contested)"]))), cottage = {
   name: "Cottage",
   location: location4,
   tasks: [{
@@ -9171,11 +9186,11 @@ var location4 = $location(_templateObject381 || (_templateObject381 = _taggedTem
 // src/zones/foundry.ts
 init_kolmafia_polyfill();
 var import_kolmafia43 = require("kolmafia");
-var _templateObject389, _templateObject2105;
+var _templateObject390, _templateObject2105;
 function _taggedTemplateLiteral34(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
-var location5 = $location(_templateObject389 || (_templateObject389 = _taggedTemplateLiteral34(["The Embattled Factory"]))), foundry = {
+var location5 = $location(_templateObject390 || (_templateObject390 = _taggedTemplateLiteral34(["The Embattled Factory"]))), foundry = {
   name: "Foundry",
   location: location5,
   tasks: [{
@@ -9204,7 +9219,7 @@ var location5 = $location(_templateObject389 || (_templateObject389 = _taggedTem
 }, foundry_default = foundry;
 
 // src/main.ts
-var _templateObject390, _templateObject2106, _templateObject391, _templateObject449, _templateObject540, _templateObject634, _templateObject729, _templateObject827, _templateObject925, _templateObject1021, _templateObject1119, _templateObject1217, _templateObject1317, _templateObject1416, _templateObject1516, _templateObject1616, _templateObject1716, _templateObject1816, _templateObject1916, _templateObject2016, _templateObject2118, _templateObject2216, _templateObject2315, _templateObject2414, _templateObject2514, _templateObject2614, _templateObject2714, _templateObject2813, _templateObject2913, _templateObject3013, _templateObject3117, _templateObject3214;
+var _templateObject391, _templateObject2106, _templateObject398, _templateObject450, _templateObject541, _templateObject635, _templateObject729, _templateObject827, _templateObject925, _templateObject1021, _templateObject1119, _templateObject1217, _templateObject1317, _templateObject1416, _templateObject1516, _templateObject1616, _templateObject1716, _templateObject1816, _templateObject1916, _templateObject2016, _templateObject2118, _templateObject2216, _templateObject2315, _templateObject2414, _templateObject2514, _templateObject2614, _templateObject2714, _templateObject2813, _templateObject2913, _templateObject3013, _templateObject3117, _templateObject3214;
 function _slicedToArray13(arr, i) {
   return _arrayWithHoles13(arr) || _iterableToArrayLimit13(arr, i) || _unsupportedIterableToArray30(arr, i) || _nonIterableRest13();
 }
@@ -9317,7 +9332,7 @@ function main(command) {
     return;
   }
   validateAndSetOrbTarget(args.orb, args.zone, args.affiliation), setDefaultMaximizeOptions({
-    preventSlot: $slots(_templateObject390 || (_templateObject390 = _taggedTemplateLiteral35(["crown-of-thrones, buddy-bjorn"])))
+    preventSlot: $slots(_templateObject391 || (_templateObject391 = _taggedTemplateLiteral35(["crown-of-thrones, buddy-bjorn"])))
   }), sinceKolmafiaRevision(27022);
   var turncount = (0, import_kolmafia44.myTurncount)(), completed = args.turns > 0 ? function() {
     return (0, import_kolmafia44.myTurncount)() - turncount >= args.turns || (0, import_kolmafia44.myAdventures)() === 0;
@@ -9333,9 +9348,9 @@ function main(command) {
       ready: function() {
         return have($item(_templateObject2106 || (_templateObject2106 = _taggedTemplateLiteral35(["June cleaver"])))) && get("_juneCleaverFightsLeft") === 0;
       },
-      do: (0, import_kolmafia44.myInebriety)() <= (0, import_kolmafia44.inebrietyLimit)() ? $location(_templateObject391 || (_templateObject391 = _taggedTemplateLiteral35(["Noob Cave"]))) : $location(_templateObject449 || (_templateObject449 = _taggedTemplateLiteral35(["Drunken Stupor"]))),
+      do: (0, import_kolmafia44.myInebriety)() <= (0, import_kolmafia44.inebrietyLimit)() ? $location(_templateObject398 || (_templateObject398 = _taggedTemplateLiteral35(["Noob Cave"]))) : $location(_templateObject450 || (_templateObject450 = _taggedTemplateLiteral35(["Drunken Stupor"]))),
       outfit: {
-        weapon: $item(_templateObject540 || (_templateObject540 = _taggedTemplateLiteral35(["June cleaver"])))
+        weapon: $item(_templateObject541 || (_templateObject541 = _taggedTemplateLiteral35(["June cleaver"])))
       },
       completed: function() {
         return get("_juneCleaverFightsLeft") > 0;
@@ -9347,7 +9362,7 @@ function main(command) {
     }, {
       name: "Proton Ghost",
       ready: function() {
-        return have($item(_templateObject634 || (_templateObject634 = _taggedTemplateLiteral35(["protonic accelerator pack"])))) && get("questPAGhost") !== "unstarted" && !!get("ghostLocation");
+        return have($item(_templateObject635 || (_templateObject635 = _taggedTemplateLiteral35(["protonic accelerator pack"])))) && get("questPAGhost") !== "unstarted" && !!get("ghostLocation");
       },
       do: function() {
         var location6 = get("ghostLocation");
