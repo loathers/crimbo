@@ -9111,7 +9111,7 @@ var location = $location(_templateObject300 || (_templateObject300 = _taggedTemp
 // src/zones/bar.ts
 init_kolmafia_polyfill();
 var import_kolmafia40 = require("kolmafia");
-var _templateObject301, _templateObject2102, _templateObject380, _templateObject449, _templateObject540, _templateObject634;
+var _templateObject301, _templateObject2102, _templateObject380, _templateObject449, _templateObject540, _templateObject634, _templateObject729, _templateObject827;
 function _taggedTemplateLiteral31(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
@@ -9130,7 +9130,7 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
       acc1: $item(_templateObject449 || (_templateObject449 = _taggedTemplateLiteral31(["velour viscometer"])))
     },
     do: function() {
-      return (0, import_kolmafia40.useSkill)($skill(_templateObject540 || (_templateObject540 = _taggedTemplateLiteral31(["Scarysauce"]))));
+      (0, import_kolmafia40.useSkill)($skill(_templateObject540 || (_templateObject540 = _taggedTemplateLiteral31(["Scarysauce"])))), (0, import_kolmafia40.equip)($slot(_templateObject634 || (_templateObject634 = _taggedTemplateLiteral31(["acc1"]))), $item(_templateObject729 || (_templateObject729 = _taggedTemplateLiteral31(["none"]))));
     },
     sobriety: "either"
   }, {
@@ -9146,7 +9146,7 @@ var location2 = $location(_templateObject301 || (_templateObject301 = _taggedTem
       }, drunkSpec, affiliationSpec(), orbSpec(location2));
     },
     effects: function() {
-      return $effects(_templateObject634 || (_templateObject634 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell"]))).filter(function(effect) {
+      return $effects(_templateObject827 || (_templateObject827 = _taggedTemplateLiteral31(["Blood Bond, Empathy, Leash of Linguini, Elemental Saucesphere, Scarysauce, Astral Shell"]))).filter(function(effect) {
         return have((0, import_kolmafia40.toSkill)(effect));
       });
     },
@@ -9264,7 +9264,7 @@ var location5 = $location(_templateObject390 || (_templateObject390 = _taggedTem
 }, foundry_default = foundry;
 
 // src/main.ts
-var _templateObject391, _templateObject2106, _templateObject399, _templateObject450, _templateObject541, _templateObject635, _templateObject729, _templateObject827, _templateObject925, _templateObject1021, _templateObject1119, _templateObject1217, _templateObject1317, _templateObject1416, _templateObject1516, _templateObject1616, _templateObject1716, _templateObject1816, _templateObject1916, _templateObject2016, _templateObject2118, _templateObject2216, _templateObject2315, _templateObject2414, _templateObject2514, _templateObject2614, _templateObject2714, _templateObject2813, _templateObject2913, _templateObject3013, _templateObject3117, _templateObject3214;
+var _templateObject391, _templateObject2106, _templateObject399, _templateObject450, _templateObject541, _templateObject635, _templateObject730, _templateObject828, _templateObject925, _templateObject1021, _templateObject1119, _templateObject1217, _templateObject1317, _templateObject1416, _templateObject1516, _templateObject1616, _templateObject1716, _templateObject1816, _templateObject1916, _templateObject2016, _templateObject2118, _templateObject2216, _templateObject2315, _templateObject2414, _templateObject2514, _templateObject2614, _templateObject2714, _templateObject2813, _templateObject2913, _templateObject3013, _templateObject3117, _templateObject3214;
 function _slicedToArray13(arr, i) {
   return _arrayWithHoles13(arr) || _iterableToArrayLimit13(arr, i) || _unsupportedIterableToArray30(arr, i) || _nonIterableRest13();
 }
@@ -9422,8 +9422,8 @@ function main(command) {
           location: (_get3 = get("ghostLocation")) !== null && _get3 !== void 0 ? _get3 : $location.none,
           isFree: !0
         }, {
-          back: $item(_templateObject729 || (_templateObject729 = _taggedTemplateLiteral35(["protonic accelerator pack"]))),
-          avoid: get("ghostLocation") === $location(_templateObject827 || (_templateObject827 = _taggedTemplateLiteral35(["The Icy Peak"]))) ? $items(_templateObject925 || (_templateObject925 = _taggedTemplateLiteral35(["Great Wolf's beastly trousers"]))) : []
+          back: $item(_templateObject730 || (_templateObject730 = _taggedTemplateLiteral35(["protonic accelerator pack"]))),
+          avoid: get("ghostLocation") === $location(_templateObject828 || (_templateObject828 = _taggedTemplateLiteral35(["The Icy Peak"]))) ? $items(_templateObject925 || (_templateObject925 = _taggedTemplateLiteral35(["Great Wolf's beastly trousers"]))) : []
         });
       },
       completed: function() {
