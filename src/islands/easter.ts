@@ -1,0 +1,2 @@
+import { HolidayIsland } from "../lib";
+

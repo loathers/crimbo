@@ -14,7 +14,7 @@
   "dependencies": {
     "grimoire-kolmafia": "^0.3.26",
     "kolmafia": "^5.27735.0",
-    "libram": "^0.8.18"
+    "libram": "^0.9.24"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -33,9 +33,10 @@
     "esbuild-plugin-babel": "^0.2.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-libram": "^0.4.0",
+    "eslint-plugin-libram": "^0.4.18",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
