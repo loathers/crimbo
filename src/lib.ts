@@ -19,14 +19,14 @@ import {
   $familiar,
   $item,
   $location,
-  $monster,
+
   Counter,
   CrystalBall,
   get,
   have,
   SourceTerminal,
 } from "libram";
-import ISLANDS from './islands';
+import ISLANDS, { HolidayIsland } from './islands';
 import * as OrbManager from "./orbmanager";
 
 export type Island = keyof typeof ISLANDS;
@@ -59,82 +59,6 @@ export function sober() {
   return myInebriety() <= inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0);
 }
 
-const neutralMonsters = {
-  recruit: $monster`Crimbuccaneer new recruit`,
-  privateer: $monster`Crimbuccaneer privateer`,
-  dropout: $monster`Crimbuccaneer military school dropout`,
-  conscript: $monster`Elf Guard conscript`,
-  convict: $monster`Elf Guard convict`,
-  private: $monster`Elf Guard private`,
-} as const;
-
-const affiliatedZoneMonsters = {
-  armory: {
-    none: neutralMonsters,
-    pirates: {
-      seal: $monster`Elf Guard arctic seal`,
-      armorer: $monster`Elf Guard armorer`,
-      beret: $monster`Elf Guard Red and White Beret`,
-    },
-    elves: {
-      carpenter: $monster`Crimbuccaneer carpenter`,
-      freebooter: $monster`Crimbuccaneer freebooter`,
-      scrimshander: $monster`Crimbuccaneer scrimshander`,
-    },
-  },
-  bar: {
-    none: neutralMonsters,
-    pirates: {
-      specialist: $monster`Elf Guard shore leave specialist`,
-      chemist: $monster`Elf Guard Chemist`,
-      sanitation: $monster`Elf Guard sanitation officer`,
-    },
-    elves: {
-      barrrback: $monster`Crimbuccaneer barrrback`,
-      grognard: $monster`Crimbuccaneer grognard`,
-      brawler: $monster`Crimbuccaneer bar brawler`,
-    },
-  },
-  cafe: {
-    none: neutralMonsters,
-    pirates: {
-      desserter: $monster`Elf Guard desserter`,
-      provisioner: $monster`Elf Guard provisioner`,
-      steward: $monster`Elf Guard steward`,
-    },
-    elves: {
-      plunderer: $monster`Crimbuccaneer fruit plunderer`,
-      retiree: $monster`Crimbuccaneer retiree`,
-      whalehunter: $monster`Crimbuccaneer whalehunter`,
-    },
-  },
-  cottage: {
-    none: neutralMonsters,
-    pirates: {
-      requisitions: $monster`Elf Guard requisitions officer`,
-      strategist: $monster`Elf Guard Strategist`,
-      general: $monster`Elf Guard general`,
-    },
-    elves: {
-      mudlark: $monster`Crimbuccaneer mudlark`,
-      navigator: $monster`Crimbuccaneer navigator`,
-      captain: $monster`Crimbuccaneer vice-captain`,
-    },
-  },
-  foundry: {
-    none: neutralMonsters,
-    pirates: {
-      courier: $monster`Elf Guard fuel courier`,
-      engineer: $monster`Elf Guard Engineer`,
-      packer: $monster`Elf Guard ordnance packer`,
-    },
-    elves: {
-      rigger: $monster`Crimbuccaneer Rigging Rigger`,
-      lamplighter: $monster`Crimbuccaneer Lamplighter`,
-      bombjack: $monster`Crimbuccaneer bombjack`,
-    },
-  },
-} as const;
 
 export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   turns: Args.number({
@@ -143,6 +67,7 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   }),
   island: Args.custom<Island[]>({
     hidden: false,
+    help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map((island) => island.toLowerCase())}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`
   }, (str) => {
     const splitStr = str.split(",");
     if (![1, 2].includes(splitStr.length)) return new ParseError("Can only select 1 or 2 islands!");
@@ -161,6 +86,23 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     default: false,
   }, ),
 });
+
+export function getIsland(): HolidayIsland {
+  if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. I'm sorry king you just absolutely must");
+
+  const islands = args.island.map((island) => ISLANDS[island]);
+  if (islands.length === 1) return islands[0]
+
+  const ponderResult = CrystalBall.ponder();
+
+  const goodPrediction = islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget);
+  if (goodPrediction) return goodPrediction;
+
+  const noPrediction = islands.find(({ location }) => !ponderResult.has(location));
+  if (noPrediction) return noPrediction;
+
+  return islands[0]
+}
 
 let orbTarget: Monster | null = null;
 export function validateAndSetOrbTarget(target: string, zone: string, affiliation: string) {
