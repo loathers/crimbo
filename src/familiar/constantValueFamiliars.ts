@@ -12,7 +12,7 @@ import {
   Robortender,
 } from "libram";
 
-import { garboAverageValue, garboValue } from "../garboValue";
+import { garboAverageValue, garboValue } from "../value";
 
 import { GeneralFamiliar, MenuOptions } from "./lib";
 

@@ -2171,6 +2171,11 @@ function-bind@^1.1.1:
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
+garbo-lib@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/garbo-lib/-/garbo-lib-1.0.0.tgz#7800ba41975f7246c97b9b2b997546e8b4e7cb3f"
+  integrity sha512-E1ODkWbsR2mA7Af7UmU4fgRqxqQyFGc0b5IP24T61IQBIVat1LC0rjI2WHFVqzYzYmBilL5lAOSuslfQtwGdhA==
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"

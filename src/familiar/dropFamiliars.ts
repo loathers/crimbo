@@ -1,7 +1,7 @@
 import { Familiar, Item } from "kolmafia";
 import { $familiar, $item, $items, findLeprechaunMultiplier, have } from "libram";
 
-import { garboAverageValue, garboValue } from "../garboValue";
+import { garboAverageValue, garboValue } from "../value";
 
 import { GeneralFamiliar } from "./lib";
 

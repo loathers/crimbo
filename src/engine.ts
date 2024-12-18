@@ -6,7 +6,6 @@ import {
   equippedAmount,
   haveEquipped,
   itemAmount,
-  Location,
   setAutoAttack,
 } from "kolmafia";
 import { $familiar, $item, CrownOfThrones, get, JuneCleaver, PropertiesManager } from "libram";
@@ -21,9 +20,7 @@ export type CrimboTask = Task & {
   forced?: boolean;
 };
 
-export type CrimboQuest = Quest<CrimboTask> & {
-  location: Location;
-};
+export type CrimboQuest = Quest<CrimboTask>;
 
 const introAdventures: string[] = [];
 export class CrimboStrategy extends CombatStrategy {
@@ -33,15 +30,6 @@ export class CrimboStrategy extends CombatStrategy {
   }
 }
 
-function countAvailableNcForces() {
-  return (get("_claraBellUsed") ? 0 : 1) + (5 - get("_spikolodonSpikeUses"));
-}
-
-let ncForced = false;
-export function resetNcForced() {
-  printd("Reset NC forcing");
-  ncForced = false;
-}
 CrownOfThrones.createRiderMode("default", {});
 const chooseRider = () => CrownOfThrones.pickRider("default");
 export class CrimboEngine extends Engine<never, CrimboTask> {
@@ -57,7 +45,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
       (!sober() && task.sobriety === "drunk");
 
     if (task.forced) {
-      return sobriety && ncForced && super.available(task);
+      return sobriety && get("noncombatForcerActive") && super.available(task);
     }
     return sobriety && super.available(task);
   }
@@ -82,13 +70,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
   }
 
   execute(task: CrimboTask): void {
-    const ncBefore = countAvailableNcForces();
     super.execute(task);
-    const ncAfter = countAvailableNcForces();
-
-    if (ncBefore > ncAfter) {
-      ncForced = true;
-    }
   }
 
   setChoices(task: CrimboTask, manager: PropertiesManager): void {

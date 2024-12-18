@@ -9,6 +9,7 @@ import {
   myAdventures,
   myFamiliar,
   myInebriety,
+  myTurncount,
   print,
   runChoice,
   visitUrl,
@@ -56,6 +57,10 @@ export function sober() {
 
 
 export const args = Args.create("crimbo23", "A script for farming elf stuff", {
+  ascend: Args.flag({
+    help: "Whether you plan to ascend right after this",
+    default: false,
+  }),
   turns: Args.number({
     help: "The number of turns to run (use negative numbers for the number of turns remaining)",
     default: Infinity,
@@ -178,17 +183,17 @@ function untangleDigitizes(turnCount: number, chunks: number): number {
  *
  * @returns The number of digitized monsters that we expect to fight today
  */
-export function digitizedMonstersRemaining(): number {
+export function digitizedMonstersRemaining(turns = myTurncount()): number {
   if (!SourceTerminal.have()) return 0;
 
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
   if (digitizesLeft === SourceTerminal.getMaximumDigitizeUses()) {
-    return untangleDigitizes(myAdventures(), SourceTerminal.getMaximumDigitizeUses());
+    return untangleDigitizes(turns, SourceTerminal.getMaximumDigitizeUses());
   }
 
   const monsterCount = SourceTerminal.getDigitizeMonsterCount() + 1;
 
-  const turnsLeftAtNextMonster = myAdventures() - Counter.get("Digitize Monster");
+  const turnsLeftAtNextMonster = turns - Counter.get("Digitize Monster");
   if (turnsLeftAtNextMonster <= 0) return 0;
   const turnsAtLastDigitize = turnsLeftAtNextMonster + ((monsterCount + 1) * monsterCount * 5 - 3);
   return (

@@ -15,7 +15,6 @@ import {
   $familiar,
   $familiars,
   $item,
-  $location,
   CrystalBall,
   get,
   getRemainingStomach,
@@ -24,7 +23,7 @@ import {
 } from "libram";
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
-import { garboAverageValue, garboValue } from "./garboValue";
+import { garboValue } from "./value";
 import { args, getIsland, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 import { HolidayIsland } from "./islands";
