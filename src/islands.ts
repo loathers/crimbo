@@ -8,7 +8,7 @@ export type HolidayIsland = {
   choice: number,
 }
 
-export const Easter: HolidayIsland = {
+const Easter: HolidayIsland = {
   // eslint-disable-next-line libram/verify-constants
   location: $location`Easter Island`,
   element: $element`Stench`,
@@ -17,7 +17,7 @@ export const Easter: HolidayIsland = {
   choice: 1538
 };
 
-export const StPatrick: HolidayIsland = {
+const StPatrick: HolidayIsland = {
     // eslint-disable-next-line libram/verify-constants
     location: $location`St. Patrick's Day Island`,
     element: $element`Sleaze`,
@@ -25,3 +25,5 @@ export const StPatrick: HolidayIsland = {
   orbTarget: $monster`giant potato`,
   choice: 1539
 }
+
+export default { Easter, StPatrick }

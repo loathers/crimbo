@@ -1,5 +1,5 @@
 /* eslint-disable libram/verify-constants */
-import { Args } from "grimoire-kolmafia";
+import { Args, ParseError } from "grimoire-kolmafia";
 import {
   descToItem,
   haveEquipped,
@@ -22,13 +22,14 @@ import {
   $monster,
   Counter,
   CrystalBall,
-  flat,
   get,
   have,
   SourceTerminal,
 } from "libram";
-
+import ISLANDS from './islands';
 import * as OrbManager from "./orbmanager";
+
+export type Island = keyof typeof ISLANDS;
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -140,25 +141,17 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     help: "The number of turns to run (use negative numbers for the number of turns remaining)",
     default: Infinity,
   }),
-  zone: Args.string({
-    options: [
-      ["armory", "Armory"],
-      ["bar", "The Bar"],
-      ["cafe", "Cafe"],
-      ["cottage", "Abuela's Cottage"],
-      ["foundry", "Pirate Foundry"],
-    ],
-    default: "cottage",
-  }),
-  affiliation: Args.string({
-    options: [
-      ["none", "Do not pick a side"],
-      ["elves", "Fight for the elves"],
-      ["pirates", "Fight for the Crimbuccaneers"],
-    ],
-    help: "The side to fight for.",
-    default: "elves",
-  }),
+  island: Args.custom<Island[]>({
+    hidden: false,
+  }, (str) => {
+    const splitStr = str.split(",");
+    if (![1, 2].includes(splitStr.length)) return new ParseError("Can only select 1 or 2 islands!");
+    if (!CrystalBall.have() && splitStr.length === 2) return new ParseError("Can only select 2 islands with orb!");
+    const mappedStr = splitStr.map((islandName) => Object.keys(ISLANDS).find((island) => island.toLowerCase() === islandName.toLowerCase()) ?? new ParseError(`Cannot find island for string ${islandName}`));
+    const error = mappedStr.find((el) => el instanceof ParseError);
+    if (error) return error;
+    return mappedStr as Island[]
+  }, ""),
   shrub: Args.boolean({
     help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
     default: false,
@@ -166,41 +159,8 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   debug: Args.flag({
     help: "Turn on debug printing",
     default: false,
-  }),
-  orb: Args.string({
-    options: [
-      ...Object.entries(
-        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
-      ).map(([key, val]) => [key, `${val}`] as [string, string]),
-      ["none", "Don't use it"],
-    ],
-    help: "Monster to target with the orb.",
-    default: "none",
-  }),
-  sniff: Args.string({
-    options: [
-      ...Object.entries(
-        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
-      ).map(([key, val]) => [key, `${val}`] as [string, string]),
-      ["none", "Don't use it"],
-    ],
-    help: "Monster to sniff with a prank Crimbo card or trick coin (does not autobuy)",
-    default: "none",
-  }),
+  }, ),
 });
-
-export function chosenAffiliation(): "none" | "elves" | "pirates" {
-  switch (args.affiliation) {
-    case "none":
-      return "none";
-    case "elves":
-      return "elves";
-    case "pirates":
-      return "pirates";
-    default:
-      throw `Unknown affiliation ${args.affiliation}`;
-  }
-}
 
 let orbTarget: Monster | null = null;
 export function validateAndSetOrbTarget(target: string, zone: string, affiliation: string) {
@@ -215,20 +175,6 @@ export function validateAndSetOrbTarget(target: string, zone: string, affiliatio
 }
 export function getOrbTarget(): Monster | null {
   return orbTarget;
-}
-
-let sniffTarget: Monster | null = null;
-export function validateAndSetSniffTarget(target: string, zone: string, affiliation: string) {
-  if (target === "none") return;
-  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
-  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
-  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
-  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
-  if (!(target in monsters)) throw new Error("Invalid target specified");
-  sniffTarget = monsters[target as keyof typeof monsters];
-}
-export function getSniffTarget(): Monster | null {
-  return sniffTarget;
 }
 
 function getCMCChoices(): { [choice: string]: number } {
