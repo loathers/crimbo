@@ -2,12 +2,10 @@
 import { Args, ParseError } from "grimoire-kolmafia";
 import {
   descToItem,
-  haveEquipped,
   inebrietyLimit,
   isDarkMode,
   Item,
   Location,
-  Monster,
   myAdventures,
   myFamiliar,
   myInebriety,
@@ -17,13 +15,10 @@ import {
 } from "kolmafia";
 import {
   $familiar,
-  $item,
   $location,
-
   Counter,
   CrystalBall,
   get,
-  have,
   SourceTerminal,
 } from "libram";
 import ISLANDS, { HolidayIsland } from './islands';
@@ -93,7 +88,7 @@ export function getIsland(): HolidayIsland {
   const islands = args.island.map((island) => ISLANDS[island]);
   if (islands.length === 1) return islands[0]
 
-  const ponderResult = CrystalBall.ponder();
+  const ponderResult = OrbManager.ponder();
 
   const goodPrediction = islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget);
   if (goodPrediction) return goodPrediction;
@@ -102,21 +97,6 @@ export function getIsland(): HolidayIsland {
   if (noPrediction) return noPrediction;
 
   return islands[0]
-}
-
-let orbTarget: Monster | null = null;
-export function validateAndSetOrbTarget(target: string, zone: string, affiliation: string) {
-  if (target === "none") return;
-  if (!have($item`miniature crystal ball`)) return;
-  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
-  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
-  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
-  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
-  if (!(target in monsters)) throw new Error("Invalid target specified");
-  orbTarget = monsters[target as keyof typeof monsters];
-}
-export function getOrbTarget(): Monster | null {
-  return orbTarget;
 }
 
 function getCMCChoices(): { [choice: string]: number } {
@@ -220,8 +200,4 @@ export function digitizedMonstersRemaining(): number {
     untangleDigitizes(turnsAtLastDigitize, digitizesLeft + 1) -
     SourceTerminal.getDigitizeMonsterCount()
   );
-}
-
-export function shrineGazeIfNecessary(): void {
-  if (getOrbTarget() && !haveEquipped(CrystalBall.orb)) OrbManager.shrineGaze();
-}
+};
