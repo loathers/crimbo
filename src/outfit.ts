@@ -25,7 +25,7 @@ import {
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
 import { garboAverageValue, garboValue } from "./garboValue";
-import { args, chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
+import { args, getIsland, realmAvailable, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
 
 export function ifHave(
@@ -39,24 +39,16 @@ export function ifHave(
 }
 
 export const drunkSpec = sober() ? {} : { offhand: $item`Drunkula's wineglass` };
-export const affiliationSpec = () => {
-  switch (chosenAffiliation()) {
-    case "elves":
-      // eslint-disable-next-line libram/verify-constants
-      return { hat: $item`Elf Guard patrol cap`, pants: $item`Elf Guard hotpants` };
-    case "pirates":
-      // eslint-disable-next-line libram/verify-constants
-      return { hat: $item`Crimbuccaneer tricorn`, pants: $item`Crimbuccaneer breeches` };
-    default:
-      return {};
-  }
-};
-export const orbSpec = (location: Location) => {
-  const prediction = OrbManager.ponder().get(location);
-  return !!getOrbTarget() && (!prediction || prediction === getOrbTarget())
-    ? { famequip: CrystalBall.orb }
-    : {};
-};
+
+export const orbSpec = () => {
+  if (!CrystalBall.have()) return {};
+  const island = getIsland();
+
+  const prediction = OrbManager.ponder().get(island.location);
+  if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
+  return {}
+}
+
 
 function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
   return outfits.reduce((current, next) => ({ ...next, ...current }), {});
