@@ -85,7 +85,8 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
 export function getIsland(): HolidayIsland {
   if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. It's not clear how we got this far.");
 
-  const islands = args.island.map((island) => ISLANDS[island]);
+  const islands = args.island.map((island) => Object.entries(ISLANDS).find(([key, ]) => key.toLowerCase() === island.toLowerCase())?.[1]).filter((x): x is HolidayIsland => !!x);
+
   if (islands.length === 1) return islands[0]
 
   const ponderResult = OrbManager.ponder();
