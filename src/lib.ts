@@ -65,8 +65,8 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map((island) => island.toLowerCase())}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`
   }, (str) => {
     const splitStr = str.split(",");
-    if (![1, 2].includes(splitStr.length)) return new ParseError("Can only select 1 or 2 islands!");
-    if (!CrystalBall.have() && splitStr.length === 2) return new ParseError("Can only select 2 islands with orb!");
+    if (![1, 2].includes(splitStr.length)) return new ParseError("Please select at least 1 island, and at most 2");
+    if (!CrystalBall.have() && splitStr.length === 2) return new ParseError("Without miniature crystal ball, you may only select a single island.");
     const mappedStr = splitStr.map((islandName) => Object.keys(ISLANDS).find((island) => island.toLowerCase() === islandName.toLowerCase()) ?? new ParseError(`Cannot find island for string ${islandName}`));
     const error = mappedStr.find((el) => el instanceof ParseError);
     if (error) return error;
@@ -90,13 +90,7 @@ export function getIsland(): HolidayIsland {
 
   const ponderResult = OrbManager.ponder();
 
-  const goodPrediction = islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget);
-  if (goodPrediction) return goodPrediction;
-
-  const noPrediction = islands.find(({ location }) => !ponderResult.has(location));
-  if (noPrediction) return noPrediction;
-
-  return islands[0]
+  return islands.find(({ location, orbTarget }) => ![undefined, orbTarget].includes(ponderResult.get(location))) ?? islands[0]
 }
 
 function getCMCChoices(): { [choice: string]: number } {
