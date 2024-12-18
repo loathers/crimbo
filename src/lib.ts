@@ -64,7 +64,7 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     hidden: false,
     help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map((island) => island.toLowerCase())}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`
   }, (str) => {
-    const splitStr = str.split(",");
+    const splitStr = str.split(",").filter(Boolean);
     if (![1, 2].includes(splitStr.length)) return new ParseError("Please select at least 1 island, and at most 2");
     if (!CrystalBall.have() && splitStr.length === 2) return new ParseError("Without miniature crystal ball, you may only select a single island.");
     const mappedStr = splitStr.map((islandName) => Object.keys(ISLANDS).find((island) => island.toLowerCase() === islandName.toLowerCase()) ?? new ParseError(`Cannot find island for string ${islandName}`));
@@ -83,7 +83,7 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
 });
 
 export function getIsland(): HolidayIsland {
-  if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. I'm sorry king you just absolutely must");
+  if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. It's not clear how we got this far.");
 
   const islands = args.island.map((island) => ISLANDS[island]);
   if (islands.length === 1) return islands[0]
