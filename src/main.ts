@@ -1,6 +1,5 @@
 import { Args, getTasks, Quest } from "grimoire-kolmafia";
 import {
-  adv1,
   canAdventure,
   cliExecute,
   inebrietyLimit,
@@ -34,7 +33,7 @@ import { args, printh, validateAndSetOrbTarget, validateAndSetSniffTarget } from
 import Macro from "./macro";
 import { chooseQuestOutfit } from "./outfit";
 import { setup } from "./setup";
-import { drunkSafeWander } from "./wanderer";
+import { wanderer } from "./wanderer";
 import * as QUESTS from "./zones";
 
 export function main(command?: string) {
@@ -45,8 +44,6 @@ export function main(command?: string) {
     return;
   }
 
-  validateAndSetOrbTarget(args.orb, args.zone, args.affiliation);
-  validateAndSetSniffTarget(args.sniff, args.zone, args.affiliation);
   setDefaultMaximizeOptions({ preventSlot: $slots`crown-of-thrones, buddy-bjorn` });
 
   sinceKolmafiaRevision(27753);
@@ -78,10 +75,10 @@ export function main(command?: string) {
           have($item`protonic accelerator pack`) &&
           get("questPAGhost") !== "unstarted" &&
           !!get("ghostLocation"),
-        do: (): void => {
+        do: () => {
           const location = get("ghostLocation");
           if (location) {
-            adv1(location, 0, "");
+            return location
           } else {
             throw "Could not determine Proton Ghost location!";
           }
@@ -124,12 +121,10 @@ export function main(command?: string) {
           totalTurnsPlayed() % 11 === 1 &&
           get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
           get("_voteFreeFights") < 3,
-        do: (): void => {
-          adv1(drunkSafeWander("wanderer"), -1, "");
-        },
+        do: () => wanderer().getTarget("wanderer"),
         outfit: () =>
           chooseQuestOutfit(
-            { location: drunkSafeWander("wanderer"), isFree: true },
+            { location: wanderer().getTarget("wanderer"), isFree: true },
             { acc3: $item`"I Voted!" sticker` }
           ),
         completed: () => get("lastVoteMonsterTurn") === totalTurnsPlayed(),
@@ -141,14 +136,11 @@ export function main(command?: string) {
         ready: () => Counter.get("Digitize") <= 0,
         outfit: () =>
           chooseQuestOutfit({
-            location: drunkSafeWander("wanderer"),
+            location: wanderer().getTarget("wanderer"),
             isFree: get("_sourceTerminalDigitizeMonster")?.attributes.includes("FREE"),
           }),
         completed: () => get("_sourceTerminalDigitizeMonsterCount") !== digitizes,
-        do: () => {
-          adv1(drunkSafeWander("wanderer"), -1, "");
-          digitizes = get("_sourceTerminalDigitizeMonsterCount");
-        },
+        do: () => wanderer().getTarget("wanderer"), post: () => digitizes = get("_sourceTerminalDigitizeMonsterCount"),
         combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
         sobriety: "either",
       },
@@ -159,10 +151,10 @@ export function main(command?: string) {
         completed: () => get("_voidFreeFights") >= 5,
         outfit: () =>
           chooseQuestOutfit(
-            { location: drunkSafeWander("wanderer"), isFree: true },
+            { location: wanderer().getTarget("wanderer"), isFree: true },
             { offhand: $item`cursed magnifying glass` }
           ),
-        do: () => adv1(drunkSafeWander("wanderer"), -1, ""),
+        do: () => wanderer().getTarget("wanderer"),
         sobriety: "either",
         combat: new CrimboStrategy(() => Macro.standardCombat()),
       },
@@ -172,10 +164,10 @@ export function main(command?: string) {
         completed: () => getKramcoWandererChance() < 1,
         outfit: () =>
           chooseQuestOutfit(
-            { location: drunkSafeWander("wanderer"), isFree: true },
+            { location: wanderer().getTarget("wanderer"), isFree: true },
             { offhand: $item`Kramco Sausage-o-Matic™` }
           ),
-        do: () => adv1(drunkSafeWander("wanderer"), -1, ""),
+        do: () => wanderer().getTarget("wanderer"),
         sobriety: "either",
         combat: new CrimboStrategy(() => Macro.standardCombat()),
       },
@@ -185,11 +177,11 @@ export function main(command?: string) {
         ready: () => have($item`Jurassic Parka`) && have($skill`Torso Awareness`),
         outfit: () =>
           chooseQuestOutfit(
-            { location: drunkSafeWander("yellow ray"), isFree: true },
+            { location: wanderer().getTarget("yellow ray"), isFree: true },
             { shirt: $item`Jurassic Parka` }
           ),
         prepare: () => cliExecute("parka dilophosaur"),
-        do: () => adv1(drunkSafeWander("yellow ray"), -1, ""),
+        do: () => wanderer().getTarget("yellow ray"),
         combat: new CrimboStrategy(() => {
           const romance = get("romanticTarget");
           const freeMonsters = $monsters`sausage goblin`;
