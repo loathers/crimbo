@@ -16,10 +16,10 @@ export const ISLAND_TASKS: CrimboTask[] = [
   {
     name: "Jurassic Parka (Island)",
     completed: () => have($effect`Everything Looks Yellow`),
-    ready: () => have($item`Jurassic Parka`)  && have($skill`torso awareness`),
+    ready: () => have($item`Jurassic Parka`)  && have($skill`Torso Awareness`),
     do: () => getIsland().location,
     outfit: () => islandOutfit("freekill", { shirt: $item`Jurassic Parka`}),
-    combat: new CrimboStrategy(() => Macro.islandKillWith($skill`Spit Jurassic Acid`)),
+    combat: new CrimboStrategy(() => Macro.islandKillWith($skill`Spit jurassic acid`)),
     sobriety: "sober"
   },
   // Darts, Pig Skinner skill, etc
@@ -27,15 +27,15 @@ export const ISLAND_TASKS: CrimboTask[] = [
   {
     name: "Asdon Bumper",
     ready: () => AsdonMartin.installed(),
-    completed: () => getBanishedMonsters().has($skill`Spring-Loaded Front Bumper`),
+    completed: () => getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
     do: () => getIsland().location,
     outfit: () => islandOutfit("freerun"),
-    combat: new CrimboStrategy(() => Macro.islandRunWith($skill`Spring-Loaded Front Bumper`)),
+    combat: new CrimboStrategy(() => Macro.islandRunWith($skill`Asdon Martin: Spring-Loaded Front Bumper`)),
     sobriety: "sober"
   },
   {
     name: "Spring Shoes",
-    ready: () => have($item`Spring Shoes`),
+    ready: () => have($item`spring shoes`),
     completed: () => have($effect`Everything Looks Green`),
     do: () => getIsland().location,
     outfit: () => islandOutfit("freerun"),
