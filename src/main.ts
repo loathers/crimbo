@@ -29,7 +29,7 @@ import {
 } from "libram";
 
 import { CrimboEngine, CrimboQuest, CrimboStrategy, CrimboTask } from "./engine";
-import { args, printh, validateAndSetOrbTarget, validateAndSetSniffTarget } from "./lib";
+import { args, getIsland, printh, validateAndSetOrbTarget, validateAndSetSniffTarget } from "./lib";
 import Macro from "./macro";
 import { chooseQuestOutfit } from "./outfit";
 import { setup } from "./setup";
@@ -55,9 +55,8 @@ export function main(command?: string) {
 
   let digitizes = get("_sourceTerminalDigitizeMonsterCount");
 
-  const quest: CrimboQuest = { ...QUESTS[args.zone as keyof typeof QUESTS], completed };
   const global: Quest<CrimboTask> = {
-    name: "Global",
+    name: "Merry Crimbo!",
     completed,
     tasks: [
       {
@@ -177,11 +176,11 @@ export function main(command?: string) {
         ready: () => have($item`Jurassic Parka`) && have($skill`Torso Awareness`),
         outfit: () =>
           chooseQuestOutfit(
-            { location: wanderer().getTarget("yellow ray"), isFree: true },
+            { location: getIsland().location, isFree: true },
             { shirt: $item`Jurassic Parka` }
           ),
         prepare: () => cliExecute("parka dilophosaur"),
-        do: () => wanderer().getTarget("yellow ray"),
+        do: () => getIsland().location,
         combat: new CrimboStrategy(() => {
           const romance = get("romanticTarget");
           const freeMonsters = $monsters`sausage goblin`;

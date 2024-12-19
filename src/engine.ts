@@ -17,7 +17,6 @@ import * as OrbManager from "./orbmanager";
 
 export type CrimboTask = Task & {
   sobriety: "sober" | "drunk" | "either";
-  forced?: boolean;
 };
 
 export type CrimboQuest = Quest<CrimboTask>;
@@ -44,9 +43,6 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
       (sober() && task.sobriety === "sober") ||
       (!sober() && task.sobriety === "drunk");
 
-    if (task.forced) {
-      return sobriety && get("noncombatForcerActive") && super.available(task);
-    }
     return sobriety && super.available(task);
   }
 

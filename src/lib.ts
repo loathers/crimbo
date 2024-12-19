@@ -56,7 +56,7 @@ export function sober() {
 }
 
 
-export const args = Args.create("crimbo23", "A script for farming elf stuff", {
+export const args = Args.create("crimbo24", "A script for farming elf stuff", {
   ascend: Args.flag({
     help: "Whether you plan to ascend right after this",
     default: false,
@@ -87,10 +87,15 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
   }, ),
 });
 
-export function getIsland(): HolidayIsland {
+export function getIslands(): HolidayIsland[] {
   if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. It's not clear how we got this far.");
 
   const islands = args.island.map((island) => Object.entries(ISLANDS).find(([key, ]) => key.toLowerCase() === island.toLowerCase())?.[1]).filter((x): x is HolidayIsland => !!x);
+  return islands;
+}
+
+export function getIsland(): HolidayIsland {
+  const islands = getIslands();
 
   if (islands.length === 1) return islands[0]
 
