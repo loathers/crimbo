@@ -18,6 +18,6 @@ return _wanderer ??= new WandererManager({
   digitzesRemaining: digitizedMonstersRemaining,
   plentifulMonsters: [
     get("_sourceTerminalDigitizeMonster"), ...(args.island?.flatMap((island) => getMonsters(islands[island].location)) ?? [])
-  ].filter(notNull)
+  ].filter(notNull),
 })
 }

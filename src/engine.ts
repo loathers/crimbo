@@ -11,7 +11,7 @@ import {
 import { $familiar, $item, CrownOfThrones, get, JuneCleaver, PropertiesManager } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { printd, sober, unsupportedChoices } from "./lib";
+import { printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
@@ -48,7 +48,6 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
 
   initPropertiesManager(manager: PropertiesManager): void {
     super.initPropertiesManager(manager);
-    for (const choices of unsupportedChoices.values()) manager.setChoices(choices);
   }
 
   dress(task: CrimboTask, outfit: Outfit): void {

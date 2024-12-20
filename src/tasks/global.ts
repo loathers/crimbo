@@ -78,6 +78,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           { location: wanderer().getTarget("wanderer"), isFree: true },
           { acc3: $item`"I Voted!" sticker` }
         ),
+        choices: () => wanderer().getChoices("wanderer"),
       completed: () => get("lastVoteMonsterTurn") === totalTurnsPlayed(),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
       sobriety: "either",
@@ -92,6 +93,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         }),
       completed: () => get("_sourceTerminalDigitizeMonsterCount") !== digitizes,
       do: () => wanderer().getTarget("wanderer"), post: () => digitizes = get("_sourceTerminalDigitizeMonsterCount"),
+      choices: () => wanderer().getChoices("wanderer"),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
       sobriety: "either",
     },
@@ -106,6 +108,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           { offhand: $item`cursed magnifying glass` }
         ),
       do: () => wanderer().getTarget("wanderer"),
+      choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
     },
@@ -119,6 +122,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           { offhand: $item`Kramco Sausage-o-Matic™` }
         ),
       do: () => wanderer().getTarget("wanderer"),
+      choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
     },
