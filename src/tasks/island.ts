@@ -1,10 +1,13 @@
-import { $item, $skill, AprilingBandHelmet, AsdonMartin, CinchoDeMayo, get, getBanishedMonsters, have } from "libram";
+import { $effect, $item, $skill, AprilingBandHelmet, AsdonMartin, CinchoDeMayo, get, getBanishedMonsters, have } from "libram";
 import { CrimboStrategy, CrimboTask } from "../engine";
-import { getIslands } from "../lib";
+import { getIsland, getIslands } from "../lib";
 import { cliExecute, inebrietyLimit, myInebriety, use, useSkill } from "kolmafia";
 import Macro from "../macro";
+import { Quest } from "grimoire-kolmafia";
 
-export const ISLAND_TASKS: CrimboTask[] = [
+export const ISLAND_QUEST: Quest<CrimboTask> = {
+  name: "Island Adventuring",
+  tasks: [
   {
     name: "Forced Noncombat",
     completed: () => !get("noncombatForcerActive"),
@@ -73,3 +76,4 @@ export const ISLAND_TASKS: CrimboTask[] = [
   // Timer Free Kills
   // Regular Fight
 ]
+}

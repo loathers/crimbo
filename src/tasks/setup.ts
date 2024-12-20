@@ -36,11 +36,12 @@ import {
   have,
   Snapper,
   SongBoom,
+  TakerSpace,
   uneffect,
 } from "libram";
 
-import { CrimboTask } from "./engine";
-import { args, CMCEnvironment, countEnvironment, tryGetCMCItem } from "./lib";
+import { CrimboTask } from "../engine";
+import { args, CMCEnvironment, countEnvironment, tryGetCMCItem } from "../lib";
 
 const poisons = $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned`;
 function cmcTarget(): { item: Item; environment: CMCEnvironment } {
@@ -50,7 +51,7 @@ function cmcTarget(): { item: Item; environment: CMCEnvironment } {
   };
 }
 
-export const setup: Quest<CrimboTask> = {
+export const SETUP_QUEST: Quest<CrimboTask> = {
   name: "Setup",
   tasks: [
     {
@@ -82,7 +83,7 @@ export const setup: Quest<CrimboTask> = {
     {
       name: "Recover",
       ready: () => have($skill`Cannelloni Cocoon`),
-      completed: () => myHp() / myMaxhp() >= (args.zone === "bar" ? 1 : 0.75),
+      completed: () => myHp() / myMaxhp() >= 0.75,
       do: () => {
         useSkill($skill`Cannelloni Cocoon`);
       },
@@ -182,6 +183,13 @@ export const setup: Quest<CrimboTask> = {
         get("_coldMedicineConsults") >= 5 ||
         countEnvironment(cmcTarget().environment) <= 10,
       do: () => tryGetCMCItem(cmcTarget().item),
+      sobriety: "either",
+    },
+    {
+      name: "Deft Pirate Hook",
+      completed: () => have($item`deft pirate hook`),
+      ready: () => TakerSpace.canMake($item`deft pirate hook`),
+      do: () => TakerSpace.make($item`deft pirate hook`),
       sobriety: "either",
     },
     {
