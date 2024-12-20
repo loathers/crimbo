@@ -1,4 +1,3 @@
-/* eslint-disable libram/verify-constants */
 import { Args, ParseError } from "grimoire-kolmafia";
 import {
   canEquip,
@@ -213,5 +212,5 @@ export function digitizedMonstersRemaining(turns = myTurncount()): number {
 };
 
 export const canPickpocket = () => myPrimestat() === $stat`moxie` || [have, canEquip].some((func) => func($item`mime army infiltration glove`));
-export const shouldPickpocket = () => myInebriety() > inebrietyLimit() && canPickpocket() && have($item`deft pirate hook `) // && unlikely to be the guy you can't pickpocket, I guess?
+export const shouldPickpocket = () => myInebriety() > inebrietyLimit() && canPickpocket() && have($item`deft pirate hook`) // && unlikely to be the guy you can't pickpocket, I guess?
 
