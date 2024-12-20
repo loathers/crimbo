@@ -204,7 +204,7 @@ function getBestAccessories(location: Location, isFree?: boolean) {
 }
 
 export function islandOutfit(fight: "freekill" | "freerun" | "regular", baseSpec: OutfitSpec = {}): Outfit {
-  const outfit = Outfit.from(baseSpec);
+  const outfit = Outfit.from(baseSpec, new Error(`Failed to construct outfit from spec: ${baseSpec}`));
   const island = getIsland();
 
 
