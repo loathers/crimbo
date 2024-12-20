@@ -1,6 +1,7 @@
 /* eslint-disable libram/verify-constants */
 import { Args, ParseError } from "grimoire-kolmafia";
 import {
+  canEquip,
   descToItem,
   inebrietyLimit,
   isDarkMode,
@@ -9,6 +10,7 @@ import {
   myAdventures,
   myFamiliar,
   myInebriety,
+  myPrimestat,
   myTurncount,
   print,
   runChoice,
@@ -16,10 +18,13 @@ import {
 } from "kolmafia";
 import {
   $familiar,
+  $item,
   $location,
+  $stat,
   Counter,
   CrystalBall,
   get,
+  have,
   SourceTerminal,
 } from "libram";
 import ISLANDS, { HolidayIsland } from './islands';
@@ -87,17 +92,17 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
   }, ),
 });
 
-export function getIslands(): HolidayIsland[] {
+function getIslands(): HolidayIsland[] {
   if (!args.island?.length) throw new Error("Listen, buddy, you've got to pick an Island. It's not clear how we got this far.");
 
   const islands = args.island.map((island) => Object.entries(ISLANDS).find(([key, ]) => key.toLowerCase() === island.toLowerCase())?.[1]).filter((x): x is HolidayIsland => !!x);
   return islands;
 }
 
-export function getIsland(): HolidayIsland {
+export function getIsland(orb = true): HolidayIsland {
   const islands = getIslands();
 
-  if (islands.length === 1) return islands[0]
+  if (!orb || islands.length === 1) return islands[0]
 
   const ponderResult = OrbManager.ponder();
 
@@ -206,3 +211,7 @@ export function digitizedMonstersRemaining(turns = myTurncount()): number {
     SourceTerminal.getDigitizeMonsterCount()
   );
 };
+
+export const canPickpocket = () => myPrimestat() === $stat`moxie` || [have, canEquip].some((func) => func($item`mime army infiltration glove`));
+export const shouldPickpocket = () => myInebriety() > inebrietyLimit() && canPickpocket() && have($item`deft pirate hook `) // && unlikely to be the guy you can't pickpocket, I guess?
+

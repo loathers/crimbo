@@ -1,8 +1,7 @@
 import { Quest } from "grimoire-kolmafia";
-import { canAdventure, cliExecute, inebrietyLimit, myClass, myInebriety, totalTurnsPlayed } from "kolmafia";
-import { $class, $effect, $item, $items, $location, $monsters, $skill, Counter, get, getKramcoWandererChance, have } from "libram";
+import { canAdventure, inebrietyLimit, myClass, myInebriety, totalTurnsPlayed } from "kolmafia";
+import { $class, $item, $items, $location, $skill, Counter, get, getKramcoWandererChance, have } from "libram";
 import { CrimboStrategy, CrimboTask } from "../engine";
-import { getIsland } from "../lib";
 import { chooseQuestOutfit } from "../outfit";
 import { wanderer } from "../wanderer";
 import Macro from "../macro";
@@ -122,27 +121,6 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       do: () => wanderer().getTarget("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
-    },
-    {
-      name: "Spit Jurassic Acid",
-      completed: () => have($effect`Everything Looks Yellow`),
-      ready: () => have($item`Jurassic Parka`) && have($skill`Torso Awareness`),
-      outfit: () =>
-        chooseQuestOutfit(
-          { location: getIsland().location, isFree: true },
-          { shirt: $item`Jurassic Parka` }
-        ),
-      prepare: () => cliExecute("parka dilophosaur"),
-      do: () => getIsland().location,
-      combat: new CrimboStrategy(() => {
-        const romance = get("romanticTarget");
-        const freeMonsters = $monsters`sausage goblin`;
-        if (romance?.attributes.includes("FREE")) freeMonsters.push(romance);
-        return Macro.if_(freeMonsters, Macro.standardCombat())
-          .skill($skill`Spit jurassic acid`)
-          .abort();
-      }),
-      sobriety: "sober",
     },
   ],
 };

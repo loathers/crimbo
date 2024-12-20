@@ -1,4 +1,4 @@
-import { OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
+import { Outfit, OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
 import {
   canEquip,
   canInteract,
@@ -174,7 +174,7 @@ function luckyGoldRing() {
   return sumNumbers(dropValues) / dropValues.length / 10;
 }
 
-type AccessoryOptions = HolidayIsland & { isFree?: boolean };
+type AccessoryOptions = {location: Location; isFree?: boolean };
 const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => number }[] = [
   {
     item: $item`mafia thumb ring`,
@@ -192,20 +192,6 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     item: $item`Mr. Cheeng's spectacles`,
     valueFunction: () => 220,
   },
-  {
-    item: $item`mime army infiltration glove`,
-    valueFunction: ({ location }) => {
-      // if we can already pickpocket or can't even with this, it's worthless
-      if ($classes`Disco Bandit, Accordion Thief`.includes(myClass()) || !sober()) {
-        return 0;
-      }
-      
-      // Spirit value
-      // Also deft pirate hook synergy
-      // Do we only ever want glove alongside hook?
-      return 0;
-    },
-  },
 ];
 
 function getBestAccessories(location: Location, isFree?: boolean) {
@@ -215,4 +201,8 @@ function getBestAccessories(location: Location, isFree?: boolean) {
     .sort(({ value: a }, { value: b }) => b - a)
     .map(({ item }) => item)
     .splice(0, 3);
+}
+
+export function islandOutfit(fight: "freekill" | "freerun" | "regular", baseSpec: OutfitSpec = {}): Outfit {
+  return new Outfit()
 }

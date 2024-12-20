@@ -28,13 +28,11 @@ import {
   $familiars,
   $item,
   $locations,
-  $phylum,
   $skill,
   AutumnAton,
   CrimboShrub,
   get,
   have,
-  Snapper,
   SongBoom,
   TakerSpace,
   uneffect,
@@ -155,13 +153,6 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
         itemAmount($item`hobo nickel`) === 0 ||
         (!have($familiar`Hobo Monkey`) && !have($item`hobo nickel`, 1000)),
       do: () => putCloset(itemAmount($item`hobo nickel`), $item`hobo nickel`),
-      sobriety: "either",
-    },
-    {
-      name: "Snapper",
-      completed: () => Snapper.getTrackedPhylum() === $phylum`construct`,
-      do: () => Snapper.trackPhylum($phylum`construct`),
-      ready: () => Snapper.have(),
       sobriety: "either",
     },
     {
