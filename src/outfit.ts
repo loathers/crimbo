@@ -204,5 +204,9 @@ function getBestAccessories(location: Location, isFree?: boolean) {
 }
 
 export function islandOutfit(fight: "freekill" | "freerun" | "regular", baseSpec: OutfitSpec = {}): Outfit {
-  return new Outfit()
+  const outfit = Outfit.from(baseSpec);
+  const island = getIsland();
+
+
+  return outfit;
 }
