@@ -1,9 +1,8 @@
 import { WandererManager } from "garbo-lib";
-import { args, digitizedMonstersRemaining } from "./lib";
+import { args, digitizedMonstersRemaining, getIslands } from "./lib";
 import { getMonsters, myAdventures } from "kolmafia";
 import { garboValue } from "./value";
 import { get, notNull } from "libram";
-import islands from "./islands";
 
 let _wanderer: WandererManager;
 export function wanderer(): WandererManager {
@@ -17,7 +16,7 @@ return _wanderer ??= new WandererManager({
   freeFightExtraValue: () => 0,
   digitzesRemaining: digitizedMonstersRemaining,
   plentifulMonsters: [
-    get("_sourceTerminalDigitizeMonster"), ...(args.island?.flatMap((island) => getMonsters(islands[island].location)) ?? [])
+    get("_sourceTerminalDigitizeMonster"), ...(getIslands().flatMap(({ location }) => getMonsters(location)) ?? [])
   ].filter(notNull),
 })
 }
