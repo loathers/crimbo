@@ -227,6 +227,7 @@ export function islandOutfit(
   if (usingOrb) outfit.equip(CrystalBall.orb);
 
   outfit.familiar ??= chooseFamiliar({
+    location: island.location,
     allowEquipment: !usingOrb,
     allowAttackFamiliars: fight === "regular",
   });
