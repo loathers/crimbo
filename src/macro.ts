@@ -257,6 +257,7 @@ export default class Macro extends StrictMacro {
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
       )
       .attack()
-      .repeat();
+      .repeat("!pastround 3")
+      .hardCombat()
   }
 }
