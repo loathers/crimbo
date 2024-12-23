@@ -9,6 +9,7 @@ import {
   itemAmount,
   myAdventures,
   myHp,
+  myLevel,
   myMaxhp,
   myMaxmp,
   myMp,
@@ -17,6 +18,7 @@ import {
   restoreMp,
   runChoice,
   totalTurnsPlayed,
+  use,
   useFamiliar,
   useSkill,
   visitUrl,
@@ -201,5 +203,12 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       do: () => SongBoom.setSong("Food Vibrations"),
       sobriety: "either",
     },
+    {
+      name: "Futuristic Gear",
+      completed: () => have($item`futuristic shirt`),
+      ready: () => have($item`wardrobe-o-matic`) && myLevel() >= 20,
+      do: () => use($item`wardrobe-o-matic`),
+      sobriety: "either"
+    }
   ],
 };
