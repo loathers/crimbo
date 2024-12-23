@@ -29,9 +29,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   {
     familiar: $familiar`Stocking Mimic`,
     value: ({ allowEquipment }) =>
-      (allowEquipment
-        ? garboValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6
-        : 0) +
+      (allowEquipment ? garboValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6 : 0) +
       (1 / 3 + (have($effect`Jingle Jangle Jingle`) ? 0.1 : 0)) *
         (familiarWeight($familiar`Stocking Mimic`) + weightAdjustment()),
   },
@@ -75,10 +73,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   {
     familiar: $familiar`Cookbookbat`,
     value: () =>
-      (3 *
-        garboValue(
-          ...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`
-        )) /
+      (3 * garboValue(...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`)) /
       11,
   },
   {

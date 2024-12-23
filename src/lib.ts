@@ -64,7 +64,7 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
       help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map(
         (island) => island.toLowerCase()
       )}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`,
-      default: []
+      default: [],
     },
     (str) => {
       const splitStr = str.split(",").filter(Boolean);

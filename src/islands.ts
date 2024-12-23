@@ -30,15 +30,15 @@ const VeteransDay: HolidayIsland = {
   element: $element`Hot`,
   orbTarget: $monster`Section 11`,
   choice: 1540,
-  currency: $item`Spirit of Veteran's Day`
-}
+  currency: $item`Spirit of Veteran's Day`,
+};
 
 const Thanksgiving: HolidayIsland = {
   location: $location`Thanksgiving Island`,
   element: $element`Cold`,
   orbTarget: $monster`pumpkin spice wraith`,
   choice: 1541,
-  currency: $item`Spirit of Thanksgiving`
-}
+  currency: $item`Spirit of Thanksgiving`,
+};
 
 export default { Easter, StPatricksDay, VeteransDay, Thanksgiving };

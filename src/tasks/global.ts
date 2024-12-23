@@ -115,7 +115,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       completed: () => get("_voidFreeFights") >= 5,
       outfit: () =>
         wandererOutfit(
-          {           wandererType: "wanderer", isFree: true },
+          { wandererType: "wanderer", isFree: true },
           { offhand: $item`cursed magnifying glass` }
         ),
       do: () => wanderer().getTarget("wanderer"),
@@ -129,7 +129,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       completed: () => getKramcoWandererChance() < 1,
       outfit: () =>
         wandererOutfit(
-          {           wandererType: "wanderer", isFree: true },
+          { wandererType: "wanderer", isFree: true },
           { offhand: $item`Kramco Sausage-o-Matic™` }
         ),
       do: () => wanderer().getTarget("wanderer"),

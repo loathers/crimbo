@@ -78,7 +78,8 @@ export function wandererOutfit(
   { wandererType, isFree }: TaskOptions,
   ...outfits: OutfitSpec[]
 ): OutfitSpec {
-  const location = wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType);
+  const location =
+    wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType);
   const mergedOutfits = mergeSpecs(...outfits);
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
@@ -231,7 +232,8 @@ export function islandOutfit(
     allowAttackFamiliars: fight === "regular",
   });
 
-  if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`) outfit.equip(ifHave("acc2", $item`mime army infiltration glove`))
+  if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`)
+    outfit.equip(ifHave("acc2", $item`mime army infiltration glove`));
 
   outfit.equip(
     mergeSpecs(

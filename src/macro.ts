@@ -170,8 +170,7 @@ export default class Macro extends StrictMacro {
   }
 
   standardCombat(): this {
-    return this
-      .tryHaveSkill($skill`Curse of Weaksauce`)
+    return this.tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
       .externalIf(
         SongBoom.song() === "Total Eclipse of Your Meat",
@@ -212,14 +211,13 @@ export default class Macro extends StrictMacro {
   }
 
   static pickpocket(): Macro {
-    return new Macro().pickpocket()
+    return new Macro().pickpocket();
   }
 
   itemOrSkill(thing: Item | Skill): this {
     if (thing instanceof Item) return this.item(thing);
     else return this.skill(thing);
   }
-
 
   islandKillWith(thing: Item | Skill): this {
     return this.pickpocket().itemOrSkill(thing);
@@ -234,7 +232,7 @@ export default class Macro extends StrictMacro {
   }
 
   static islandRunWith(thing: Item | Skill): Macro {
-    return new Macro().islandRunWith(thing)
+    return new Macro().islandRunWith(thing);
   }
 
   static islandCombat(): Macro {
