@@ -41,4 +41,14 @@ const Thanksgiving: HolidayIsland = {
   currency: $item`Spirit of Thanksgiving`,
 };
 
-export default { Easter, StPatricksDay, VeteransDay, Thanksgiving };
+const Christmas: HolidayIsland = {
+  // eslint-disable-next-line libram/verify-constants
+  location: $location`Christmas Island`,
+  element: $element`spooky`,
+  // eslint-disable-next-line libram/verify-constants
+  orbTarget: $monster`magically-animated snowman`,
+  choice: 1542,
+  currency: $item`Spirit of Christmas`
+}
+
+export default { Easter, StPatricksDay, VeteransDay, Thanksgiving, Christmas };
