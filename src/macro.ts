@@ -258,6 +258,6 @@ export default class Macro extends StrictMacro {
       )
       .attack()
       .repeat("!pastround 3")
-      .hardCombat()
+      .hardCombat();
   }
 }

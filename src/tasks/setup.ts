@@ -208,7 +208,7 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       completed: () => have($item`futuristic shirt`),
       ready: () => have($item`wardrobe-o-matic`) && myLevel() >= 20,
       do: () => use($item`wardrobe-o-matic`),
-      sobriety: "either"
-    }
+      sobriety: "either",
+    },
   ],
 };
