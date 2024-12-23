@@ -1,5 +1,6 @@
 import {
   equippedItem,
+  haveEquipped,
   haveSkill,
   Item,
   itemType,
@@ -13,6 +14,7 @@ import {
 import {
   $class,
   $familiar,
+  $item,
   $items,
   $monster,
   $skill,
@@ -220,15 +222,15 @@ export default class Macro extends StrictMacro {
   }
 
   islandKillWith(thing: Item | Skill): this {
-    return this.pickpocket().trySkill($skill`Launch spikolodon spikes`).itemOrSkill(thing);
+    return this.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).itemOrSkill(thing);
   }
 
   static islandKillWith(thing: Item | Skill): Macro {
-    return new Macro().trySkill($skill`Launch spikolodon spikes`).islandKillWith(thing);
+    return new Macro().islandKillWith(thing);
   }
 
   islandRunWith(thing: Item | Skill): this {
-    return this.pickpocket().itemOrSkill(thing);
+    return this.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).itemOrSkill(thing);
   }
 
   static islandRunWith(thing: Item | Skill): Macro {
@@ -236,6 +238,6 @@ export default class Macro extends StrictMacro {
   }
 
   static islandCombat(): Macro {
-    return Macro.pickpocket().trySkill($skill`Launch spikolodon spikes`).attack().repeat();
+    return Macro.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).attack().repeat();
   }
 }
