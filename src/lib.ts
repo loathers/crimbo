@@ -195,4 +195,4 @@ export const canPickpocket = () =>
   myPrimestat() === $stat`moxie` ||
   [have, canEquip].some((func) => func($item`mime army infiltration glove`));
 export const shouldPickpocket = () =>
-  myInebriety() > inebrietyLimit() && canPickpocket() && have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?
+  myInebriety() <= inebrietyLimit() && canPickpocket() && have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?

@@ -10,6 +10,7 @@ import {
   itemAmount,
   Location,
   myInebriety,
+  myPrimestat,
   toSlot,
   totalTurnsPlayed,
 } from "kolmafia";
@@ -18,6 +19,7 @@ import {
   $familiars,
   $item,
   $phylum,
+  $stat,
   CrystalBall,
   get,
   getRemainingStomach,
@@ -228,6 +230,8 @@ export function islandOutfit(
     allowEquipment: !usingOrb,
     allowAttackFamiliars: fight === "regular",
   });
+
+  if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`) outfit.equip(ifHave("acc2", $item`mime army infiltration glove`))
 
   outfit.equip(
     mergeSpecs(
