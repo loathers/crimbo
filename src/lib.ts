@@ -119,9 +119,9 @@ export function getIsland(orb = true): HolidayIsland {
   const ponderResult = OrbManager.ponder();
 
   return (
-    islands.find(
-      ({ location, orbTarget }) => ![undefined, orbTarget].includes(ponderResult.get(location))
-    ) ?? islands[0]
+    islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget) ??
+    islands.find(({ location }) => !ponderResult.has(location)) ??
+    islands[0]
   );
 }
 
