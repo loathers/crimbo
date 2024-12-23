@@ -31,4 +31,20 @@ const StPatrick: HolidayIsland = {
   currency: $item`Spirit of St. Patrick's Day`,
 };
 
-export default { Easter, StPatrick };
+const Veteran: HolidayIsland = {
+  location: $location`Veterans Day Island`,
+  element: $element`Hot`,
+  orbTarget: $monster`Section 11`,
+  choice: 1540,
+  currency: $item`Spirit of Veteran's Day`
+}
+
+const Thanksgiving: HolidayIsland = {
+  location: $location`Thanksgiving Island`,
+  element: $element`Cold`,
+  orbTarget: $monster`pumpkin spice wraith`,
+  choice: 1541,
+  currency: $item`Spirit of Thanksgiving`
+}
+
+export default { Easter, StPatrick, Veteran, Thanksgiving };
