@@ -105,7 +105,6 @@ export default class Macro extends StrictMacro {
 
   doHardItems(): this {
     return this.doItems(
-      // eslint-disable-next-line libram/verify-constants
       $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`
     );
   }
@@ -171,10 +170,7 @@ export default class Macro extends StrictMacro {
   }
 
   standardCombat(): this {
-    return this.if_(
-      "!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer",
-      "pickpocket"
-    )
+    return this
       .tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
       .externalIf(
