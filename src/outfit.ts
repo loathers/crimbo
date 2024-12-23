@@ -62,10 +62,10 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (args.shrub && options.location?.zone === "Holiday Islands" && get("shrubGifts") === "gifts") {
-    return $familiar`Crimbo Shrub`;
+  if (options.location?.zone === "Holiday Islands") {
+    if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
+    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`
   }
-  if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   return (
     (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
       have(f)
@@ -93,7 +93,6 @@ export function wandererOutfit(
     ifHave("weapon", $item`Fourth of May Cosplay Saber`)
   );
   const offhands = mergeSpecs(
-    ifHave("offhand", $item`deft pirate hook`, () => true), // pickpocket?
     ifHave("offhand", $item`carnivorous potted plant`),
     ifHave(
       "offhand",
@@ -247,6 +246,8 @@ export function islandOutfit(
 
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
+
+  if (get("_spikolodonSpikeUses") < 5) outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon"}})
 
   // Also: GAP running
   if (
