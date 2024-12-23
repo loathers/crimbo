@@ -25055,7 +25055,7 @@ var Macro2 = /* @__PURE__ */ function(_StrictMacro) {
   }, {
     key: "islandCombat",
     value: function() {
-      return Macro3.pickpocket().trySkill($skill(_templateObject4513 || (_templateObject4513 = _taggedTemplateLiteral87(["Launch spikolodon spikes"])))).externalIf((0, import_kolmafia96.haveEquipped)($item(_templateObject4613 || (_templateObject4613 = _taggedTemplateLiteral87(["tearaway pants"])))), Macro3.if_("!pastround 1 && monsterphylum plant", Macro3.skill($skill(_templateObject4713 || (_templateObject4713 = _taggedTemplateLiteral87(["Tear Away your Pants!"])))))).attack().repeat();
+      return Macro3.pickpocket().trySkill($skill(_templateObject4513 || (_templateObject4513 = _taggedTemplateLiteral87(["Launch spikolodon spikes"])))).externalIf((0, import_kolmafia96.haveEquipped)($item(_templateObject4613 || (_templateObject4613 = _taggedTemplateLiteral87(["tearaway pants"])))), Macro3.if_("!pastround 1 && monsterphylum plant", Macro3.skill($skill(_templateObject4713 || (_templateObject4713 = _taggedTemplateLiteral87(["Tear Away your Pants!"])))))).attack().repeat("!pastround 3").hardCombat();
     }
   }]), Macro3;
 }(StrictMacro);
