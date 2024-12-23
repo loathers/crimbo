@@ -29,6 +29,7 @@ import {
   $item,
   $locations,
   $skill,
+  AprilingBandHelmet,
   AutumnAton,
   CrimboShrub,
   get,
@@ -182,6 +183,13 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       ready: () => TakerSpace.canMake($item`deft pirate hook`),
       do: () => TakerSpace.make($item`deft pirate hook`),
       sobriety: "either",
+    },
+    {
+      name: "Apriling Band",
+      completed: () => have($effect`Apriling Band Patrol Beat`),
+      ready: () => AprilingBandHelmet.canChangeSong(),
+      do: () => AprilingBandHelmet.changeSong("Apriling Band Patrol Beat"),
+      sobriety: "either"
     },
     {
       name: "Boombox",
