@@ -160,7 +160,7 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       completed: () => AutumnAton.currentlyIn() !== null,
       do: (): void => {
         AutumnAton.sendTo(
-          $locations`The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`
+          $locations`Christmas Island, The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`
         );
       },
       ready: () => AutumnAton.available() && AutumnAton.turnsForQuest() < myAdventures() + 10,
