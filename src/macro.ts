@@ -1,5 +1,6 @@
 import {
   equippedItem,
+  haveEquipped,
   haveSkill,
   Item,
   itemType,
@@ -8,7 +9,6 @@ import {
   myFamiliar,
   myPrimestat,
   Skill,
-  toMonster,
   visitUrl,
 } from "kolmafia";
 import {
@@ -17,11 +17,9 @@ import {
   $item,
   $items,
   $monster,
-  $phylum,
   $skill,
   $slot,
   $stat,
-  Counter,
   get,
   have,
   maxBy,
@@ -30,7 +28,7 @@ import {
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
-import { getSniffTarget, shouldRedigitize } from "./lib";
+import { shouldRedigitize } from "./lib";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },
@@ -109,7 +107,6 @@ export default class Macro extends StrictMacro {
 
   doHardItems(): this {
     return this.doItems(
-      // eslint-disable-next-line libram/verify-constants
       $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`
     );
   }
@@ -174,31 +171,8 @@ export default class Macro extends StrictMacro {
     return new Macro().gooKill();
   }
 
-  trySniff(): this {
-    const monster = getSniffTarget();
-    if (monster === null) return this;
-    if (monster.phylum === $phylum`elf`) {
-      const prankCardMonster = toMonster(get('_prankCardMonster'));
-      if (prankCardMonster === monster && Counter.get("Prank Card Monster") !== Infinity) return this;
-      // eslint-disable-next-line libram/verify-constants
-      return this.if_(monster, Macro.tryHaveItem($item`prank Crimbo card`));
-    } else if (monster.phylum === $phylum`pirate`) {
-      const trickCoinMonster = toMonster(get('_trickCoinMonster'));
-      if (trickCoinMonster === monster && Counter.get("Trick Coin Monster") !== Infinity) return this;
-      // eslint-disable-next-line libram/verify-constants
-      return this.if_(monster, Macro.tryHaveItem($item`trick coin`));
-    }
-    return this;
-  }
-
-  static trySniff(): Macro {
-    return new Macro().trySniff();
-  }
-
   standardCombat(): this {
-    return this.if_("!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer", "pickpocket")
-      .tryHaveSkill($skill`Curse of Weaksauce`)
-      .trySniff()
+    return this.tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
       .externalIf(
         SongBoom.song() === "Total Eclipse of Your Meat",
@@ -232,5 +206,57 @@ export default class Macro extends StrictMacro {
 
   static hardCombat(): Macro {
     return new Macro().hardCombat();
+  }
+
+  pickpocket(): this {
+    return this.step("pickpocket");
+  }
+
+  static pickpocket(): Macro {
+    return new Macro().pickpocket();
+  }
+
+  itemOrSkill(thing: Item | Skill): this {
+    if (thing instanceof Item) return this.item(thing);
+    else return this.skill(thing);
+  }
+
+  islandKillWith(thing: Item | Skill): this {
+    return this.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .itemOrSkill(thing);
+  }
+
+  static islandKillWith(thing: Item | Skill): Macro {
+    return new Macro().islandKillWith(thing);
+  }
+
+  islandRunWith(thing: Item | Skill): this {
+    return this.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .itemOrSkill(thing);
+  }
+
+  static islandRunWith(thing: Item | Skill): Macro {
+    return new Macro().islandRunWith(thing);
+  }
+
+  static islandCombat(): Macro {
+    return Macro.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .attack()
+      .repeat();
   }
 }

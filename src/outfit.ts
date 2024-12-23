@@ -1,32 +1,38 @@
-import { OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
+import { DraggableFight } from "garbo-lib";
+import { Outfit, OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
 import {
   canEquip,
   canInteract,
   Familiar,
+  getMonsters,
+  inebrietyLimit,
   Item,
   itemAmount,
   Location,
-  myClass,
+  myInebriety,
+  myPrimestat,
   toSlot,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
-  $classes,
   $familiar,
   $familiars,
   $item,
-  $location,
+  $phylum,
+  $stat,
   CrystalBall,
   get,
   getRemainingStomach,
   have,
   sumNumbers,
+  TearawayPants,
 } from "libram";
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
-import { garboAverageValue, garboValue } from "./garboValue";
-import { args, chosenAffiliation, getOrbTarget, realmAvailable, sober } from "./lib";
+import { args, getIsland, realmAvailable, shouldPickpocket, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
+import { garboValue } from "./value";
+import { wanderer } from "./wanderer";
 
 export function ifHave(
   slot: OutfitSlot,
@@ -39,23 +45,14 @@ export function ifHave(
 }
 
 export const drunkSpec = sober() ? {} : { offhand: $item`Drunkula's wineglass` };
-export const affiliationSpec = () => {
-  switch (chosenAffiliation()) {
-    case "elves":
-      // eslint-disable-next-line libram/verify-constants
-      return { hat: $item`Elf Guard patrol cap`, pants: $item`Elf Guard hotpants` };
-    case "pirates":
-      // eslint-disable-next-line libram/verify-constants
-      return { hat: $item`Crimbuccaneer tricorn`, pants: $item`Crimbuccaneer breeches` };
-    default:
-      return {};
-  }
-};
-export const orbSpec = (location: Location) => {
-  const prediction = OrbManager.ponder().get(location);
-  return !!getOrbTarget() && (!prediction || prediction === getOrbTarget())
-    ? { famequip: CrystalBall.orb }
-    : {};
+
+export const orbSpec = () => {
+  if (!CrystalBall.have()) return {};
+  const island = getIsland();
+
+  const prediction = OrbManager.ponder().get(island.location);
+  if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
+  return {};
 };
 
 function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
@@ -65,8 +62,9 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (args.shrub && options.location?.zone === "Crimbo23" && get("shrubGifts") === "gifts") {
-    return $familiar`Crimbo Shrub`;
+  if (options.location?.zone === "Holiday Islands") {
+    if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
+    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
     (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
@@ -75,11 +73,13 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   );
 };
 
-type TaskOptions = { location: Location; isFree?: boolean };
-export function chooseQuestOutfit(
-  { location, isFree }: TaskOptions,
+type TaskOptions = { wandererType: DraggableFight | Location; isFree?: boolean };
+export function wandererOutfit(
+  { wandererType, isFree }: TaskOptions,
   ...outfits: OutfitSpec[]
 ): OutfitSpec {
+  const location =
+    wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType);
   const mergedOutfits = mergeSpecs(...outfits);
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
@@ -93,10 +93,7 @@ export function chooseQuestOutfit(
     ifHave("weapon", $item`Fourth of May Cosplay Saber`)
   );
   const offhands = mergeSpecs(
-    // eslint-disable-next-line libram/verify-constants
-    ifHave("offhand", $item`Elf Guard clipboard`, () => location.zone === "Crimbo23"),
-    // eslint-disable-next-line libram/verify-constants
-    ifHave("offhand", $item`Crimbuccaneer Lantern`, () => location.zone === "Crimbo23"),
+    ifHave("offhand", $item`carnivorous potted plant`),
     ifHave(
       "offhand",
       $item`cursed magnifying glass`,
@@ -184,7 +181,7 @@ function luckyGoldRing() {
   return sumNumbers(dropValues) / dropValues.length / 10;
 }
 
-type AccessoryOptions = { isFree?: boolean; location: Location };
+type AccessoryOptions = { location: Location; isFree?: boolean };
 const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => number }[] = [
   {
     item: $item`mafia thumb ring`,
@@ -202,68 +199,6 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
     item: $item`Mr. Cheeng's spectacles`,
     valueFunction: () => 220,
   },
-  {
-    // eslint-disable-next-line libram/verify-constants
-    item: $item`pegfinger`,
-    valueFunction: ({ location }) =>
-      location.zone === "Crimbo23" && chosenAffiliation() === "pirates" ? 10000 : 0,
-  },
-  {
-    // eslint-disable-next-line libram/verify-constants
-    item: $item`Elf Guard commandeering gloves`,
-    valueFunction: ({ location }) =>
-      location.zone === "Crimbo23" && chosenAffiliation() === "elves" ? 10000 : 0,
-  },
-  {
-    item: $item`mime army infiltration glove`,
-    valueFunction: ({ location }) => {
-      // if we can already pickpocket or can't even with this, it's worthless
-      if ($classes`Disco Bandit, Accordion Thief`.includes(myClass()) || !sober()) {
-        return 0;
-      }
-      // about 5% of a common drop
-      const aff = chosenAffiliation();
-      /* eslint-disable libram/verify-constants */
-      if (location === $location`Abuela's Cottage (Contested)`) {
-        if (aff === "pirates") {
-          return 0.05 * garboAverageValue($item`Elf Guard officer's sidearm`, $item`Elf Guard commandeering gloves`, $item`Elf Guard eyedrops`);
-        }
-        if (aff === "elves") {
-          return 0.05 * garboAverageValue($item`Crimbuccaneer shirt`, $item`Crimbuccaneer captain's purse`);
-        }
-      } else if (location === $location`The Embattled Factory`) {
-        if (aff === "pirates") {
-          return 0.05 * garboAverageValue($item`military-grade peppermint oil`, $item`Elf Guard tinsel grenade`);
-        }
-        if (aff === "elves") {
-          return 0.05 * garboAverageValue($item`Crimbuccaneer mologrog cocktail`, $item`Crimbuccaneer whale oil`, $item`Crimbuccaneer rigging lasso`);
-        }
-      } else if (location === $location`The Bar At War`) {
-        if (aff === "pirates") {
-          return 0.05 * garboAverageValue($item`bottle of whiskey`, $item`peppermint bomb`, $item`officer's nog`);
-        }
-        if (aff === "elves") {
-          return 0.05 * garboAverageValue($item`grog nuts`, $item`sawed-off blunderbuss`, $item`old-school pirate grog`);
-        }
-      } else if (location === $location`A Cafe Divided`) {
-        if (aff === "pirates") {
-          return 0.05 * garboAverageValue($item`sundae ration`, $item`peppermint tack`, $item`Elf Guard payroll bag`);
-        }
-        if (aff === "elves") {
-          return 0.05 * garboAverageValue($item`orange`, $item`pegfinger`, $item`whalesteak`);
-        }
-      } else if (location === $location`The Armory Up In Arms`) {
-        if (aff === "pirates") {
-          return 0.05 * garboAverageValue($item`Elf Guard mouthknife`, $item`Kelflar vest`, $item`red and white claret`);
-        }
-        if (aff === "elves") {
-          return 0.05 * garboAverageValue($item`shipwright's hammer`, $item`cannonbomb`, $item`whale cerebrospinal fluid`);
-        }
-        /* eslint-enable libram/verify-constants */
-      }
-      return 0;
-    },
-  },
 ];
 
 function getBestAccessories(location: Location, isFree?: boolean) {
@@ -273,4 +208,67 @@ function getBestAccessories(location: Location, isFree?: boolean) {
     .sort(({ value: a }, { value: b }) => b - a)
     .map(({ item }) => item)
     .splice(0, 3);
+}
+
+export function islandOutfit(
+  fight: "freekill" | "freerun" | "regular",
+  baseSpec: OutfitSpec = {}
+): Outfit {
+  const outfit = Outfit.from(
+    baseSpec,
+    new Error(`Failed to construct outfit from spec: ${baseSpec}`)
+  );
+  const island = getIsland();
+  const usingOrb =
+    fight !== "freerun" &&
+    CrystalBall.have() &&
+    [undefined, island.orbTarget].includes(OrbManager.ponder().get(island.location));
+
+  if (usingOrb) outfit.equip(CrystalBall.orb);
+
+  outfit.familiar ??= chooseFamiliar({
+    location: island.location,
+    allowEquipment: !usingOrb,
+    allowAttackFamiliars: fight === "regular",
+  });
+
+  if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`)
+    outfit.equip(ifHave("acc2", $item`mime army infiltration glove`));
+
+  outfit.equip(
+    mergeSpecs(
+      ifHave("offhand", $item`Drunkula's wineglass`, () => myInebriety() > inebrietyLimit()),
+      ifHave("offhand", $item`deft pirate hook`, () => shouldPickpocket() && fight === "regular"),
+      ifHave("offhand", $item`carnivorous potted plant`)
+    )
+  );
+
+  if (fight === "regular") outfit.equip(ifHave("acc1", $item`mafia thumb ring`));
+
+  // Do we try other weapons? Saber?
+  outfit.equip(ifHave("weapon", $item`June cleaver`));
+
+  if (get("_spikolodonSpikeUses") < 5)
+    outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
+
+  // Also: GAP running
+  if (TearawayPants.have()) {
+    if (usingOrb) {
+      if (OrbManager.ponder().get(island.location)?.phylum === $phylum`plant`) {
+        outfit.equip($item`tearaway pants`);
+      }
+    } else if (getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)) {
+      outfit.equip($item`tearaway pants`);
+    }
+  }
+
+  outfit.modifier = [`2 ${island.element} resistance 40 max`, "-combat"];
+
+  if ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (Familiar | undefined)[]) {
+    outfit.modifier.push("0.01 Familiar Weight");
+  } else {
+    outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
+  }
+
+  return outfit;
 }

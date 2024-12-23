@@ -1,34 +1,25 @@
-/* eslint-disable libram/verify-constants */
-import { Args } from "grimoire-kolmafia";
+import { Args, ParseError } from "grimoire-kolmafia";
 import {
+  canEquip,
   descToItem,
-  haveEquipped,
   inebrietyLimit,
   isDarkMode,
   Item,
-  Location,
-  Monster,
   myAdventures,
   myFamiliar,
   myInebriety,
+  myPrimestat,
+  myTurncount,
   print,
   runChoice,
   visitUrl,
 } from "kolmafia";
-import {
-  $familiar,
-  $item,
-  $location,
-  $monster,
-  Counter,
-  CrystalBall,
-  flat,
-  get,
-  have,
-  SourceTerminal,
-} from "libram";
+import { $familiar, $item, $stat, Counter, CrystalBall, get, have, SourceTerminal } from "libram";
 
+import ISLANDS, { HolidayIsland } from "./islands";
 import * as OrbManager from "./orbmanager";
+
+export type Island = keyof typeof ISLANDS;
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -58,107 +49,43 @@ export function sober() {
   return myInebriety() <= inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0);
 }
 
-const neutralMonsters = {
-  recruit: $monster`Crimbuccaneer new recruit`,
-  privateer: $monster`Crimbuccaneer privateer`,
-  dropout: $monster`Crimbuccaneer military school dropout`,
-  conscript: $monster`Elf Guard conscript`,
-  convict: $monster`Elf Guard convict`,
-  private: $monster`Elf Guard private`,
-} as const;
-
-const affiliatedZoneMonsters = {
-  armory: {
-    none: neutralMonsters,
-    pirates: {
-      seal: $monster`Elf Guard arctic seal`,
-      armorer: $monster`Elf Guard armorer`,
-      beret: $monster`Elf Guard Red and White Beret`,
-    },
-    elves: {
-      carpenter: $monster`Crimbuccaneer carpenter`,
-      freebooter: $monster`Crimbuccaneer freebooter`,
-      scrimshander: $monster`Crimbuccaneer scrimshander`,
-    },
-  },
-  bar: {
-    none: neutralMonsters,
-    pirates: {
-      specialist: $monster`Elf Guard shore leave specialist`,
-      chemist: $monster`Elf Guard Chemist`,
-      sanitation: $monster`Elf Guard sanitation officer`,
-    },
-    elves: {
-      barrrback: $monster`Crimbuccaneer barrrback`,
-      grognard: $monster`Crimbuccaneer grognard`,
-      brawler: $monster`Crimbuccaneer bar brawler`,
-    },
-  },
-  cafe: {
-    none: neutralMonsters,
-    pirates: {
-      desserter: $monster`Elf Guard desserter`,
-      provisioner: $monster`Elf Guard provisioner`,
-      steward: $monster`Elf Guard steward`,
-    },
-    elves: {
-      plunderer: $monster`Crimbuccaneer fruit plunderer`,
-      retiree: $monster`Crimbuccaneer retiree`,
-      whalehunter: $monster`Crimbuccaneer whalehunter`,
-    },
-  },
-  cottage: {
-    none: neutralMonsters,
-    pirates: {
-      requisitions: $monster`Elf Guard requisitions officer`,
-      strategist: $monster`Elf Guard Strategist`,
-      general: $monster`Elf Guard general`,
-    },
-    elves: {
-      mudlark: $monster`Crimbuccaneer mudlark`,
-      navigator: $monster`Crimbuccaneer navigator`,
-      captain: $monster`Crimbuccaneer vice-captain`,
-    },
-  },
-  foundry: {
-    none: neutralMonsters,
-    pirates: {
-      courier: $monster`Elf Guard fuel courier`,
-      engineer: $monster`Elf Guard Engineer`,
-      packer: $monster`Elf Guard ordnance packer`,
-    },
-    elves: {
-      rigger: $monster`Crimbuccaneer Rigging Rigger`,
-      lamplighter: $monster`Crimbuccaneer Lamplighter`,
-      bombjack: $monster`Crimbuccaneer bombjack`,
-    },
-  },
-} as const;
-
-export const args = Args.create("crimbo23", "A script for farming elf stuff", {
+export const args = Args.create("crimbo24", "A script for farming elf stuff", {
+  ascend: Args.flag({
+    help: "Whether you plan to ascend right after this",
+    default: false,
+  }),
   turns: Args.number({
     help: "The number of turns to run (use negative numbers for the number of turns remaining)",
     default: Infinity,
   }),
-  zone: Args.string({
-    options: [
-      ["armory", "Armory"],
-      ["bar", "The Bar"],
-      ["cafe", "Cafe"],
-      ["cottage", "Abuela's Cottage"],
-      ["foundry", "Pirate Foundry"],
-    ],
-    default: "cottage",
-  }),
-  affiliation: Args.string({
-    options: [
-      ["none", "Do not pick a side"],
-      ["elves", "Fight for the elves"],
-      ["pirates", "Fight for the Crimbuccaneers"],
-    ],
-    help: "The side to fight for.",
-    default: "elves",
-  }),
+  island: Args.custom<Island[]>(
+    {
+      hidden: false,
+      help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map(
+        (island) => island.toLowerCase()
+      )}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`,
+      default: [],
+    },
+    (str) => {
+      const splitStr = str.split(",").filter(Boolean);
+      if (![1, 2].includes(splitStr.length))
+        return new ParseError("Please select at least 1 island, and at most 2");
+      if (!CrystalBall.have() && splitStr.length === 2)
+        return new ParseError(
+          "Without miniature crystal ball, you may only select a single island."
+        );
+      const mappedStr = splitStr.map(
+        (islandName) =>
+          Object.keys(ISLANDS).find(
+            (island) => island.toLowerCase() === islandName.toLowerCase()
+          ) ?? new ParseError(`Cannot find island for string ${islandName}`)
+      );
+      const error = mappedStr.find((el) => el instanceof ParseError);
+      if (error) return error;
+      return mappedStr as Island[];
+    },
+    ""
+  ),
   shrub: Args.boolean({
     help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
     default: false,
@@ -167,68 +94,35 @@ export const args = Args.create("crimbo23", "A script for farming elf stuff", {
     help: "Turn on debug printing",
     default: false,
   }),
-  orb: Args.string({
-    options: [
-      ...Object.entries(
-        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
-      ).map(([key, val]) => [key, `${val}`] as [string, string]),
-      ["none", "Don't use it"],
-    ],
-    help: "Monster to target with the orb.",
-    default: "none",
-  }),
-  sniff: Args.string({
-    options: [
-      ...Object.entries(
-        Object.assign({}, ...flat(Object.values(affiliatedZoneMonsters).map(Object.values)))
-      ).map(([key, val]) => [key, `${val}`] as [string, string]),
-      ["none", "Don't use it"],
-    ],
-    help: "Monster to sniff with a prank Crimbo card or trick coin (does not autobuy)",
-    default: "none",
-  }),
 });
 
-export function chosenAffiliation(): "none" | "elves" | "pirates" {
-  switch (args.affiliation) {
-    case "none":
-      return "none";
-    case "elves":
-      return "elves";
-    case "pirates":
-      return "pirates";
-    default:
-      throw `Unknown affiliation ${args.affiliation}`;
-  }
+export function getIslands(): HolidayIsland[] {
+  if (!args.island?.length)
+    throw new Error(
+      "Listen, buddy, you've got to pick an Island. It's not clear how we got this far."
+    );
+
+  const islands = args.island
+    .map(
+      (island) =>
+        Object.entries(ISLANDS).find(([key]) => key.toLowerCase() === island.toLowerCase())?.[1]
+    )
+    .filter((x): x is HolidayIsland => !!x);
+  return islands;
 }
 
-let orbTarget: Monster | null = null;
-export function validateAndSetOrbTarget(target: string, zone: string, affiliation: string) {
-  if (target === "none") return;
-  if (!have($item`miniature crystal ball`)) return;
-  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
-  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
-  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
-  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
-  if (!(target in monsters)) throw new Error("Invalid target specified");
-  orbTarget = monsters[target as keyof typeof monsters];
-}
-export function getOrbTarget(): Monster | null {
-  return orbTarget;
-}
+export function getIsland(orb = true): HolidayIsland {
+  const islands = getIslands();
 
-let sniffTarget: Monster | null = null;
-export function validateAndSetSniffTarget(target: string, zone: string, affiliation: string) {
-  if (target === "none") return;
-  if (!(zone in affiliatedZoneMonsters)) throw new Error("Invalid zone specified");
-  const affiliatedMonsters = affiliatedZoneMonsters[zone as keyof typeof affiliatedZoneMonsters];
-  if (!(affiliation in affiliatedMonsters)) throw new Error("Invalid affiliation specified");
-  const monsters = affiliatedMonsters[affiliation as keyof typeof affiliatedMonsters];
-  if (!(target in monsters)) throw new Error("Invalid target specified");
-  sniffTarget = monsters[target as keyof typeof monsters];
-}
-export function getSniffTarget(): Monster | null {
-  return sniffTarget;
+  if (!orb || islands.length === 1) return islands[0];
+
+  const ponderResult = OrbManager.ponder();
+
+  return (
+    islands.find(
+      ({ location, orbTarget }) => ![undefined, orbTarget].includes(ponderResult.get(location))
+    ) ?? islands[0]
+  );
 }
 
 function getCMCChoices(): { [choice: string]: number } {
@@ -268,43 +162,6 @@ export function realmAvailable(identifier: RealmType): boolean {
   return get(`_${identifier}AirportToday`, false) || get(`${identifier}AirportAlways`, false);
 }
 
-export const unsupportedChoices = new Map<Location, { [choice: number]: number | string }>([
-  [$location`The Spooky Forest`, { [502]: 2, [505]: 2 }],
-  [$location`Guano Junction`, { [1427]: 1 }],
-  [$location`The Hidden Apartment Building`, { [780]: 6, [1578]: 6 }],
-  [$location`The Black Forest`, { [923]: 1, [924]: 1 }],
-  [$location`LavaCo™ Lamp Factory`, { [1091]: 9 }],
-  [$location`The Haunted Laboratory`, { [884]: 6 }],
-  [$location`The Haunted Nursery`, { [885]: 6 }],
-  [$location`The Haunted Storage Room`, { [886]: 6 }],
-  [$location`The Hidden Park`, { [789]: 6 }],
-  [$location`A Mob of Zeppelin Protesters`, { [1432]: 1, [857]: 2 }],
-  [$location`A-Boo Peak`, { [1430]: 2 }],
-  [$location`Sloppy Seconds Diner`, { [919]: 6 }],
-  [$location`VYKEA`, { [1115]: 6 }],
-  [
-    $location`The Castle in the Clouds in the Sky (Basement)`,
-    {
-      [670]: 4,
-      [671]: 4,
-      [672]: 1,
-    },
-  ],
-  [
-    $location`The Haunted Bedroom`,
-    {
-      [876]: 1, // old leather wallet, 500 meat
-      [877]: 1, // old coin purse, 500 meat
-      [878]: 1, // 400-600 meat
-      [879]: 2, // grouchy spirit
-      [880]: 2, // a dumb 75 meat club
-    },
-  ],
-  [$location`The Copperhead Club`, { [855]: 4 }],
-  [$location`The Castle in the Clouds in the Sky (Top Floor)`, { [1431]: 1, [677]: 2 }],
-  [$location`The Hidden Office Building`, { [786]: 6 }],
-]);
-
 function untangleDigitizes(turnCount: number, chunks: number): number {
   const turnsPerChunk = turnCount / chunks;
   const monstersPerChunk = Math.sqrt((turnsPerChunk + 3) / 5 + 1 / 4) - 1 / 2;
@@ -315,17 +172,17 @@ function untangleDigitizes(turnCount: number, chunks: number): number {
  *
  * @returns The number of digitized monsters that we expect to fight today
  */
-export function digitizedMonstersRemaining(): number {
+export function digitizedMonstersRemaining(turns = myTurncount()): number {
   if (!SourceTerminal.have()) return 0;
 
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
   if (digitizesLeft === SourceTerminal.getMaximumDigitizeUses()) {
-    return untangleDigitizes(myAdventures(), SourceTerminal.getMaximumDigitizeUses());
+    return untangleDigitizes(turns, SourceTerminal.getMaximumDigitizeUses());
   }
 
   const monsterCount = SourceTerminal.getDigitizeMonsterCount() + 1;
 
-  const turnsLeftAtNextMonster = myAdventures() - Counter.get("Digitize Monster");
+  const turnsLeftAtNextMonster = turns - Counter.get("Digitize Monster");
   if (turnsLeftAtNextMonster <= 0) return 0;
   const turnsAtLastDigitize = turnsLeftAtNextMonster + ((monsterCount + 1) * monsterCount * 5 - 3);
   return (
@@ -334,6 +191,8 @@ export function digitizedMonstersRemaining(): number {
   );
 }
 
-export function shrineGazeIfNecessary(): void {
-  if (getOrbTarget() && !haveEquipped(CrystalBall.orb)) OrbManager.shrineGaze();
-}
+export const canPickpocket = () =>
+  myPrimestat() === $stat`moxie` ||
+  [have, canEquip].some((func) => func($item`mime army infiltration glove`));
+export const shouldPickpocket = () =>
+  myInebriety() <= inebrietyLimit() && canPickpocket() && have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?
