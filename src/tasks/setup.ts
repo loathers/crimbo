@@ -161,6 +161,7 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       completed: () => AutumnAton.currentlyIn() !== null,
       do: (): void => {
         AutumnAton.sendTo(
+          // eslint-disable-next-line libram/verify-constants
           $locations`Christmas Island, The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`
         );
       },
