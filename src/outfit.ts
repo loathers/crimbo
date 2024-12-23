@@ -252,10 +252,15 @@ export function islandOutfit(
 
   // Also: GAP running
   if (
-    TearawayPants.have() &&
-    getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)
+    TearawayPants.have()
   ) {
-    outfit.equip($item`tearaway pants`); // These give some resist, but more importantly they give turngen
+    if (usingOrb) {
+      if (OrbManager.ponder().get(island.location)?.phylum === $phylum`plant`) {
+        outfit.equip($item`tearaway pants`)
+      }
+    } else if (getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)) {
+      outfit.equip($item`tearaway pants`)
+    }
   }
 
   outfit.modifier = [`2 ${island.element} resistance 40 max`, "-combat"];
