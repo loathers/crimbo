@@ -24019,14 +24019,17 @@ function getIslands() {
   return islands;
 }
 function getIsland() {
-  var _islands$find, orb2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !0, islands = getIslands();
+  var _ref3, _islands$find, orb2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !0, islands = getIslands();
   if (!orb2 || islands.length === 1)
     return islands[0];
   var ponderResult = ponder2();
-  return (_islands$find = islands.find(function(_ref3) {
-    var location = _ref3.location, orbTarget = _ref3.orbTarget;
-    return ![void 0, orbTarget].includes(ponderResult.get(location));
-  })) !== null && _islands$find !== void 0 ? _islands$find : islands[0];
+  return (_ref3 = (_islands$find = islands.find(function(_ref4) {
+    var location = _ref4.location, orbTarget = _ref4.orbTarget;
+    return ponderResult.get(location) === orbTarget;
+  })) !== null && _islands$find !== void 0 ? _islands$find : islands.find(function(_ref5) {
+    var location = _ref5.location;
+    return !ponderResult.has(location);
+  })) !== null && _ref3 !== void 0 ? _ref3 : islands[0];
 }
 function getCMCChoices() {
   for (var options = (0, import_kolmafia90.visitUrl)("campground.php?action=workshed"), i = 0, match, entries = [], regexp = /descitem\((\d+)\)/g; (match = regexp.exec(options)) !== null; )
