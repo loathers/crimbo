@@ -1,7 +1,7 @@
 import { Familiar, Item } from "kolmafia";
 import { $familiar, $item, $items, findLeprechaunMultiplier, have } from "libram";
 
-import { garboAverageValue, garboValue } from "../value";
+import { garboValue } from "../value";
 
 import { GeneralFamiliar } from "./lib";
 
@@ -13,7 +13,7 @@ type StandardDropFamiliar = {
 };
 
 function dropValue(drop: Item | Item[]): number {
-  return drop instanceof Item ? garboValue(drop) : garboAverageValue(...drop);
+  return drop instanceof Item ? garboValue(drop) : garboValue(...drop);
 }
 
 function valueStandardDropFamiliar({
@@ -147,7 +147,7 @@ const rotatingFamiliars: StandardDropFamiliar[] = [
     ],
     additionalValue: () =>
       (3 *
-        garboAverageValue(
+        garboValue(
           ...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`
         )) /
       11,

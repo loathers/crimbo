@@ -12,7 +12,7 @@ import {
   Robortender,
 } from "libram";
 
-import { garboAverageValue, garboValue } from "../value";
+import { garboValue } from "../value";
 
 import { GeneralFamiliar, MenuOptions } from "./lib";
 
@@ -30,7 +30,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
     familiar: $familiar`Stocking Mimic`,
     value: ({ allowEquipment }) =>
       (allowEquipment
-        ? garboAverageValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6
+        ? garboValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6
         : 0) +
       (1 / 3 + (have($effect`Jingle Jangle Jingle`) ? 0.1 : 0)) *
         (familiarWeight($familiar`Stocking Mimic`) + weightAdjustment()),
@@ -38,7 +38,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   {
     familiar: $familiar`Shorter-Order Cook`,
     value: ({ allowEquipment }) =>
-      garboAverageValue(
+      garboValue(
         ...$items`short beer, short stack of pancakes, short stick of butter, short glass of water, short white`
       ) / (allowEquipment ? 9 : 11),
   },
@@ -76,7 +76,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
     familiar: $familiar`Cookbookbat`,
     value: () =>
       (3 *
-        garboAverageValue(
+        garboValue(
           ...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`
         )) /
       11,
