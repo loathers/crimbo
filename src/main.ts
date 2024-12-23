@@ -6,10 +6,10 @@ import {
   sinceKolmafiaRevision,
   withProperty,
 } from "libram";
-import Tasks from './tasks'
 
 import { CrimboEngine } from "./engine";
 import { args, printh } from "./lib";
+import Tasks from "./tasks";
 
 export function main(command?: string) {
   Args.fill(args, command);

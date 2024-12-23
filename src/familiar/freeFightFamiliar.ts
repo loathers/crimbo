@@ -2,8 +2,8 @@ import { canOpenRedPresent } from ".";
 import { Familiar, familiarWeight } from "kolmafia";
 import { $familiar, $item, $location, clamp, get, have } from "libram";
 
-import { garboValue } from "../value";
 import { sober } from "../lib";
+import { garboValue } from "../value";
 
 import getConstantValueFamiliars from "./constantValueFamiliars";
 import getDropFamiliars from "./dropFamiliars";

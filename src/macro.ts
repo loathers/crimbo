@@ -178,13 +178,15 @@ export default class Macro extends StrictMacro {
     const monster = getSniffTarget();
     if (monster === null) return this;
     if (monster.phylum === $phylum`elf`) {
-      const prankCardMonster = toMonster(get('_prankCardMonster'));
-      if (prankCardMonster === monster && Counter.get("Prank Card Monster") !== Infinity) return this;
+      const prankCardMonster = toMonster(get("_prankCardMonster"));
+      if (prankCardMonster === monster && Counter.get("Prank Card Monster") !== Infinity)
+        return this;
       // eslint-disable-next-line libram/verify-constants
       return this.if_(monster, Macro.tryHaveItem($item`prank Crimbo card`));
     } else if (monster.phylum === $phylum`pirate`) {
-      const trickCoinMonster = toMonster(get('_trickCoinMonster'));
-      if (trickCoinMonster === monster && Counter.get("Trick Coin Monster") !== Infinity) return this;
+      const trickCoinMonster = toMonster(get("_trickCoinMonster"));
+      if (trickCoinMonster === monster && Counter.get("Trick Coin Monster") !== Infinity)
+        return this;
       // eslint-disable-next-line libram/verify-constants
       return this.if_(monster, Macro.tryHaveItem($item`trick coin`));
     }
@@ -196,7 +198,10 @@ export default class Macro extends StrictMacro {
   }
 
   standardCombat(): this {
-    return this.if_("!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer", "pickpocket")
+    return this.if_(
+      "!monstername Crimbuccaneer mudlark && !monstername Elf Guard engineer",
+      "pickpocket"
+    )
       .tryHaveSkill($skill`Curse of Weaksauce`)
       .trySniff()
       .familiarActions()

@@ -1,10 +1,21 @@
 import { Quest } from "grimoire-kolmafia";
 import { canAdventure, inebrietyLimit, myClass, myInebriety, totalTurnsPlayed } from "kolmafia";
-import { $class, $item, $items, $location, $skill, Counter, get, getKramcoWandererChance, have } from "libram";
+import {
+  $class,
+  $item,
+  $items,
+  $location,
+  $skill,
+  Counter,
+  get,
+  getKramcoWandererChance,
+  have,
+} from "libram";
+
 import { CrimboStrategy, CrimboTask } from "../engine";
-import { chooseQuestOutfit } from "../outfit";
-import { wanderer } from "../wanderer";
 import Macro from "../macro";
+import { wandererOutfit } from "../outfit";
+import { wanderer } from "../wanderer";
 
 let digitizes = get("_sourceTerminalDigitizeMonsterCount");
 
@@ -29,14 +40,14 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       do: () => {
         const location = get("ghostLocation");
         if (location) {
-          return location
+          return location;
         } else {
           throw "Could not determine Proton Ghost location!";
         }
       },
       outfit: () =>
-        chooseQuestOutfit(
-          { location: get("ghostLocation") ?? $location.none, isFree: true },
+        wandererOutfit(
+          { wandererType: get("ghostLocation") ?? $location.none, isFree: true },
           {
             back: $item`protonic accelerator pack`,
             avoid:
@@ -74,11 +85,11 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         get("_voteFreeFights") < 3,
       do: () => wanderer().getTarget("wanderer"),
       outfit: () =>
-        chooseQuestOutfit(
-          { location: wanderer().getTarget("wanderer"), isFree: true },
+        wandererOutfit(
+          { wandererType: "wanderer", isFree: true },
           { acc3: $item`"I Voted!" sticker` }
         ),
-        choices: () => wanderer().getChoices("wanderer"),
+      choices: () => wanderer().getChoices("wanderer"),
       completed: () => get("lastVoteMonsterTurn") === totalTurnsPlayed(),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
       sobriety: "either",
@@ -87,24 +98,24 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       name: "Digitize Wanderer",
       ready: () => Counter.get("Digitize") <= 0,
       outfit: () =>
-        chooseQuestOutfit({
-          location: wanderer().getTarget("wanderer"),
+        wandererOutfit({
+          wandererType: "wanderer",
           isFree: get("_sourceTerminalDigitizeMonster")?.attributes.includes("FREE"),
         }),
       completed: () => get("_sourceTerminalDigitizeMonsterCount") !== digitizes,
-      do: () => wanderer().getTarget("wanderer"), post: () => digitizes = get("_sourceTerminalDigitizeMonsterCount"),
+      do: () => wanderer().getTarget("wanderer"),
+      post: () => (digitizes = get("_sourceTerminalDigitizeMonsterCount")),
       choices: () => wanderer().getChoices("wanderer"),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
       sobriety: "either",
     },
     {
       name: "Void Monster",
-      ready: () =>
-        have($item`cursed magnifying glass`) && get("cursedMagnifyingGlassCount") === 13,
+      ready: () => have($item`cursed magnifying glass`) && get("cursedMagnifyingGlassCount") === 13,
       completed: () => get("_voidFreeFights") >= 5,
       outfit: () =>
-        chooseQuestOutfit(
-          { location: wanderer().getTarget("wanderer"), isFree: true },
+        wandererOutfit(
+          {           wandererType: "wanderer", isFree: true },
           { offhand: $item`cursed magnifying glass` }
         ),
       do: () => wanderer().getTarget("wanderer"),
@@ -117,8 +128,8 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       ready: () => have($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() >= 1,
       completed: () => getKramcoWandererChance() < 1,
       outfit: () =>
-        chooseQuestOutfit(
-          { location: wanderer().getTarget("wanderer"), isFree: true },
+        wandererOutfit(
+          {           wandererType: "wanderer", isFree: true },
           { offhand: $item`Kramco Sausage-o-Matic™` }
         ),
       do: () => wanderer().getTarget("wanderer"),

@@ -1,32 +1,36 @@
+import { DraggableFight } from "garbo-lib";
 import { Outfit, OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
 import {
   canEquip,
   canInteract,
   Familiar,
+  getMonsters,
+  inebrietyLimit,
   Item,
   itemAmount,
   Location,
-  myClass,
+  myInebriety,
   toSlot,
   totalTurnsPlayed,
 } from "kolmafia";
 import {
-  $classes,
   $familiar,
   $familiars,
   $item,
+  $phylum,
   CrystalBall,
   get,
   getRemainingStomach,
   have,
   sumNumbers,
+  TearawayPants,
 } from "libram";
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
-import { garboValue } from "./value";
-import { args, getIsland, realmAvailable, sober } from "./lib";
+import { args, getIsland, realmAvailable, shouldPickpocket, sober } from "./lib";
 import * as OrbManager from "./orbmanager";
-import { HolidayIsland } from "./islands";
+import { garboValue } from "./value";
+import { wanderer } from "./wanderer";
 
 export function ifHave(
   slot: OutfitSlot,
@@ -46,9 +50,8 @@ export const orbSpec = () => {
 
   const prediction = OrbManager.ponder().get(island.location);
   if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
-  return {}
-}
-
+  return {};
+};
 
 function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
   return outfits.reduce((current, next) => ({ ...next, ...current }), {});
@@ -60,6 +63,7 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (args.shrub && options.location?.zone === "Holiday Islands" && get("shrubGifts") === "gifts") {
     return $familiar`Crimbo Shrub`;
   }
+  if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   return (
     (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
       have(f)
@@ -67,11 +71,12 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   );
 };
 
-type TaskOptions = { location: Location; isFree?: boolean };
-export function chooseQuestOutfit(
-  { location, isFree }: TaskOptions,
+type TaskOptions = { wandererType: DraggableFight | Location; isFree?: boolean };
+export function wandererOutfit(
+  { wandererType, isFree }: TaskOptions,
   ...outfits: OutfitSpec[]
 ): OutfitSpec {
+  const location = wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType);
   const mergedOutfits = mergeSpecs(...outfits);
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
@@ -174,7 +179,7 @@ function luckyGoldRing() {
   return sumNumbers(dropValues) / dropValues.length / 10;
 }
 
-type AccessoryOptions = {location: Location; isFree?: boolean };
+type AccessoryOptions = { location: Location; isFree?: boolean };
 const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => number }[] = [
   {
     item: $item`mafia thumb ring`,
@@ -203,10 +208,55 @@ function getBestAccessories(location: Location, isFree?: boolean) {
     .splice(0, 3);
 }
 
-export function islandOutfit(fight: "freekill" | "freerun" | "regular", baseSpec: OutfitSpec = {}): Outfit {
-  const outfit = Outfit.from(baseSpec, new Error(`Failed to construct outfit from spec: ${baseSpec}`));
+export function islandOutfit(
+  fight: "freekill" | "freerun" | "regular",
+  baseSpec: OutfitSpec = {}
+): Outfit {
+  const outfit = Outfit.from(
+    baseSpec,
+    new Error(`Failed to construct outfit from spec: ${baseSpec}`)
+  );
   const island = getIsland();
+  const usingOrb =
+    fight !== "freerun" &&
+    CrystalBall.have() &&
+    [undefined, island.orbTarget].includes(OrbManager.ponder().get(island.location));
 
+  if (usingOrb) outfit.equip(CrystalBall.orb);
+
+  outfit.familiar ??= chooseFamiliar({
+    allowEquipment: !usingOrb,
+    allowAttackFamiliars: fight === "regular",
+  });
+
+  outfit.equip(
+    mergeSpecs(
+      ifHave("offhand", $item`Drunkula's wineglass`, () => myInebriety() > inebrietyLimit()),
+      ifHave("offhand", $item`deft pirate hook`, () => shouldPickpocket() && fight === "regular"),
+      ifHave("offhand", $item`carnivorous potted plant`)
+    )
+  );
+
+  if (fight === "regular") outfit.equip(ifHave("acc1", $item`mafia thumb ring`));
+
+  // Do we try other weapons? Saber?
+  outfit.equip(ifHave("weapon", $item`June cleaver`));
+
+  // Also: GAP running
+  if (
+    TearawayPants.have() &&
+    getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)
+  ) {
+    outfit.equip($item`tearaway pants`); // These give some resist, but more importantly they give turngen
+  }
+
+  outfit.modifier = [`2 ${island.element} resistance 40 max`, "-combat"];
+
+  if ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (Familiar | undefined)[]) {
+    outfit.modifier.push("0.01 Familiar Weight");
+  } else {
+    outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
+  }
 
   return outfit;
 }
