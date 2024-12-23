@@ -48,7 +48,7 @@ const Christmas: HolidayIsland = {
   // eslint-disable-next-line libram/verify-constants
   orbTarget: $monster`magically-animated snowman`,
   choice: 1542,
-  currency: $item`Spirit of Christmas`
-}
+  currency: $item`Spirit of Christmas`,
+};
 
 export default { Easter, StPatricksDay, VeteransDay, Thanksgiving, Christmas };

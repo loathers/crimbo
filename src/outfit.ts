@@ -64,7 +64,7 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Holiday Islands") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
-    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`
+    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
     (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
@@ -248,18 +248,17 @@ export function islandOutfit(
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
-  if (get("_spikolodonSpikeUses") < 5) outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon"}})
+  if (get("_spikolodonSpikeUses") < 5)
+    outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
 
   // Also: GAP running
-  if (
-    TearawayPants.have()
-  ) {
+  if (TearawayPants.have()) {
     if (usingOrb) {
       if (OrbManager.ponder().get(island.location)?.phylum === $phylum`plant`) {
-        outfit.equip($item`tearaway pants`)
+        outfit.equip($item`tearaway pants`);
       }
     } else if (getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)) {
-      outfit.equip($item`tearaway pants`)
+      outfit.equip($item`tearaway pants`);
     }
   }
 

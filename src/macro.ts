@@ -222,7 +222,13 @@ export default class Macro extends StrictMacro {
   }
 
   islandKillWith(thing: Item | Skill): this {
-    return this.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).itemOrSkill(thing);
+    return this.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .itemOrSkill(thing);
   }
 
   static islandKillWith(thing: Item | Skill): Macro {
@@ -230,7 +236,13 @@ export default class Macro extends StrictMacro {
   }
 
   islandRunWith(thing: Item | Skill): this {
-    return this.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).itemOrSkill(thing);
+    return this.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .itemOrSkill(thing);
   }
 
   static islandRunWith(thing: Item | Skill): Macro {
@@ -238,6 +250,13 @@ export default class Macro extends StrictMacro {
   }
 
   static islandCombat(): Macro {
-    return Macro.pickpocket().trySkill($skill`Launch spikolodon spikes`).externalIf(haveEquipped($item`tearaway pants`), Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))).attack().repeat();
+    return Macro.pickpocket()
+      .trySkill($skill`Launch spikolodon spikes`)
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+      )
+      .attack()
+      .repeat();
   }
 }

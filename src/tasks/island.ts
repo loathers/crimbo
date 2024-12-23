@@ -173,9 +173,11 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         {
           completed: () => get("_shadowBricksUsed") >= 13,
           ready: () => mallPrice($item`shadow brick`) < get("valueOfAdventure"),
-          acquire: [{
-            item: $item`shadow brick`
-          }]
+          acquire: [
+            {
+              item: $item`shadow brick`,
+            },
+          ],
         },
         $item`shadow brick`
       ),

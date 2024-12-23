@@ -190,7 +190,7 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       completed: () => have($effect`Apriling Band Patrol Beat`),
       ready: () => AprilingBandHelmet.canChangeSong(),
       do: () => AprilingBandHelmet.changeSong("Apriling Band Patrol Beat"),
-      sobriety: "either"
+      sobriety: "either",
     },
     {
       name: "Boombox",
