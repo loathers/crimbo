@@ -97,6 +97,7 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       freeRunTask(
         {
           ready: () => AsdonMartin.installed(),
+          prepare: () => AsdonMartin.fillTo(50),
           completed: () =>
             getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
         },
