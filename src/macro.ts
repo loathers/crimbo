@@ -134,7 +134,7 @@ export default class Macro extends StrictMacro {
 
     return this.externalIf(
       myPrimestat() === $stat`mysticality`,
-      Macro.trySkillRepeat($skill`Saucegeyser`)
+      Macro.ifNot($monster`Section 11`, Macro.trySkillRepeat($skill`Saucegeyser`))
     )
       .externalIf(
         haveSkill($skill`Shieldbutt`) &&
@@ -258,6 +258,6 @@ export default class Macro extends StrictMacro {
       )
       .attack()
       .repeat("!pastround 3")
-      .hardCombat()
+      .hardCombat();
   }
 }
