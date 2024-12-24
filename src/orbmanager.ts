@@ -14,17 +14,21 @@ import { $location, CrystalBall, get, withChoices } from "libram";
 let currentPonder = CrystalBall.ponder();
 let ponderIsValid = true;
 
-function updatePonder(): void {
+function updatePrediction(): void {
   if (CrystalBall.have()) currentPonder = CrystalBall.ponder();
   ponderIsValid = true;
 }
 export function ponder(): Map<Location, Monster> {
-  if (!ponderIsValid) updatePonder();
+  if (!ponderIsValid) updatePrediction();
   return currentPonder;
 }
 
 export function invalidate(): void {
   ponderIsValid = false;
+}
+
+export function update(): void {
+  currentPonder = CrystalBall.getPrediction();
 }
 
 export function shrineGaze(): void {

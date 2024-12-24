@@ -17,6 +17,7 @@ import * as OrbManager from "./orbmanager";
 
 export type CrimboTask = Task & {
   sobriety: "sober" | "drunk" | "either";
+  complicatedOrb?: boolean;
 };
 
 export type CrimboQuest = Quest<CrimboTask>;
@@ -34,7 +35,8 @@ const chooseRider = () => CrownOfThrones.pickRider("default");
 export class CrimboEngine extends Engine<never, CrimboTask> {
   do(task: CrimboTask): void {
     super.do(task);
-    OrbManager.invalidate();
+    if (task.complicatedOrb) OrbManager.invalidate();
+    else OrbManager.update();
   }
 
   available(task: CrimboTask): boolean {
