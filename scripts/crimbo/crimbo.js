@@ -20283,7 +20283,7 @@ var require_value = __commonJS({
   "node_modules/garbo-lib/dist/value.js": function(exports) {
     "use strict";
     init_kolmafia_polyfill();
-    var _templateObject675, _templateObject2162, _templateObject3149, _templateObject4131, _templateObject5105, _templateObject676, _templateObject765, _templateObject856, _templateObject945, _templateObject1040, _templateObject1137, _templateObject1235, _templateObject1333, _templateObject1431, _templateObject1528, _templateObject1628, _templateObject1728, _templateObject1828, _templateObject1926, _templateObject2026, _templateObject2163, _templateObject2226, _templateObject2325, _templateObject2424, _templateObject2523, _templateObject2621, _templateObject2721, _templateObject2819, _templateObject2919, _templateObject3019, _templateObject3150, _templateObject3221, _templateObject3319, _templateObject3417, _templateObject3516, _templateObject3616, _templateObject3716, _templateObject3816, _templateObject3916, _templateObject4016, _templateObject4132, _templateObject4218, _templateObject4317, _templateObject4416, _templateObject4516, _templateObject4616, _templateObject4716, _templateObject4814, _templateObject4914, _templateObject5013, _templateObject5115, _templateObject5215, _templateObject5314, _templateObject5414, _templateObject5513, _templateObject5611, _templateObject5711, _templateObject5810, _templateObject5910, _templateObject6010, _templateObject6112, _templateObject6211, _templateObject6311, _templateObject6411, _templateObject6510, _templateObject6610, _templateObject677;
+    var _templateObject675, _templateObject2162, _templateObject3149, _templateObject4131, _templateObject5105, _templateObject676, _templateObject765, _templateObject856, _templateObject945, _templateObject1040, _templateObject1137, _templateObject1235, _templateObject1333, _templateObject1431, _templateObject1528, _templateObject1628, _templateObject1728, _templateObject1828, _templateObject1926, _templateObject2026, _templateObject2163, _templateObject2226, _templateObject2325, _templateObject2424, _templateObject2523, _templateObject2621, _templateObject2721, _templateObject2819, _templateObject2919, _templateObject3019, _templateObject3150, _templateObject3221, _templateObject3320, _templateObject3418, _templateObject3517, _templateObject3616, _templateObject3716, _templateObject3816, _templateObject3916, _templateObject4016, _templateObject4132, _templateObject4218, _templateObject4317, _templateObject4416, _templateObject4516, _templateObject4616, _templateObject4716, _templateObject4814, _templateObject4914, _templateObject5013, _templateObject5115, _templateObject5215, _templateObject5314, _templateObject5414, _templateObject5513, _templateObject5611, _templateObject5711, _templateObject5810, _templateObject5910, _templateObject6010, _templateObject6112, _templateObject6211, _templateObject6311, _templateObject6411, _templateObject6510, _templateObject6610, _templateObject677;
     function _createForOfIteratorHelper26(o, allowArrayLike) {
       var it = typeof Symbol != "undefined" && o[Symbol.iterator] || o["@@iterator"];
       if (!it) {
@@ -20403,9 +20403,9 @@ var require_value = __commonJS({
         return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3019 || (_templateObject3019 = _taggedTemplateLiteral93(["gibson, gin and tonic, mimosette, tequila sunset, vodka and tonic, zmobie"])))));
       }], [(0, libram_1.$item)(_templateObject3150 || (_templateObject3150 = _taggedTemplateLiteral93(["weathered barrel"]))), function() {
         return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3221 || (_templateObject3221 = _taggedTemplateLiteral93(["bean burrito, enchanted bean burrito, jumping bean burrito"])))));
-      }], [(0, libram_1.$item)(_templateObject3319 || (_templateObject3319 = _taggedTemplateLiteral93(["dusty barrel"]))), function() {
-        return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3417 || (_templateObject3417 = _taggedTemplateLiteral93(["spicy bean burrito, spicy enchanted bean burrito, spicy jumping bean burrito"])))));
-      }], [(0, libram_1.$item)(_templateObject3516 || (_templateObject3516 = _taggedTemplateLiteral93(["disintegrating barrel"]))), function() {
+      }], [(0, libram_1.$item)(_templateObject3320 || (_templateObject3320 = _taggedTemplateLiteral93(["dusty barrel"]))), function() {
+        return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3418 || (_templateObject3418 = _taggedTemplateLiteral93(["spicy bean burrito, spicy enchanted bean burrito, spicy jumping bean burrito"])))));
+      }], [(0, libram_1.$item)(_templateObject3517 || (_templateObject3517 = _taggedTemplateLiteral93(["disintegrating barrel"]))), function() {
         return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3616 || (_templateObject3616 = _taggedTemplateLiteral93(["insanely spicy bean burrito, insanely spicy enchanted bean burrito, insanely spicy jumping bean burrito"])))));
       }], [(0, libram_1.$item)(_templateObject3716 || (_templateObject3716 = _taggedTemplateLiteral93(["moist barrel"]))), function() {
         return averageValue.apply(void 0, _toConsumableArray36((0, libram_1.$items)(_templateObject3816 || (_templateObject3816 = _taggedTemplateLiteral93(["cast, concentrated magicalness pill, enchanted barbell, giant moxie weed, Mountain Stream soda"])))));
@@ -21054,7 +21054,7 @@ var require_wanderer = __commonJS({
   "node_modules/garbo-lib/dist/wanderer/index.js": function(exports) {
     "use strict";
     init_kolmafia_polyfill();
-    var _templateObject675, _templateObject2162, _templateObject3149, _templateObject4131, _templateObject5105, _templateObject676, _templateObject765, _templateObject856, _templateObject945, _templateObject1040, _templateObject1137, _templateObject1235, _templateObject1333, _templateObject1431, _templateObject1528, _templateObject1628, _templateObject1728, _templateObject1828, _templateObject1926, _templateObject2026, _templateObject2163, _templateObject2226, _templateObject2325, _templateObject2424, _templateObject2523, _templateObject2621, _templateObject2721, _templateObject2819, _templateObject2919, _templateObject3019, _templateObject3150, _templateObject3221, _templateObject3319, _templateObject3417;
+    var _templateObject675, _templateObject2162, _templateObject3149, _templateObject4131, _templateObject5105, _templateObject676, _templateObject765, _templateObject856, _templateObject945, _templateObject1040, _templateObject1137, _templateObject1235, _templateObject1333, _templateObject1431, _templateObject1528, _templateObject1628, _templateObject1728, _templateObject1828, _templateObject1926, _templateObject2026, _templateObject2163, _templateObject2226, _templateObject2325, _templateObject2424, _templateObject2523, _templateObject2621, _templateObject2721, _templateObject2819, _templateObject2919, _templateObject3019, _templateObject3150, _templateObject3221, _templateObject3320, _templateObject3418;
     function ownKeys19(object, enumerableOnly) {
       var keys = Object.keys(object);
       if (Object.getOwnPropertySymbols) {
@@ -21338,7 +21338,7 @@ var require_wanderer = __commonJS({
           return l.zone === "The 8-Bit Realm";
         }).map(function(l) {
           return [l, (0, libram_1.$items)(_templateObject3150 || (_templateObject3150 = _taggedTemplateLiteral93(["continuum transfunctioner"])))];
-        })), [[(0, libram_1.$location)(_templateObject3221 || (_templateObject3221 = _taggedTemplateLiteral93(["Shadow Rift (The 8-Bit Realm)"]))), (0, libram_1.$items)(_templateObject3319 || (_templateObject3319 = _taggedTemplateLiteral93(["continuum transfunctioner"])))]]))), _defineProperty33(this, "cacheKey", ""), _defineProperty33(this, "targets", {}), _defineProperty33(this, "options", void 0), this.options = _options;
+        })), [[(0, libram_1.$location)(_templateObject3221 || (_templateObject3221 = _taggedTemplateLiteral93(["Shadow Rift (The 8-Bit Realm)"]))), (0, libram_1.$items)(_templateObject3320 || (_templateObject3320 = _taggedTemplateLiteral93(["continuum transfunctioner"])))]]))), _defineProperty33(this, "cacheKey", ""), _defineProperty33(this, "targets", {}), _defineProperty33(this, "options", void 0), this.options = _options;
       }
       return _createClass27(WandererManager3, [{
         key: "getTarget",
@@ -21352,7 +21352,7 @@ var require_wanderer = __commonJS({
           }, draggableFight = _ref.draggableFight, options = _ref.options, _defaultWanderOptions = _objectSpread19(_objectSpread19({}, defaultWanderOptions), options), drunkSafe = _defaultWanderOptions.drunkSafe, allowEquipment = _defaultWanderOptions.allowEquipment, newKey = "".concat((0, kolmafia_1.myTotalTurnsSpent)(), ";").concat((0, kolmafia_1.totalTurnsPlayed)(), ";").concat((0, libram_1.get)("familiarSweat"));
           this.cacheKey !== newKey && this.clear(), this.cacheKey = newKey;
           var locationSkipList = allowEquipment ? [] : _toConsumableArray36(this.equipment.keys());
-          return sober2() || !drunkSafe ? (_this$targets$_ref = (_this$targets = this.targets)[_ref2 = "".concat(draggableFight, ":").concat(allowEquipment)]) !== null && _this$targets$_ref !== void 0 ? _this$targets$_ref : _this$targets[_ref2] = wanderWhere(this.options, draggableFight, [], locationSkipList) : (0, libram_1.$location)(_templateObject3417 || (_templateObject3417 = _taggedTemplateLiteral93(["Drunken Stupor"])));
+          return sober2() || !drunkSafe ? (_this$targets$_ref = (_this$targets = this.targets)[_ref2 = "".concat(draggableFight, ":").concat(allowEquipment)]) !== null && _this$targets$_ref !== void 0 ? _this$targets$_ref : _this$targets[_ref2] = wanderWhere(this.options, draggableFight, [], locationSkipList) : (0, libram_1.$location)(_templateObject3418 || (_templateObject3418 = _taggedTemplateLiteral93(["Drunken Stupor"])));
         }
       }, {
         key: "getChoices",
@@ -25814,7 +25814,7 @@ var ISLAND_QUEST = {
 init_kolmafia_polyfill();
 var import_kolmafia101 = require("kolmafia");
 init_dist();
-var _templateObject608, _templateObject2160, _templateObject3147, _templateObject4130, _templateObject5104, _templateObject671, _templateObject764, _templateObject855, _templateObject944, _templateObject1039, _templateObject1136, _templateObject1234, _templateObject1332, _templateObject1430, _templateObject1527, _templateObject1627, _templateObject1727, _templateObject1827, _templateObject1925, _templateObject2025, _templateObject2161, _templateObject2225, _templateObject2324, _templateObject2423, _templateObject2522, _templateObject2620, _templateObject2720, _templateObject2818, _templateObject2918, _templateObject3018, _templateObject3148, _templateObject3220;
+var _templateObject608, _templateObject2160, _templateObject3147, _templateObject4130, _templateObject5104, _templateObject671, _templateObject764, _templateObject855, _templateObject944, _templateObject1039, _templateObject1136, _templateObject1234, _templateObject1332, _templateObject1430, _templateObject1527, _templateObject1627, _templateObject1727, _templateObject1827, _templateObject1925, _templateObject2025, _templateObject2161, _templateObject2225, _templateObject2324, _templateObject2423, _templateObject2522, _templateObject2620, _templateObject2720, _templateObject2818, _templateObject2918, _templateObject3018, _templateObject3148, _templateObject3220, _templateObject3319, _templateObject3417, _templateObject3516;
 function _taggedTemplateLiteral91(strings, raw) {
   return raw || (raw = strings.slice(0)), Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } }));
 }
@@ -26009,6 +26009,18 @@ var SETUP_QUEST = {
     },
     do: function() {
       return SongBoom_exports.setSong("Food Vibrations");
+    },
+    sobriety: "either"
+  }, {
+    name: "Futuristic Gear",
+    completed: function() {
+      return have($item(_templateObject3319 || (_templateObject3319 = _taggedTemplateLiteral91(["futuristic shirt"]))));
+    },
+    ready: function() {
+      return have($item(_templateObject3417 || (_templateObject3417 = _taggedTemplateLiteral91(["wardrobe-o-matic"])))) && (0, import_kolmafia101.myLevel)() >= 20;
+    },
+    do: function() {
+      return (0, import_kolmafia101.use)($item(_templateObject3516 || (_templateObject3516 = _taggedTemplateLiteral91(["wardrobe-o-matic"]))));
     },
     sobriety: "either"
   }]
