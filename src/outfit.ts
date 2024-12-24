@@ -64,6 +64,10 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Holiday Islands") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
+
+    const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);
+    if (adventuresFamiliar) return adventuresFamiliar;
+
     if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
