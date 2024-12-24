@@ -25203,6 +25203,9 @@ var adventuresFamiliars = function(allowEquipment) {
   if (((_options$location = options.location) === null || _options$location === void 0 ? void 0 : _options$location.zone) === "Holiday Islands") {
     if (args.shrub && get("shrubGifts") === "gifts")
       return $familiar(_templateObject4125 || (_templateObject4125 = _taggedTemplateLiteral88(["Crimbo Shrub"])));
+    var adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);
+    if (adventuresFamiliar)
+      return adventuresFamiliar;
     if (have($familiar(_templateObject5101 || (_templateObject5101 = _taggedTemplateLiteral88(["Peace Turkey"])))))
       return $familiar(_templateObject668 || (_templateObject668 = _taggedTemplateLiteral88(["Peace Turkey"])));
   }
