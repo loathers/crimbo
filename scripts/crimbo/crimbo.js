@@ -25615,6 +25615,9 @@ var ISLAND_QUEST = {
       ready: function() {
         return AsdonMartin_exports.installed();
       },
+      prepare: function() {
+        return AsdonMartin_exports.fillTo(50);
+      },
       completed: function() {
         return getBanishedMonsters().has($skill(_templateObject1038 || (_templateObject1038 = _taggedTemplateLiteral90(["Asdon Martin: Spring-Loaded Front Bumper"]))));
       }
