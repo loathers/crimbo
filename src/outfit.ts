@@ -59,7 +59,9 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 }
 
 const adventuresFamiliars = (allowEquipment?: boolean) =>
-  allowEquipment && have($item`gnomish housemaid's kgnee`) ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
+  allowEquipment && have($item`gnomish housemaid's kgnee`)
+    ? $familiars`Temporal Riftlet, Reagnimated Gnome`
+    : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Holiday Islands") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
@@ -235,7 +237,8 @@ export function islandOutfit(
     allowAttackFamiliars: fight === "regular",
   });
 
-  if (outfit.familiar === $familiar`Reagnimated Gnome`) outfit.equip($item`gnomish housemaid's kgnee`)
+  if (outfit.familiar === $familiar`Reagnimated Gnome`)
+    outfit.equip($item`gnomish housemaid's kgnee`);
 
   if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`)
     outfit.equip(ifHave("acc2", $item`mime army infiltration glove`));
