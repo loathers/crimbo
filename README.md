@@ -18,18 +18,14 @@ You can specify the number of turns to run (use negative numbers for the number 
 
 `crimbo turns=10`
 
-You can specify which zone to adventure in, default rotates on availability.
+You must specify which island to adventure in.
 
-`crimbo zone=bar`
-`crimbo zone=cottage`
-`crimbo zone=foundry`
+`crimbo island=easter`
+`crimbo island=stpatricksday`
+`crimbo island=veteransday`
+`crimbo island=thanksgiving`
+`crimbo island=christmas`
 
-You can specify an affiliation which affects the monsters you encounter.
-
-`crimbo affiliation=elves`
-`crimbo affiliation=pirates`
-`crimbo affiliation=none`
-
-Use the help argument for more details.
+Use the help argument for more details and other options.
 
 `crimbo help`
