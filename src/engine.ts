@@ -19,7 +19,7 @@ import {
 } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { getIsland, printd, sober } from "./lib";
+import { getIslands, printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
@@ -45,7 +45,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
     if (
       CrystalBall.have() &&
       !haveEquipped(CrystalBall.orb) &&
-      CrystalBall.getPrediction().has(getIsland().location)
+      getIslands().some(({ location }) => CrystalBall.getPrediction().has(location))
     ) {
       OrbManager.shrineGaze();
     }
