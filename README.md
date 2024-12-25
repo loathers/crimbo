@@ -26,6 +26,10 @@ You must specify which island to adventure in.
 `crimbo island=thanksgiving`
 `crimbo island=christmas`
 
+You can also specify two islands, separated by commas _if you have the miniature crystal ball_:
+
+`crimbo island=stpatricksday,veteransday`
+
 Use the help argument for more details and other options.
 
 `crimbo help`
