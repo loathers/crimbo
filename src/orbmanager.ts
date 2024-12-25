@@ -1,31 +1,5 @@
-import {
-  adv1,
-  canAdventure,
-  equip,
-  Location,
-  Monster,
-  print,
-  runChoice,
-  toUrl,
-  visitUrl,
-} from "kolmafia";
+import { adv1, canAdventure, equip, print, runChoice, toUrl, visitUrl } from "kolmafia";
 import { $location, CrystalBall, get, withChoices } from "libram";
-
-let currentPonder = CrystalBall.ponder();
-let ponderIsValid = true;
-
-function updatePonder(): void {
-  if (CrystalBall.have()) currentPonder = CrystalBall.ponder();
-  ponderIsValid = true;
-}
-export function ponder(): Map<Location, Monster> {
-  if (!ponderIsValid) updatePonder();
-  return currentPonder;
-}
-
-export function invalidate(): void {
-  ponderIsValid = false;
-}
 
 export function shrineGaze(): void {
   const hiddencity = get("hiddenBowlingAlleyProgress") !== 8;
@@ -64,4 +38,6 @@ export function shrineGaze(): void {
     } catch (e) {
       print(`We ran into an issue when gazing at a shrine for balls: ${e}.`, "red");
     }
+
+  CrystalBall.ponder();
 }

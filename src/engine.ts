@@ -8,10 +8,18 @@ import {
   itemAmount,
   setAutoAttack,
 } from "kolmafia";
-import { $familiar, $item, CrownOfThrones, get, JuneCleaver, PropertiesManager } from "libram";
+import {
+  $familiar,
+  $item,
+  CrownOfThrones,
+  CrystalBall,
+  get,
+  JuneCleaver,
+  PropertiesManager,
+} from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { printd, sober } from "./lib";
+import { getIsland, printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
@@ -34,7 +42,13 @@ const chooseRider = () => CrownOfThrones.pickRider("default");
 export class CrimboEngine extends Engine<never, CrimboTask> {
   do(task: CrimboTask): void {
     super.do(task);
-    OrbManager.invalidate();
+    if (
+      CrystalBall.have() &&
+      !haveEquipped(CrystalBall.orb) &&
+      CrystalBall.getPrediction().has(getIsland().location)
+    ) {
+      OrbManager.shrineGaze();
+    }
   }
 
   available(task: CrimboTask): boolean {
