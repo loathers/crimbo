@@ -17,7 +17,6 @@ import {
 import { $familiar, $item, $stat, Counter, CrystalBall, get, have, SourceTerminal } from "libram";
 
 import ISLANDS, { HolidayIsland } from "./islands";
-import * as OrbManager from "./orbmanager";
 
 export type Island = keyof typeof ISLANDS;
 
@@ -116,7 +115,7 @@ export function getIsland(orb = true): HolidayIsland {
 
   if (!orb || islands.length === 1) return islands[0];
 
-  const ponderResult = OrbManager.ponder();
+  const ponderResult = CrystalBall.getPrediction();
 
   return (
     islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget) ??
