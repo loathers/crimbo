@@ -30,7 +30,6 @@ import {
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
 import { args, getIsland, realmAvailable, shouldPickpocket, sober } from "./lib";
-import * as OrbManager from "./orbmanager";
 import { garboValue } from "./value";
 import { wanderer } from "./wanderer";
 
@@ -50,7 +49,7 @@ export const orbSpec = () => {
   if (!CrystalBall.have()) return {};
   const island = getIsland();
 
-  const prediction = OrbManager.ponder().get(island.location);
+  const prediction = CrystalBall.getPrediction().get(island.location);
   if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
   return {};
 };
@@ -60,7 +59,9 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 }
 
 const adventuresFamiliars = (allowEquipment?: boolean) =>
-  allowEquipment && have($item`gnomish housemaid's kgnee`) ? $familiars`Temporal Riftlet, Reagnimated Gnome` : $familiars`Temporal Riftlet`;
+  allowEquipment && have($item`gnomish housemaid's kgnee`)
+    ? $familiars`Temporal Riftlet, Reagnimated Gnome`
+    : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Holiday Islands") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
@@ -226,7 +227,7 @@ export function islandOutfit(
   const usingOrb =
     fight !== "freerun" &&
     CrystalBall.have() &&
-    [undefined, island.orbTarget].includes(OrbManager.ponder().get(island.location));
+    [undefined, island.orbTarget].includes(CrystalBall.getPrediction().get(island.location));
 
   if (usingOrb) outfit.equip(CrystalBall.orb);
 
@@ -236,7 +237,8 @@ export function islandOutfit(
     allowAttackFamiliars: fight === "regular",
   });
 
-  if (outfit.familiar === $familiar`Reagnimated Gnome`) outfit.equip($item`gnomish housemaid's kgnee`)
+  if (outfit.familiar === $familiar`Reagnimated Gnome`)
+    outfit.equip($item`gnomish housemaid's kgnee`);
 
   // acc1 reserved for outfit args
   // acc2 used here
@@ -263,7 +265,7 @@ export function islandOutfit(
   // Also: GAP running
   if (TearawayPants.have()) {
     if (usingOrb) {
-      if (OrbManager.ponder().get(island.location)?.phylum === $phylum`plant`) {
+      if (CrystalBall.getPrediction().get(island.location)?.phylum === $phylum`plant`) {
         outfit.equip($item`tearaway pants`);
       }
     } else if (getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)) {
