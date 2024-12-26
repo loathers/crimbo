@@ -238,6 +238,9 @@ export function islandOutfit(
 
   if (outfit.familiar === $familiar`Reagnimated Gnome`) outfit.equip($item`gnomish housemaid's kgnee`)
 
+  // acc1 reserved for outfit args
+  // acc2 used here
+  // acc3 for thumb ring
   if (shouldPickpocket() && myPrimestat() !== $stat`Moxie`)
     outfit.equip(ifHave("acc2", $item`mime army infiltration glove`));
 
@@ -249,7 +252,7 @@ export function islandOutfit(
     )
   );
 
-  if (fight === "regular") outfit.equip(ifHave("acc1", $item`mafia thumb ring`));
+  if (fight === "regular") outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
 
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
