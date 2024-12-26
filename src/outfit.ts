@@ -273,10 +273,10 @@ export function islandOutfit(
     }
   }
 
-  outfit.modifier = [`2 ${island.element} resistance 40 max`, "-combat -35 min"];
+  outfit.modifier = [`200 ${island.element} resistance 40 max`, "-100 combat -35 min", "-tie"];
 
   if ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (Familiar | undefined)[]) {
-    outfit.modifier.push("0.01 Familiar Weight");
+    outfit.modifier.push("1 Familiar Weight");
   } else {
     outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
   }
