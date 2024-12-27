@@ -222,6 +222,10 @@ export default class Macro extends StrictMacro {
 
   islandKillWith(thing: Item | Skill): this {
     return this.pickpocket()
+      .if_(
+        `!haseffect 2881 && monstername spectre of war`,
+        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
+      )
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
@@ -236,6 +240,10 @@ export default class Macro extends StrictMacro {
 
   islandRunWith(thing: Item | Skill): this {
     return this.pickpocket()
+      .if_(
+        `!haseffect 2881 && monstername spectre of war`,
+        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
+      )
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
@@ -250,6 +258,10 @@ export default class Macro extends StrictMacro {
 
   static islandCombat(): Macro {
     return Macro.pickpocket()
+      .if_(
+        `!haseffect 2881 && monstername spectre of war`,
+        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
+      )
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
