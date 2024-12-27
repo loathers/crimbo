@@ -224,7 +224,8 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
           completed: () => get("_reflexHammerUsed") >= 3,
           ready: () => have($item`Lil' Doctor™ bag`),
         },
-        $skill`Reflex Hammer`
+        $skill`Reflex Hammer`,
+        { acc1: $item`Lil' Doctor™ bag` }
       ),
       // Regular Attack
       {

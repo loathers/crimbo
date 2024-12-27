@@ -17,7 +17,6 @@ import {
 import { $familiar, $item, $stat, Counter, CrystalBall, get, have, SourceTerminal } from "libram";
 
 import ISLANDS, { HolidayIsland } from "./islands";
-import * as OrbManager from "./orbmanager";
 
 export type Island = keyof typeof ISLANDS;
 
@@ -64,9 +63,9 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
       help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map(
         (island) => island.toLowerCase()
       )}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`,
-      default: [],
+      default: [] as Island[],
     },
-    (str) => {
+    (str): Island[] | ParseError => {
       const splitStr = str.split(",").filter(Boolean);
       if (![1, 2].includes(splitStr.length))
         return new ParseError("Please select at least 1 island, and at most 2");
@@ -80,7 +79,7 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
             (island) => island.toLowerCase() === islandName.toLowerCase()
           ) ?? new ParseError(`Cannot find island for string ${islandName}`)
       );
-      const error = mappedStr.find((el) => el instanceof ParseError);
+      const error = mappedStr.find((el): el is ParseError => el instanceof ParseError);
       if (error) return error;
       return mappedStr as Island[];
     },
@@ -116,7 +115,7 @@ export function getIsland(orb = true): HolidayIsland {
 
   if (!orb || islands.length === 1) return islands[0];
 
-  const ponderResult = OrbManager.ponder();
+  const ponderResult = CrystalBall.getPrediction();
 
   return (
     islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget) ??
