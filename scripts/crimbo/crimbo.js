@@ -25355,7 +25355,7 @@ function islandOutfit(fight) {
         var phylum = _ref8.phylum;
         return phylum === $phylum(_templateObject5512 || (_templateObject5512 = _taggedTemplateLiteral89(["plant"])));
       }) && outfit2.equip($item(_templateObject5611 || (_templateObject5611 = _taggedTemplateLiteral89(["tearaway pants"]))));
-  return outfit2.modifier = ["2 ".concat(island.element, " resistance 40 max"), "-combat -35 min"], $familiars(_templateObject5711 || (_templateObject5711 = _taggedTemplateLiteral89(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"]))) ? outfit2.modifier.push("0.01 Familiar Weight") : outfit2.equip(ifHave("famequip", $item(_templateObject5810 || (_templateObject5810 = _taggedTemplateLiteral89(["tiny stillsuit"]))))), outfit2;
+  return outfit2.modifier = ["200 ".concat(island.element, " resistance 40 max"), "-100 combat -35 min", "-tie"], $familiars(_templateObject5711 || (_templateObject5711 = _taggedTemplateLiteral89(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"]))) ? outfit2.modifier.push("1 Familiar Weight") : outfit2.equip(ifHave("famequip", $item(_templateObject5810 || (_templateObject5810 = _taggedTemplateLiteral89(["tiny stillsuit"]))))), outfit2;
 }
 
 // src/tasks/global.ts
