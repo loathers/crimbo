@@ -275,7 +275,7 @@ export function islandOutfit(
   }
 
   // Free run on reg fights, but only if we wouldn't waffle away from them
-  if (fight === "regular" && !(args.waffles && itemAmount($item`waffle`))) {
+  if (args.freeruns && fight === "regular" && !(args.waffles && itemAmount($item`waffle`))) {
     if (!outfit.haveEquipped($item`tearaway pants`) && have($item`Greatest American Pants`))
       outfit.equip($item`Greatest American Pants`);
     else if (!outfit.equips.has($slot`acc2`))

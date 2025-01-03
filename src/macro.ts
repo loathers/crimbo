@@ -258,9 +258,10 @@ export default class Macro extends StrictMacro {
   gapRunIfUnwantedMonster(island: HolidayIsland): this {
     // If wearing GAP / Navel ring, then run if its an undesired monster
     return this.externalIf(
-      $items`Greatest American Pants, navel ring of navel gazing`.some((item) =>
-        haveEquipped(item)
-      ),
+      args.freeruns &&
+        $items`Greatest American Pants, navel ring of navel gazing`.some((item) =>
+          haveEquipped(item)
+        ),
       Macro.if_(
         `${island.avoidMonsters.map((m) => `monsterid ${m.id}`).join(" || ")}`,
         Macro.runaway()

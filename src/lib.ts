@@ -97,6 +97,10 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     help: "Should this script try to waffle away every single monster as long as it has waffles, except the rare dropping ones? Caution, this will rapidly drain your inventory of waffles!",
     default: false,
   }),
+  freeruns: Args.boolean({
+    help: "Should the script try to freerun with GAP / Navel Gazing Ring if the monster isn't one of the rare droppers? This means you will receive less Spirits",
+    default: false,
+  }),
   debug: Args.flag({
     help: "Turn on debug printing",
     default: false,
