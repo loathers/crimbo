@@ -289,7 +289,10 @@ export default class Macro extends StrictMacro {
       .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .tearawayPants()
-      .ifNot(island.orbTarget, new Macro().itemOrSkill(thing))
+      .if_(
+        `${island.avoidMonsters.map((m) => `monsterid ${m.id}`).join(" || ")}`,
+        new Macro().itemOrSkill(thing)
+      )
       .attack()
       .repeat("!pastround 3")
       .hardCombat();
