@@ -238,9 +238,9 @@ export default class Macro extends StrictMacro {
   waffle(island: HolidayIsland): this {
     if (args.waffles)
       return this.while_(
-        `hascombatitem waffle && ${island.avoidMonsters
+        `hascombatitem waffle && (${island.avoidMonsters
           .map((m) => `monsterid ${m.id}`)
-          .join(" || ")}`,
+          .join(" || ")})`,
         Macro.tKey().tearawayPants().item(Item.get("waffle"))
       );
     else return this;
