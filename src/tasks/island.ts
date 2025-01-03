@@ -18,8 +18,7 @@ import {
   AprilingBandHelmet,
   AsdonMartin,
   CinchoDeMayo,
-  get,
-  getBanishedMonsters,
+  get, // getBanishedMonsters,
   have,
 } from "libram";
 
@@ -98,8 +97,8 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         {
           ready: () => AsdonMartin.installed(),
           prepare: () => AsdonMartin.fillTo(50),
-          completed: () =>
-            getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
+          completed: () => true,
+          // getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
         },
         $skill`Asdon Martin: Spring-Loaded Front Bumper`
       ),
