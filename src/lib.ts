@@ -98,7 +98,7 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     default: false,
   }),
   freeruns: Args.boolean({
-    help: "Should the script try to freerun with GAP / Navel Gazing Ring if the monster isn't one of the rare droppers? This means you will receive less Spirits",
+    help: "Should the script try to freerun with GAP / Navel Gazing Ring if the monster isn't one of the rare droppers? This means you will forfeit the drops of other monsters.",
     default: false,
   }),
   debug: Args.flag({
