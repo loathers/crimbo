@@ -13,6 +13,7 @@ import {
 } from "kolmafia";
 import {
   $class,
+  $effect,
   $familiar,
   $item,
   $items,
@@ -223,9 +224,9 @@ export default class Macro extends StrictMacro {
 
   tKey(): this {
     if (args.turdsKey)
-      return this.if_(
-        `!haseffect 2881 && monstername spectre of war && hascombatitem "T.U.R.D.S. Key"`,
-        Macro.item(Item.get("T.U.R.D.S. Key"))
+      return this.ifNot(
+        $effect`Everything Looks Green`,
+        Macro.if_($monster`spectre of war`, Macro.tryHaveItem(Item.get("T.U.R.D.S. Key")))
       );
     else return this;
   }
@@ -234,7 +235,7 @@ export default class Macro extends StrictMacro {
     if (args.waffles)
       return this.while_(
         `hascombatitem waffle && ${island.waffleAway
-          .map((m) => `monstername "${m.name}"`)
+          .map((m) => `monsterid "${m.id}"`)
           .join(" || ")}`,
         Macro.tKey().item(Item.get("waffle"))
       );
