@@ -52,7 +52,7 @@ function freeRunTask(
     do: () => getIsland().location,
     sobriety: "sober",
     outfit: () => islandOutfit("freerun", source),
-    combat: new CrimboStrategy(() => Macro.islandRunWith(action)),
+    combat: new CrimboStrategy(() => Macro.islandRunWith(getIsland(), action)),
     ...fragment,
   };
 }

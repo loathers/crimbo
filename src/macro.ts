@@ -283,16 +283,19 @@ export default class Macro extends StrictMacro {
     return new Macro().tKey();
   }
 
-  islandRunWith(thing: Item | Skill): this {
+  islandRunWith(island: HolidayIsland, thing: Item | Skill): this {
     return this.pickpocket()
       .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .tearawayPants()
-      .itemOrSkill(thing);
+      .ifNot(island.orbTarget, new Macro().itemOrSkill(thing))
+      .attack()
+      .repeat("!pastround 3")
+      .hardCombat();
   }
 
-  static islandRunWith(thing: Item | Skill): Macro {
-    return new Macro().islandRunWith(thing);
+  static islandRunWith(island: HolidayIsland, thing: Item | Skill): Macro {
+    return new Macro().islandRunWith(island, thing);
   }
 
   static islandCombat(island: HolidayIsland): Macro {
