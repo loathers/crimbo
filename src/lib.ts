@@ -89,6 +89,14 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
     default: false,
   }),
+  turdsKey: Args.boolean({
+    help: "Should this script try to use T.U.R.D.S key when encountering `spectre of war`",
+    default: false,
+  }),
+  waffles: Args.boolean({
+    help: "Should this script try to waffle away every single monster as long as it has waffles, except the rare dropping ones? Caution, this will rapidly drain your inventory of waffles!",
+    default: false,
+  }),
   debug: Args.flag({
     help: "Turn on debug printing",
     default: false,

@@ -28,7 +28,8 @@ import {
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
-import { shouldRedigitize } from "./lib";
+import { HolidayIsland } from "./islands";
+import { args, shouldRedigitize } from "./lib";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },
@@ -220,30 +221,49 @@ export default class Macro extends StrictMacro {
     else return this.skill(thing);
   }
 
-  islandKillWith(thing: Item | Skill): this {
+  tKey(): this {
+    if (args.turdsKey)
+      return this.if_(
+        `!haseffect 2881 && monstername spectre of war && hascombatitem "T.U.R.D.S. Key"`,
+        Macro.item(Item.get("T.U.R.D.S. Key"))
+      );
+    else return this;
+  }
+
+  waffle(island: HolidayIsland): this {
+    if (args.waffles)
+      return this.while_(
+        `hascombatitem waffle && ${island.waffleAway
+          .map((m) => `monstername "${m.name}"`)
+          .join(" || ")}`,
+        Macro.tKey().item(Item.get("waffle"))
+      );
+    else return this;
+  }
+
+  islandKillWith(island: HolidayIsland, thing: Item | Skill): this {
     return this.pickpocket()
-      .if_(
-        `!haseffect 2881 && monstername spectre of war`,
-        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
-      )
+      .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
       )
+      .waffle(island)
       .itemOrSkill(thing);
   }
 
-  static islandKillWith(thing: Item | Skill): Macro {
-    return new Macro().islandKillWith(thing);
+  static islandKillWith(island: HolidayIsland, thing: Item | Skill): Macro {
+    return new Macro().islandKillWith(island, thing);
+  }
+
+  static tKey(): Macro {
+    return new Macro().tKey();
   }
 
   islandRunWith(thing: Item | Skill): this {
     return this.pickpocket()
-      .if_(
-        `!haseffect 2881 && monstername spectre of war`,
-        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
-      )
+      .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
@@ -256,17 +276,15 @@ export default class Macro extends StrictMacro {
     return new Macro().islandRunWith(thing);
   }
 
-  static islandCombat(): Macro {
+  static islandCombat(island: HolidayIsland): Macro {
     return Macro.pickpocket()
-      .if_(
-        `!haseffect 2881 && monstername spectre of war`,
-        Macro.tryHaveItem(Item.get("T.U.R.D.S. Key"))
-      )
+      .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
       )
+      .waffle(island)
       .attack()
       .repeat("!pastround 3")
       .hardCombat();
