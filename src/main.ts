@@ -16,9 +16,9 @@ import Tasks from "./tasks";
 export function main(command?: string) {
   Args.fill(args, command);
   for (const island of Object.values(ISLANDS)) {
-    if (island.waffleAway.length === 0) {
+    if (island.avoidMonsters.length === 0) {
       print(`Error! Island ${island.location} has 0 monsters to waffle from!`, "red");
-    } else if (island.waffleAway.some((m) => !m || toInt(m) <= 2453)) {
+    } else if (island.avoidMonsters.some((m) => !m || toInt(m) <= 2453)) {
       print(`Error! Island ${island.location} has an invalid monster!`, "red");
     }
   }

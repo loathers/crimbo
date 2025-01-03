@@ -231,13 +231,17 @@ export default class Macro extends StrictMacro {
     else return this;
   }
 
+  waffleOrRun(island: HolidayIsland): this {
+    return this.waffle(island).gapRunIfUnwantedMonster(island);
+  }
+
   waffle(island: HolidayIsland): this {
     if (args.waffles)
       return this.while_(
-        `hascombatitem waffle && ${island.waffleAway
-          .map((m) => `monsterid "${m.id}"`)
+        `hascombatitem waffle && ${island.avoidMonsters
+          .map((m) => `monsterid ${m.id}`)
           .join(" || ")}`,
-        Macro.tKey().item(Item.get("waffle"))
+        Macro.tKey().tearawayPants().item(Item.get("waffle"))
       );
     else return this;
   }
@@ -246,12 +250,29 @@ export default class Macro extends StrictMacro {
     return this.pickpocket()
       .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
+      .tearawayPants()
       .waffle(island)
       .itemOrSkill(thing);
+  }
+
+  gapRunIfUnwantedMonster(island: HolidayIsland): this {
+    // If wearing GAP / Navel ring, then run if its an undesired monster
+    return this.externalIf(
+      $items`Greatest American Pants, navel ring of navel gazing`.some((item) =>
+        haveEquipped(item)
+      ),
+      Macro.if_(
+        `${island.avoidMonsters.map((m) => `monsterid ${m.id}`).join(" || ")}`,
+        Macro.runaway()
+      )
+    );
+  }
+
+  tearawayPants(): this {
+    return this.externalIf(
+      haveEquipped($item`tearaway pants`),
+      Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
+    );
   }
 
   static islandKillWith(island: HolidayIsland, thing: Item | Skill): Macro {
@@ -266,10 +287,7 @@ export default class Macro extends StrictMacro {
     return this.pickpocket()
       .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
+      .tearawayPants()
       .itemOrSkill(thing);
   }
 
@@ -281,11 +299,8 @@ export default class Macro extends StrictMacro {
     return Macro.pickpocket()
       .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
-      .waffle(island)
+      .tearawayPants()
+      .waffleOrRun(island)
       .attack()
       .repeat("!pastround 3")
       .hardCombat();
