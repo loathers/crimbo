@@ -305,6 +305,7 @@ export default class Macro extends StrictMacro {
       .trySkill($skill`Launch spikolodon spikes`)
       .tearawayPants()
       .waffleOrRun(island)
+      .if_($monster`pumpkin spice wraith`, new Macro().tryHaveItem($item`traumatic holiday memory`))
       .attack()
       .repeat("!pastround 3")
       .hardCombat();
