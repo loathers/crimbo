@@ -90,7 +90,7 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     default: false,
   }),
   turdsKey: Args.boolean({
-    help: "Should this script try to use T.U.R.D.S key when encountering `spectre of war`",
+    help: "Should this script try to use T.U.R.D.S key when encountering `spectre of war` for 20 turns of Everything Looks <Cooldown Color> instead of the normal 30",
     default: false,
   }),
   waffles: Args.boolean({
