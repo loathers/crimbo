@@ -222,16 +222,13 @@ export default class Macro extends StrictMacro {
     else return this.skill(thing);
   }
 
-  static itemOrSkill(thing: Item | Skill): Macro {
-    return new Macro().itemOrSkill(thing);
-  }
-
   tKey(): this {
-    if (args.turdsKey && !have($effect`Everything Looks Green`)) {
-      return this.if_($monster`spectre of war`, Macro.tryHaveItem($item`T.U.R.D.S. Key`));
-    }
-
-    return this;
+    if (args.turdsKey)
+      return this.ifNot(
+        $effect`Everything Looks Green`,
+        Macro.if_($monster`spectre of war`, Macro.tryHaveItem(Item.get("T.U.R.D.S. Key")))
+      );
+    else return this;
   }
 
   waffleOrRun(island: HolidayIsland): this {
@@ -241,10 +238,10 @@ export default class Macro extends StrictMacro {
   waffle(island: HolidayIsland): this {
     if (args.waffles)
       return this.while_(
-        `hascombatitem waffle && !monsterid ${island.orbTarget.id}`,
-        Macro.tKey()
-          .tearawayPants()
-          .item($item`waffle`)
+        `hascombatitem waffle && (${island.avoidMonsters
+          .map((m) => `monsterid ${m.id}`)
+          .join(" || ")})`,
+        Macro.tKey().tearawayPants().item(Item.get("waffle"))
       );
     else return this;
   }
@@ -265,7 +262,10 @@ export default class Macro extends StrictMacro {
         $items`Greatest American Pants, navel ring of navel gazing`.some((item) =>
           haveEquipped(item)
         ),
-      Macro.ifNot(island.orbTarget, Macro.runaway())
+      Macro.if_(
+        `${island.avoidMonsters.map((m) => `monsterid ${m.id}`).join(" || ")}`,
+        Macro.runaway()
+      )
     );
   }
 
@@ -286,10 +286,13 @@ export default class Macro extends StrictMacro {
 
   islandRunWith(island: HolidayIsland, thing: Item | Skill): this {
     return this.pickpocket()
-      .tearawayPants()
-      .trySkill($skill`Launch spikolodon spikes`)
       .tKey()
-      .ifNot(island.orbTarget, Macro.itemOrSkill(thing))
+      .trySkill($skill`Launch spikolodon spikes`)
+      .tearawayPants()
+      .if_(
+        `${island.avoidMonsters.map((m) => `monsterid ${m.id}`).join(" || ")}`,
+        new Macro().itemOrSkill(thing)
+      )
       .attack()
       .repeat("!pastround 3")
       .hardCombat();
@@ -301,9 +304,9 @@ export default class Macro extends StrictMacro {
 
   static islandCombat(island: HolidayIsland): Macro {
     return Macro.pickpocket()
+      .tKey()
       .trySkill($skill`Launch spikolodon spikes`)
       .tearawayPants()
-      .tKey()
       .waffleOrRun(island)
       .if_($monster`pumpkin spice wraith`, new Macro().tryHaveItem($item`traumatic holiday memory`))
       .attack()
