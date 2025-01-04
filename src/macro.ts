@@ -241,7 +241,7 @@ export default class Macro extends StrictMacro {
   waffle(island: HolidayIsland): this {
     if (args.waffles)
       return this.while_(
-        `hascombatitem waffle && !(${Macro.makeBALLSPredicate(island.avoidMonsters)})`,
+        `hascombatitem waffle && (${Macro.makeBALLSPredicate(island.avoidMonsters)})`,
         Macro.tKey()
           .tearawayPants()
           .item($item`waffle`)
