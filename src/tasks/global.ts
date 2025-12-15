@@ -152,7 +152,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           { wandererType: "wanderer", isFree: true },
           { offhand: $item`Kramco Sausage-o-Matic™` },
         ),
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
