@@ -27595,7 +27595,7 @@ var Macro2 = /* @__PURE__ */ (function(_StrictMacro) {
   }, {
     key: "islandCombat",
     value: function islandCombat() {
-      return Macro3.islandCombat();
+      return new Macro3().islandCombat();
     }
   }]);
 })(StrictMacro);
