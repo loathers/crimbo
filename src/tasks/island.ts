@@ -61,20 +61,50 @@ function freeRunTask(
   };
 }
 
+const NC_FORCERS = [
+      {
+      name: "Clara's Bell",
+      completed: () => get("_claraBellUsed"),
+      ready: () => have($item`Clara's bell`),
+      do: () => use($item`Clara's bell`),
+      sobriety: "either",
+    },
+    {
+      name: "Pillkeeper",
+      completed: () => get("_freePillKeeperUsed"),
+      ready: () => have($item`Eight Days a Week Pill Keeper`),
+      do: () => cliExecute("pillkeeper noncombat"),
+      sobriety: "either",
+    },
+    {
+      name: "Fiesta Exit",
+      completed: () => CinchoDeMayo.currentCinch() < 60,
+      ready: () => CinchoDeMayo.have(),
+      do: () => useSkill($skill`Cincho: Fiesta Exit`),
+      sobriety: "either",
+    },
+    {
+      name: "Apriling Tuba",
+      completed: () => !AprilingBandHelmet.canPlay("Apriling band tuba"),
+      do: () => AprilingBandHelmet.play("Apriling band tuba"),
+      sobriety: "either",
+    },
+];
+
 export const ISLAND_QUEST: Quest<CrimboTask> = {
   name: "Island Adventuring",
   tasks: [
-    {
-      name: "Forced Noncombat",
-      completed: () => !get("noncombatForcerActive"),
-      do: () => getLocation(),
-      sobriety: "either",
-      outfit: () => ({
-        ...(myInebriety() > inebrietyLimit()
-          ? { offhand: $item`Drunkula's wineglass` }
-          : {}),
-      }),
-    },
+    // {
+    //   name: "Forced Noncombat",
+    //   completed: () => !get("noncombatForcerActive"),
+    //   do: () => getLocation(),
+    //   sobriety: "either",
+    //   outfit: () => ({
+    //     ...(myInebriety() > inebrietyLimit()
+    //       ? { offhand: $item`Drunkula's wineglass` }
+    //       : {}),
+    //   }),
+    // },
     // Timer Free Kills
     freeKillTask(
       {
@@ -123,33 +153,7 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       $skill`Bowl a Curveball`,
     ),
     // NC Forcers
-    {
-      name: "Clara's Bell",
-      completed: () => get("_claraBellUsed"),
-      ready: () => have($item`Clara's bell`),
-      do: () => use($item`Clara's bell`),
-      sobriety: "either",
-    },
-    {
-      name: "Pillkeeper",
-      completed: () => get("_freePillKeeperUsed"),
-      ready: () => have($item`Eight Days a Week Pill Keeper`),
-      do: () => cliExecute("pillkeeper noncombat"),
-      sobriety: "either",
-    },
-    {
-      name: "Fiesta Exit",
-      completed: () => CinchoDeMayo.currentCinch() < 60,
-      ready: () => CinchoDeMayo.have(),
-      do: () => useSkill($skill`Cincho: Fiesta Exit`),
-      sobriety: "either",
-    },
-    {
-      name: "Apriling Tuba",
-      completed: () => !AprilingBandHelmet.canPlay("Apriling band tuba"),
-      do: () => AprilingBandHelmet.play("Apriling band tuba"),
-      sobriety: "either",
-    },
+    //...NC_FORCERS,
     // Free Kills
     freeKillTask(
       { completed: () => get("shockingLickCharges") === 0 },

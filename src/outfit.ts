@@ -252,8 +252,9 @@ export function islandOutfit(
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
-  if (get("_spikolodonSpikeUses") < 5)
-    outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
+  // We don't care about NCs yet
+  // if (get("_spikolodonSpikeUses") < 5)
+  //   outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
 
   // Also: GAP running
   if (TearawayPants.have()) {
