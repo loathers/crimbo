@@ -1,5 +1,15 @@
+import { CrimboStrategy, CrimboTask } from "../engine";
+import Macro from "../macro";
+import { wandererOutfit } from "../outfit";
+import { wanderer } from "../wanderer";
 import { Quest } from "grimoire-kolmafia";
-import { canAdventure, inebrietyLimit, myClass, myInebriety, totalTurnsPlayed } from "kolmafia";
+import {
+  canAdventure,
+  inebrietyLimit,
+  myClass,
+  myInebriety,
+  totalTurnsPlayed,
+} from "kolmafia";
 import {
   $class,
   $item,
@@ -12,11 +22,6 @@ import {
   have,
 } from "libram";
 
-import { CrimboStrategy, CrimboTask } from "../engine";
-import Macro from "../macro";
-import { wandererOutfit } from "../outfit";
-import { wanderer } from "../wanderer";
-
 let digitizes = get("_sourceTerminalDigitizeMonsterCount");
 
 export const GLOBAL_QUEST: Quest<CrimboTask> = {
@@ -24,8 +29,12 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
   tasks: [
     {
       name: "June Cleaver",
-      ready: () => have($item`June cleaver`) && get("_juneCleaverFightsLeft") === 0,
-      do: myInebriety() <= inebrietyLimit() ? $location`Noob Cave` : $location`Drunken Stupor`,
+      ready: () =>
+        have($item`June cleaver`) && get("_juneCleaverFightsLeft") === 0,
+      do:
+        myInebriety() <= inebrietyLimit()
+          ? $location`Noob Cave`
+          : $location`Drunken Stupor`,
       outfit: { weapon: $item`June cleaver` },
       completed: () => get("_juneCleaverFightsLeft") > 0,
       sobriety: "either",
@@ -47,14 +56,17 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       },
       outfit: () =>
         wandererOutfit(
-          { wandererType: get("ghostLocation") ?? $location.none, isFree: true },
+          {
+            wandererType: get("ghostLocation") ?? $location.none,
+            isFree: true,
+          },
           {
             back: $item`protonic accelerator pack`,
             avoid:
               get("ghostLocation") === $location`The Icy Peak`
                 ? $items`Great Wolf's beastly trousers`
                 : [],
-          }
+          },
         ),
       completed: () => get("questPAGhost") === "unstarted",
       combat: new CrimboStrategy(() =>
@@ -62,17 +74,20 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           .trySkill($skill`Shoot Ghost`)
           .trySkill($skill`Shoot Ghost`)
           .trySkill($skill`Shoot Ghost`)
-          .trySkill($skill`Trap Ghost`)
+          .trySkill($skill`Trap Ghost`),
       ),
       sobriety: "sober",
     },
     {
       name: "Grey You Attack Skill",
       completed: () =>
-        have($skill`Nantlers`) || have($skill`Nanoshock`) || have($skill`Audioclasm`),
+        have($skill`Nantlers`) ||
+        have($skill`Nanoshock`) ||
+        have($skill`Audioclasm`),
       do: $location`The Haunted Storage Room`,
       ready: () =>
-        myClass() === $class`Grey Goo` && canAdventure($location`The Haunted Storage Room`),
+        myClass() === $class`Grey Goo` &&
+        canAdventure($location`The Haunted Storage Room`),
       combat: new CrimboStrategy(() => Macro.attack().repeat()),
       sobriety: "sober",
     },
@@ -83,11 +98,11 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         totalTurnsPlayed() % 11 === 1 &&
         get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
         get("_voteFreeFights") < 3,
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       outfit: () =>
         wandererOutfit(
           { wandererType: "wanderer", isFree: true },
-          { acc3: $item`"I Voted!" sticker` }
+          { acc3: $item`"I Voted!" sticker` },
         ),
       choices: () => wanderer().getChoices("wanderer"),
       completed: () => get("lastVoteMonsterTurn") === totalTurnsPlayed(),
@@ -100,10 +115,12 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       outfit: () =>
         wandererOutfit({
           wandererType: "wanderer",
-          isFree: get("_sourceTerminalDigitizeMonster")?.attributes.includes("FREE"),
+          isFree: get("_sourceTerminalDigitizeMonster")?.attributes.includes(
+            "FREE",
+          ),
         }),
       completed: () => get("_sourceTerminalDigitizeMonsterCount") !== digitizes,
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       post: () => (digitizes = get("_sourceTerminalDigitizeMonsterCount")),
       choices: () => wanderer().getChoices("wanderer"),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
@@ -111,28 +128,31 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
     },
     {
       name: "Void Monster",
-      ready: () => have($item`cursed magnifying glass`) && get("cursedMagnifyingGlassCount") === 13,
+      ready: () =>
+        have($item`cursed magnifying glass`) &&
+        get("cursedMagnifyingGlassCount") === 13,
       completed: () => get("_voidFreeFights") >= 5,
       outfit: () =>
         wandererOutfit(
           { wandererType: "wanderer", isFree: true },
-          { offhand: $item`cursed magnifying glass` }
+          { offhand: $item`cursed magnifying glass` },
         ),
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
     },
     {
       name: "Sausage Goblin",
-      ready: () => have($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() >= 1,
+      ready: () =>
+        have($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() >= 1,
       completed: () => getKramcoWandererChance() < 1,
       outfit: () =>
         wandererOutfit(
           { wandererType: "wanderer", isFree: true },
-          { offhand: $item`Kramco Sausage-o-Matic™` }
+          { offhand: $item`Kramco Sausage-o-Matic™` },
         ),
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),

@@ -1,7 +1,6 @@
+import { args } from "../lib";
 import { getTasks } from "grimoire-kolmafia";
 import { myAdventures, myTurncount } from "kolmafia";
-
-import { args } from "../lib";
 
 import { GLOBAL_QUEST } from "./global";
 import { ISLAND_QUEST } from "./island";

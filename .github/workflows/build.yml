@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  node-version: "18"
-  path: "KoLmafia" # The directory where your assets are generated, should match build.mjs
+  node-version: "24"
+  path: "dist" # The directory where your assets are generated, should match build.mjs
 
 jobs:
   test:

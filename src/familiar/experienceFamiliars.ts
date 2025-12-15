@@ -1,5 +1,11 @@
 import { Familiar } from "kolmafia";
-import { $familiar, findLeprechaunMultiplier, get, have, propertyTypes } from "libram";
+import {
+  $familiar,
+  findLeprechaunMultiplier,
+  get,
+  have,
+  propertyTypes,
+} from "libram";
 
 import { GeneralFamiliar } from "./lib";
 
@@ -22,8 +28,12 @@ const experienceFamiliars: ExperienceFamiliar[] = [
   },
 ];
 
-function valueExperienceFamiliar({ familiar, useValue }: ExperienceFamiliar): GeneralFamiliar {
-  const currentExp = familiar.experience || (have($familiar`Shorter-Order Cook`) ? 100 : 0);
+function valueExperienceFamiliar({
+  familiar,
+  useValue,
+}: ExperienceFamiliar): GeneralFamiliar {
+  const currentExp =
+    familiar.experience || (have($familiar`Shorter-Order Cook`) ? 100 : 0);
   const experienceNeeded = 400 - currentExp;
   const estimatedExperience = 3;
   return {
@@ -36,7 +46,10 @@ function valueExperienceFamiliar({ familiar, useValue }: ExperienceFamiliar): Ge
 
 export default function getExperienceFamiliars(): GeneralFamiliar[] {
   return experienceFamiliars
-    .filter(({ used, familiar }) => have(familiar) && !get(used) && familiar.experience < 400)
+    .filter(
+      ({ used, familiar }) =>
+        have(familiar) && !get(used) && familiar.experience < 400,
+    )
     .map(valueExperienceFamiliar);
 }
 

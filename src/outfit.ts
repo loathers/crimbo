@@ -20,7 +20,6 @@ import {
   $item,
   $phylum,
   $stat,
-  CrystalBall,
   get,
   getRemainingStomach,
   have,
@@ -29,7 +28,7 @@ import {
 } from "libram";
 
 import { freeFightFamiliar, MenuOptions } from "./familiar";
-import { args, getIsland, realmAvailable, shouldPickpocket, sober } from "./lib";
+import { args, realmAvailable, shouldPickpocket, sober } from "./lib";
 import { garboValue } from "./value";
 import { wanderer } from "./wanderer";
 
@@ -45,14 +44,14 @@ export function ifHave(
 
 export const drunkSpec = sober() ? {} : { offhand: $item`Drunkula's wineglass` };
 
-export const orbSpec = () => {
-  if (!CrystalBall.have()) return {};
-  const island = getIsland();
+// export const orbSpec = () => {
+//   if (!CrystalBall.have()) return {};
+//   const island = getIsland();
 
-  const prediction = CrystalBall.getPrediction().get(island.location);
-  if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
-  return {};
-};
+//   const prediction = CrystalBall.getPrediction().get(island.location);
+//   if (!prediction || prediction === island.orbTarget) return { famequip: CrystalBall.orb };
+//   return {};
+// };
 
 function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
   return outfits.reduce((current, next) => ({ ...next, ...current }), {});
@@ -63,7 +62,7 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
     ? $familiars`Temporal Riftlet, Reagnimated Gnome`
     : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (options.location?.zone === "Holiday Islands") {
+  if (options.location?.zone === "Crimbo25") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
 
     const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);
@@ -84,7 +83,7 @@ export function wandererOutfit(
   ...outfits: OutfitSpec[]
 ): OutfitSpec {
   const location =
-    wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType);
+    wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType).location;
   const mergedOutfits = mergeSpecs(...outfits);
   const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
   const famEquip = mergeSpecs(
@@ -223,17 +222,11 @@ export function islandOutfit(
     baseSpec,
     new Error(`Failed to construct outfit from spec: ${baseSpec}`)
   );
-  const island = getIsland();
-  const usingOrb =
-    fight !== "freerun" &&
-    CrystalBall.have() &&
-    [undefined, island.orbTarget].includes(CrystalBall.getPrediction().get(island.location));
-
-  if (usingOrb) outfit.equip(CrystalBall.orb);
+  const location = Location.get("Smoldering Bone Spikes");
 
   outfit.familiar ??= chooseFamiliar({
-    location: island.location,
-    allowEquipment: !usingOrb,
+    location: location,
+    allowEquipment: true,
     allowAttackFamiliars: fight === "regular",
   });
 
@@ -259,21 +252,16 @@ export function islandOutfit(
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
-  if (get("_spikolodonSpikeUses") < 5)
-    outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
+  // We don't care about NCs yet
+  // if (get("_spikolodonSpikeUses") < 5)
+  //   outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
 
   // Also: GAP running
   if (TearawayPants.have()) {
-    if (usingOrb) {
-      if (CrystalBall.getPrediction().get(island.location)?.phylum === $phylum`plant`) {
-        outfit.equip($item`tearaway pants`);
-      }
-    } else if (getMonsters(island.location).some(({ phylum }) => phylum === $phylum`plant`)) {
+    if (getMonsters(location).some(({ phylum }) => phylum === $phylum`plant`)) {
       outfit.equip($item`tearaway pants`);
     }
   }
-
-  outfit.modifier = [`200 ${island.element} resistance 40 max`, "-100 combat -35 min", "-tie"];
 
   if ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (Familiar | undefined)[]) {
     outfit.modifier.push("1 Familiar Weight");

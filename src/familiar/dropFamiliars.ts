@@ -1,7 +1,12 @@
-import { Familiar, Item } from "kolmafia";
-import { $familiar, $item, $items, findLeprechaunMultiplier, have } from "libram";
-
 import { garboValue } from "../value";
+import { Familiar, Item } from "kolmafia";
+import {
+  $familiar,
+  $item,
+  $items,
+  findLeprechaunMultiplier,
+  have,
+} from "libram";
 
 import { GeneralFamiliar } from "./lib";
 
@@ -23,7 +28,8 @@ function valueStandardDropFamiliar({
   additionalValue,
 }: StandardDropFamiliar): GeneralFamiliar {
   const expectedTurns = expected[familiar.dropsToday] || Infinity;
-  const expectedValue = dropValue(drop) / expectedTurns + (additionalValue?.() ?? 0);
+  const expectedValue =
+    dropValue(drop) / expectedTurns + (additionalValue?.() ?? 0);
   return {
     familiar,
     expectedValue,
@@ -146,7 +152,10 @@ const rotatingFamiliars: StandardDropFamiliar[] = [
       $item`Recipe of Before Yore: St. Pete's sneaky smoothie`,
     ],
     additionalValue: () =>
-      (3 * garboValue(...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`)) /
+      (3 *
+        garboValue(
+          ...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`,
+        )) /
       11,
   },
 ];
@@ -156,11 +165,13 @@ export default function getDropFamiliars(): GeneralFamiliar[] {
     .map(valueStandardDropFamiliar)
     .filter(
       ({ familiar, expectedValue, leprechaunMultiplier }) =>
-        have(familiar) && (expectedValue || leprechaunMultiplier)
+        have(familiar) && (expectedValue || leprechaunMultiplier),
     );
 }
 
-export function getAllDrops(fam: Familiar): { expectedValue: number; expectedTurns: number }[] {
+export function getAllDrops(
+  fam: Familiar,
+): { expectedValue: number; expectedTurns: number }[] {
   const target = rotatingFamiliars.find(({ familiar }) => familiar === fam);
   if (!have(fam) || !target) return [];
 

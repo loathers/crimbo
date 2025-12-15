@@ -1,3 +1,4 @@
+import { garboValue } from "../value";
 import { Familiar, familiarWeight, weightAdjustment } from "kolmafia";
 import {
   $effect,
@@ -5,14 +6,12 @@ import {
   $item,
   $items,
   $location,
+  Robortender,
   findLeprechaunMultiplier,
   get,
   have,
   maxBy,
-  Robortender,
 } from "libram";
-
-import { garboValue } from "../value";
 
 import { GeneralFamiliar, MenuOptions } from "./lib";
 
@@ -29,7 +28,9 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   {
     familiar: $familiar`Stocking Mimic`,
     value: ({ allowEquipment }) =>
-      (allowEquipment ? garboValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6 : 0) +
+      (allowEquipment
+        ? garboValue(...$items`Polka Pop, BitterSweetTarts, Piddles`) / 6
+        : 0) +
       (1 / 3 + (have($effect`Jingle Jangle Jingle`) ? 0.1 : 0)) *
         (familiarWeight($familiar`Stocking Mimic`) + weightAdjustment()),
   },
@@ -37,7 +38,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
     familiar: $familiar`Shorter-Order Cook`,
     value: ({ allowEquipment }) =>
       garboValue(
-        ...$items`short beer, short stack of pancakes, short stick of butter, short glass of water, short white`
+        ...$items`short beer, short stack of pancakes, short stick of butter, short glass of water, short white`,
       ) / (allowEquipment ? 9 : 11),
   },
   {
@@ -73,7 +74,10 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   {
     familiar: $familiar`Cookbookbat`,
     value: () =>
-      (3 * garboValue(...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`)) /
+      (3 *
+        garboValue(
+          ...$items`Vegetable of Jarlsberg, Yeast of Boris, St. Sneaky Pete's Whey`,
+        )) /
       11,
   },
   {
@@ -82,7 +86,9 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   },
 ];
 
-export default function getConstantValueFamiliars(options: MenuOptions = {}): GeneralFamiliar[] {
+export default function getConstantValueFamiliars(
+  options: MenuOptions = {},
+): GeneralFamiliar[] {
   return standardFamiliars
     .filter(({ familiar }) => have(familiar))
     .map(({ familiar, value }) => ({

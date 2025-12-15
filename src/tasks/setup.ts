@@ -1,11 +1,13 @@
+import { CrimboTask } from "../engine";
+import { CMCEnvironment, args, countEnvironment, tryGetCMCItem } from "../lib";
 import { Quest } from "grimoire-kolmafia";
 import {
+  Item,
   abort,
   changeMcd,
   cliExecute,
   currentMcd,
   getWorkshed,
-  Item,
   itemAmount,
   myAdventures,
   myHp,
@@ -16,12 +18,10 @@ import {
   myPrimestat,
   putCloset,
   restoreMp,
-  runChoice,
   totalTurnsPlayed,
   use,
   useFamiliar,
   useSkill,
-  visitUrl,
 } from "kolmafia";
 import {
   $effect,
@@ -34,15 +34,12 @@ import {
   AprilingBandHelmet,
   AutumnAton,
   CrimboShrub,
-  get,
-  have,
   SongBoom,
   TakerSpace,
+  get,
+  have,
   uneffect,
 } from "libram";
-
-import { CrimboTask } from "../engine";
-import { args, CMCEnvironment, countEnvironment, tryGetCMCItem } from "../lib";
 
 const poisons = $effects`Hardly Poisoned at All, A Little Bit Poisoned, Somewhat Poisoned, Really Quite Poisoned, Majorly Poisoned`;
 function cmcTarget(): { item: Item; environment: CMCEnvironment } {
@@ -59,7 +56,9 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       name: "Beaten Up",
       completed: () => !have($effect`Beaten Up`),
       do: () => {
-        if (["Poetic Justice", "Lost and Found"].includes(get("lastEncounter"))) {
+        if (
+          ["Poetic Justice", "Lost and Found"].includes(get("lastEncounter"))
+        ) {
           uneffect($effect`Beaten Up`);
         }
         if (have($effect`Beaten Up`)) {
@@ -70,7 +69,8 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
     },
     {
       name: "Disco Nap",
-      ready: () => have($skill`Disco Nap`) && have($skill`Adventurer of Leisure`),
+      ready: () =>
+        have($skill`Disco Nap`) && have($skill`Adventurer of Leisure`),
       completed: () => poisons.every((e) => !have(e)),
       do: () => useSkill($skill`Disco Nap`),
       sobriety: "either",
@@ -107,20 +107,27 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
     {
       name: "Kgnee",
       completed: () =>
-        !have($familiar`Reagnimated Gnome`) || have($item`gnomish housemaid's kgnee`),
+        !have($familiar`Reagnimated Gnome`) ||
+        have($item`gnomish housemaid's kgnee`),
       do: (): void => {
-        visitUrl("arena.php");
-        runChoice(4);
+        cliExecute("make 1 gnomish housemaid's kgnee");
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
       sobriety: "sober",
     },
     {
       name: "Decorations",
-      completed: () => !args.shrub || !CrimboShrub.have() || get("_shrubDecorated"),
+      completed: () =>
+        !args.shrub || !CrimboShrub.have() || get("_shrubDecorated"),
       do: () => {
-        if (!have($item`box of old Crimbo decorations`)) useFamiliar($familiar`Crimbo Shrub`);
-        CrimboShrub.decorate(myPrimestat().toString(), "Prismatic Damage", "Blocking", "Gifts");
+        if (!have($item`box of old Crimbo decorations`))
+          useFamiliar($familiar`Crimbo Shrub`);
+        CrimboShrub.decorate(
+          myPrimestat().toString(),
+          "Prismatic Damage",
+          "Blocking",
+          "Gifts",
+        );
       },
       sobriety: "either",
     },
@@ -134,7 +141,8 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       name: "The Captain",
       completed: () => get("_mummeryMods").includes("Meat Drop"),
       ready: () =>
-        have($item`mumming trunk`) && $familiars`Reagnimated Gnome, Temporal Riftlet`.some(have),
+        have($item`mumming trunk`) &&
+        $familiars`Reagnimated Gnome, Temporal Riftlet`.some(have),
       sobriety: "either",
       do: () => {
         const fam = $familiars`Reagnimated Gnome, Temporal Riftlet`.find(have);
@@ -163,11 +171,12 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
       completed: () => AutumnAton.currentlyIn() !== null,
       do: (): void => {
         AutumnAton.sendTo(
-          // eslint-disable-next-line libram/verify-constants
-          $locations`Christmas Island, The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`
+          $locations`Christmas Island, The Toxic Teacups, The Oasis, The Deep Dark Jungle, The Bubblin' Caldera, The Neverending Party, The Sleazy Back Alley`,
         );
       },
-      ready: () => AutumnAton.available() && AutumnAton.turnsForQuest() < myAdventures() + 10,
+      ready: () =>
+        AutumnAton.available() &&
+        AutumnAton.turnsForQuest() < myAdventures() + 10,
       sobriety: "either",
     },
     {

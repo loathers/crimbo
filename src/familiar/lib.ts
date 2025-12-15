@@ -1,14 +1,13 @@
+import { sober } from "../lib";
 import {
   Familiar,
-  familiarWeight,
   Location,
+  familiarWeight,
   myAdventures,
   totalTurnsPlayed,
   weightAdjustment,
 } from "kolmafia";
 import { $effect, $familiar, $item, get, have } from "libram";
-
-import { sober } from "../lib";
 
 export type GeneralFamiliar = {
   familiar: Familiar;
@@ -49,11 +48,17 @@ export function timeToMeatify(): boolean {
   // (2) We meatify if Grey Goose is sufficiently heavy and we don't have another free wanderer in our remaining turns
 
   const freeFightNow =
-    get("questPAGhost") !== "unstarted" || nextVoteMonster === 0 || nextVoidMonster === 0;
+    get("questPAGhost") !== "unstarted" ||
+    nextVoteMonster === 0 ||
+    nextVoidMonster === 0;
   const delay = Math.min(
     nextProtonicGhost,
-    nextVoteMonster === 0 ? (get("_voteFreeFights") < 2 ? 11 : Infinity) : nextVoteMonster,
-    nextVoidMonster === 0 ? 13 : nextVoidMonster
+    nextVoteMonster === 0
+      ? get("_voteFreeFights") < 2
+        ? 11
+        : Infinity
+      : nextVoteMonster,
+    nextVoidMonster === 0 ? 13 : nextVoidMonster,
   );
 
   if (delay < myAdventures()) return false;
@@ -64,7 +69,14 @@ export function timeToMeatify(): boolean {
 }
 
 export function pocketProfessorLectures(): number {
-  return 2 + Math.ceil(Math.sqrt(familiarWeight($familiar`Pocket Professor`) + weightAdjustment()));
+  return (
+    2 +
+    Math.ceil(
+      Math.sqrt(
+        familiarWeight($familiar`Pocket Professor`) + weightAdjustment(),
+      ),
+    )
+  );
 }
 
 export function canOpenRedPresent(): boolean {

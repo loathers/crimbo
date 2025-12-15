@@ -4,18 +4,19 @@
   "author": "Patrick Stalcup <legomaniac0117@gmail.com>",
   "homepage": "",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "build": "node build.mjs",
+    "build": "node --import tsx build.mts",
     "format": "eslint src --fix --ext .ts && prettier --write src/**/*.ts",
     "lint": "eslint src --ext .ts && prettier --check src/**/*.ts",
-    "watch": "node build.mjs --watch",
+    "watch": "node --import tsx build.mts --watch",
     "install-mafia": "create-kolmafia-script --install"
   },
   "dependencies": {
     "garbo-lib": "^1.0.0",
     "grimoire-kolmafia": "^0.3.26",
     "kolmafia": "^5.27735.0",
-    "libram": "^0.9.28"
+    "libram": "^0.11.14"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -23,21 +24,21 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-typescript": "^7.18.6",
-    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "@eslint/js": "^9.32.0",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
-    "@types/node": "^18.6.3",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
-    "create-kolmafia-script": "latest",
-    "esbuild": "^0.14.51",
+    "@types/node": "^25.0.2",
+    "create-kolmafia-script": "^0.1.0",
+    "esbuild": "^0.27.1",
     "esbuild-plugin-babel": "^0.2.3",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-libram": "^0.4.18",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-libram": "^0.4.30",
+    "prettier": "^3.7.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.38.0"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

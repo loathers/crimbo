@@ -222,7 +222,7 @@ export default class Macro extends StrictMacro {
 
   islandKillWith(thing: Item | Skill): this {
     return this.pickpocket()
-      .trySkill($skill`Launch spikolodon spikes`)
+      //.trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
@@ -236,7 +236,7 @@ export default class Macro extends StrictMacro {
 
   islandRunWith(thing: Item | Skill): this {
     return this.pickpocket()
-      .trySkill($skill`Launch spikolodon spikes`)
+      //.trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
@@ -250,7 +250,7 @@ export default class Macro extends StrictMacro {
 
   static islandCombat(): Macro {
     return Macro.pickpocket()
-      .trySkill($skill`Launch spikolodon spikes`)
+      //.trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
