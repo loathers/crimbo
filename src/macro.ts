@@ -248,15 +248,17 @@ export default class Macro extends StrictMacro {
     return new Macro().islandRunWith(thing);
   }
 
-  static islandCombat(): Macro {
-    return Macro.pickpocket()
+  islandCombat(): Macro {
+    return this.pickpocket()
       //.trySkill($skill`Launch spikolodon spikes`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
       )
-      .attack()
-      .repeat("!pastround 3")
-      .hardCombat();
+      .standardCombat();
+  }
+
+  static islandCombat(): Macro {
+    return Macro.islandCombat();
   }
 }
