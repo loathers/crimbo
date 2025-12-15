@@ -10,7 +10,7 @@ const turncount = myTurncount();
 const completed =
   args.turns > 0
     ? () => myTurncount() - turncount >= args.turns || myAdventures() === 0
-    : () => myAdventures() === -args.turns;
+    : () => myAdventures() <= -args.turns;
 
 export default getTasks([
   SETUP_QUEST,
