@@ -1,9 +1,8 @@
 import { canOpenRedPresent } from ".";
-import { Familiar, familiarWeight } from "kolmafia";
-import { $familiar, $item, $location, clamp, get, have } from "libram";
-
 import { sober } from "../lib";
 import { garboValue } from "../value";
+import { Familiar, familiarWeight } from "kolmafia";
+import { $familiar, $item, $location, clamp, get, have } from "libram";
 
 import getConstantValueFamiliars from "./constantValueFamiliars";
 import getDropFamiliars from "./dropFamiliars";
@@ -48,7 +47,8 @@ export function menu(options: MenuOptions = {}): GeneralFamiliar[] {
     if (timeToMeatify()) {
       familiarMenu.push({
         familiar: $familiar`Grey Goose`,
-        expectedValue: (Math.max(familiarWeight($familiar`Grey Goose`) - 5), 0) ** 4,
+        expectedValue:
+          (Math.max(familiarWeight($familiar`Grey Goose`) - 5), 0) ** 4,
         leprechaunMultiplier: 0,
         limit: "experience",
       });
@@ -63,12 +63,17 @@ export function menu(options: MenuOptions = {}): GeneralFamiliar[] {
       });
     }
 
-    if (location.zone === "Dinseylandfill" && have($familiar`Space Jellyfish`)) {
+    if (
+      location.zone === "Dinseylandfill" &&
+      have($familiar`Space Jellyfish`)
+    ) {
       familiarMenu.push({
         familiar: $familiar`Space Jellyfish`,
         expectedValue:
           garboValue($item`stench jelly`) /
-          (get("_spaceJellyfishDrops") < 5 ? get("_spaceJellyfishDrops") + 1 : 20),
+          (get("_spaceJellyfishDrops") < 5
+            ? get("_spaceJellyfishDrops") + 1
+            : 20),
         leprechaunMultiplier: 0,
         limit: "special",
       });
@@ -77,22 +82,31 @@ export function menu(options: MenuOptions = {}): GeneralFamiliar[] {
 
   if (!allowAttackFamiliars) {
     return familiarMenu.filter(
-      (fam) => !(fam.familiar.physicalDamage || fam.familiar.elementalDamage)
+      (fam) => !(fam.familiar.physicalDamage || fam.familiar.elementalDamage),
     );
   }
 
   return familiarMenu;
 }
 
-export function getAllJellyfishDrops(): { expectedValue: number; turnsAtValue: number }[] {
-  if (!have($familiar`Space Jellyfish`)) return [{ expectedValue: 0, turnsAtValue: 0 }];
+export function getAllJellyfishDrops(): {
+  expectedValue: number;
+  turnsAtValue: number;
+}[] {
+  if (!have($familiar`Space Jellyfish`))
+    return [{ expectedValue: 0, turnsAtValue: 0 }];
 
   const current = get("_spaceJellyfishDrops");
   const returnValue = [];
 
-  for (let dropNumber = clamp(current + 1, 0, 6); dropNumber <= 6; dropNumber++) {
+  for (
+    let dropNumber = clamp(current + 1, 0, 6);
+    dropNumber <= 6;
+    dropNumber++
+  ) {
     returnValue.push({
-      expectedValue: garboValue($item`stench jelly`) / (dropNumber > 5 ? 20 : dropNumber),
+      expectedValue:
+        garboValue($item`stench jelly`) / (dropNumber > 5 ? 20 : dropNumber),
       turnsAtValue: dropNumber > 5 ? Infinity : dropNumber,
     });
   }
@@ -100,7 +114,9 @@ export function getAllJellyfishDrops(): { expectedValue: number; turnsAtValue: n
   return returnValue;
 }
 
-export function freeFightFamiliarData(options: MenuOptions = {}): GeneralFamiliar {
+export function freeFightFamiliarData(
+  options: MenuOptions = {},
+): GeneralFamiliar {
   const compareFamiliars = (a: GeneralFamiliar, b: GeneralFamiliar) => {
     if (a.expectedValue === b.expectedValue) {
       return a.leprechaunMultiplier > b.leprechaunMultiplier ? a : b;

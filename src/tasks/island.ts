@@ -1,13 +1,16 @@
+import { CrimboStrategy, CrimboTask } from "../engine";
+import Macro from "../macro";
+import { islandOutfit } from "../outfit";
 import { OutfitSpec, Quest } from "grimoire-kolmafia";
 import {
-  cliExecute,
-  inebrietyLimit,
   Item,
   Location,
+  Skill,
+  cliExecute,
+  inebrietyLimit,
   mallPrice,
   myAdventures,
   myInebriety,
-  Skill,
   use,
   useSkill,
 } from "kolmafia";
@@ -19,13 +22,10 @@ import {
   AprilingBandHelmet,
   AsdonMartin,
   CinchoDeMayo,
-  get, // getBanishedMonsters,
+  get,
+  // getBanishedMonsters,
   have,
 } from "libram";
-
-import { CrimboStrategy, CrimboTask } from "../engine";
-import Macro from "../macro";
-import { islandOutfit } from "../outfit";
 
 function getLocation() {
   return Location.get("Smoldering Bone Spikes");
@@ -34,7 +34,7 @@ function getLocation() {
 function freeKillTask(
   fragment: Omit<CrimboTask, "do" | "sobriety" | "name" | "outfit" | "combat">,
   action: Item | Skill,
-  source: OutfitSpec = {}
+  source: OutfitSpec = {},
 ): CrimboTask {
   return {
     name: `${action}`,
@@ -49,7 +49,7 @@ function freeKillTask(
 function freeRunTask(
   fragment: Omit<CrimboTask, "do" | "sobriety" | "name" | "outfit" | "combat">,
   action: Item | Skill,
-  source: OutfitSpec = {}
+  source: OutfitSpec = {},
 ): CrimboTask {
   return {
     name: `${action}`,
@@ -70,14 +70,17 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       do: () => getLocation(),
       sobriety: "either",
       outfit: () => ({
-        ...(myInebriety() > inebrietyLimit() ? { offhand: $item`Drunkula's wineglass` } : {}),
+        ...(myInebriety() > inebrietyLimit()
+          ? { offhand: $item`Drunkula's wineglass` }
+          : {}),
       }),
     },
     // Timer Free Kills
     freeKillTask(
       {
         completed: () => have($effect`Everything Looks Yellow`),
-        ready: () => have($item`Jurassic Parka`) && have($skill`Torso Awareness`),
+        ready: () =>
+          have($item`Jurassic Parka`) && have($skill`Torso Awareness`),
       },
       $skill`Spit jurassic acid`,
       {
@@ -85,14 +88,14 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         modes: {
           parka: "dilophosaur",
         },
-      }
+      },
     ),
     freeKillTask(
       {
         completed: () => have($effect`Everything Looks Red`),
         ready: () => have($skill`Free-For-All`),
       },
-      $skill`Free-For-All`
+      $skill`Free-For-All`,
     ),
     // Timer Free Runs
     freeRunTask(
@@ -102,7 +105,7 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         completed: () => true,
         // getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
       },
-      $skill`Asdon Martin: Spring-Loaded Front Bumper`
+      $skill`Asdon Martin: Spring-Loaded Front Bumper`,
     ),
     freeRunTask(
       {
@@ -110,14 +113,14 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         completed: () => have($effect`Everything Looks Green`),
       },
       $skill`Spring Away`,
-      { acc1: $item`spring shoes` }
+      { acc1: $item`spring shoes` },
     ),
     freeRunTask(
       {
         completed: () => get("cosmicBowlingBallReturnCombats") >= 1,
         ready: () => get("hasCosmicBowlingBall"),
       },
-      $skill`Bowl a Curveball`
+      $skill`Bowl a Curveball`,
     ),
     // NC Forcers
     {
@@ -148,28 +151,31 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       sobriety: "either",
     },
     // Free Kills
-    freeKillTask({ completed: () => get("shockingLickCharges") === 0 }, $skill`Shocking Lick`),
+    freeKillTask(
+      { completed: () => get("shockingLickCharges") === 0 },
+      $skill`Shocking Lick`,
+    ),
     freeKillTask(
       {
         completed: () => get("_firedJokestersGun"),
         ready: () => have($item`The Jokester's gun`),
       },
       $skill`Fire the Jokester's Gun`,
-      { weapon: $item`The Jokester's gun` }
+      { weapon: $item`The Jokester's gun` },
     ),
     freeKillTask(
       {
         completed: () => get("_shatteringPunchUsed") >= 3,
         ready: () => have($skill`Shattering Punch`),
       },
-      $skill`Shattering Punch`
+      $skill`Shattering Punch`,
     ),
     freeKillTask(
       {
         completed: () => get("_gingerbreadMobHitUsed"),
         ready: () => have($skill`Gingerbread Mob Hit`),
       },
-      $skill`Gingerbread Mob Hit`
+      $skill`Gingerbread Mob Hit`,
     ),
     freeKillTask(
       {
@@ -181,32 +187,37 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
           },
         ],
       },
-      $item`shadow brick`
+      $item`shadow brick`,
     ),
     freeKillTask(
       {
         completed: () => get("_usedReplicaBatoomerang") >= 3,
         ready: () => have($item`replica bat-oomerang`),
       },
-      $item`replica bat-oomerang`
+      $item`replica bat-oomerang`,
     ),
     freeKillTask(
-      { completed: () => get("_chestXRayUsed") >= 3, ready: () => have($item`Lil' Doctor™ bag`) },
+      {
+        completed: () => get("_chestXRayUsed") >= 3,
+        ready: () => have($item`Lil' Doctor™ bag`),
+      },
       $skill`Chest X-Ray`,
-      { acc1: $item`Lil' Doctor™ bag` }
+      { acc1: $item`Lil' Doctor™ bag` },
     ),
     freeKillTask(
       {
         completed: () => get("_assertYourAuthorityCast") >= 3,
         ready: () =>
-          $items`Sheriff moustache, Sheriff badge, Sheriff pistol`.every((it) => have(it)),
+          $items`Sheriff moustache, Sheriff badge, Sheriff pistol`.every((it) =>
+            have(it),
+          ),
       },
       $skill`Assert your Authority`,
       {
         weapon: $item`Sheriff pistol`,
         acc1: $item`Sheriff badge`,
         acc2: $item`Sheriff moustache`,
-      }
+      },
     ),
     // Free Runs
     freeRunTask(
@@ -214,11 +225,14 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         completed: () => get("_feelHatredUsed") >= 3,
         ready: () => have($skill`Emotionally Chipped`),
       },
-      $skill`Feel Hatred`
+      $skill`Feel Hatred`,
     ),
     freeRunTask(
-      { completed: () => get("_snokebombUsed") >= 3, ready: () => have($skill`Snokebomb`) },
-      $skill`Snokebomb`
+      {
+        completed: () => get("_snokebombUsed") >= 3,
+        ready: () => have($skill`Snokebomb`),
+      },
+      $skill`Snokebomb`,
     ),
     freeRunTask(
       {
@@ -226,7 +240,7 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
         ready: () => have($item`Lil' Doctor™ bag`),
       },
       $skill`Reflex Hammer`,
-      { acc1: $item`Lil' Doctor™ bag` }
+      { acc1: $item`Lil' Doctor™ bag` },
     ),
     // Regular Attack
     {
