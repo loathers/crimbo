@@ -27517,6 +27517,11 @@ var Macro2 = /* @__PURE__ */ (function(_StrictMacro) {
     value: function islandRunWith(thing) {
       return this.pickpocket().externalIf((0, import_kolmafia108.haveEquipped)($item(_templateObject3914 || (_templateObject3914 = _taggedTemplateLiteral97(["tearaway pants"])))), Macro3.if_("!pastround 1 && monsterphylum plant", Macro3.skill($skill(_templateObject4014 || (_templateObject4014 = _taggedTemplateLiteral97(["Tear Away your Pants!"])))))).itemOrSkill(thing);
     }
+  }, {
+    key: "islandCombat",
+    value: function islandCombat() {
+      return this.pickpocket().externalIf((0, import_kolmafia108.haveEquipped)($item(_templateObject4129 || (_templateObject4129 = _taggedTemplateLiteral97(["tearaway pants"])))), Macro3.if_("!pastround 1 && monsterphylum plant", Macro3.skill($skill(_templateObject4216 || (_templateObject4216 = _taggedTemplateLiteral97(["Tear Away your Pants!"])))))).standardCombat();
+    }
   }], [{
     key: "tryHaveSkill",
     value: function tryHaveSkill(skill) {
@@ -27590,7 +27595,7 @@ var Macro2 = /* @__PURE__ */ (function(_StrictMacro) {
   }, {
     key: "islandCombat",
     value: function islandCombat() {
-      return Macro3.pickpocket().externalIf((0, import_kolmafia108.haveEquipped)($item(_templateObject4129 || (_templateObject4129 = _taggedTemplateLiteral97(["tearaway pants"])))), Macro3.if_("!pastround 1 && monsterphylum plant", Macro3.skill($skill(_templateObject4216 || (_templateObject4216 = _taggedTemplateLiteral97(["Tear Away your Pants!"])))))).attack().repeat("!pastround 3").hardCombat();
+      return Macro3.islandCombat();
     }
   }]);
 })(StrictMacro);
