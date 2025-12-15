@@ -3,7 +3,7 @@ import Macro from "../macro";
 import { islandOutfit } from "../outfit";
 import { OutfitSpec, Quest } from "grimoire-kolmafia";
 import { Item, Location, Skill, mallPrice, myAdventures } from "kolmafia";
-import { $effect, $item, $items, $skill, AsdonMartin, get, have } from "libram";
+import { $effect, $item, $items, $skill, get, have } from "libram";
 
 function getLocation() {
   return Location.get("Smoldering Bone Spikes");
@@ -24,20 +24,20 @@ function freeKillTask(
   };
 }
 
-function freeRunTask(
-  fragment: Omit<CrimboTask, "do" | "sobriety" | "name" | "outfit" | "combat">,
-  action: Item | Skill,
-  source: OutfitSpec = {},
-): CrimboTask {
-  return {
-    name: `${action}`,
-    do: () => getLocation(),
-    sobriety: "sober",
-    outfit: () => islandOutfit("freerun", source),
-    combat: new CrimboStrategy(() => Macro.islandRunWith(action)),
-    ...fragment,
-  };
-}
+// function freeRunTask(
+//   fragment: Omit<CrimboTask, "do" | "sobriety" | "name" | "outfit" | "combat">,
+//   action: Item | Skill,
+//   source: OutfitSpec = {},
+// ): CrimboTask {
+//   return {
+//     name: `${action}`,
+//     do: () => getLocation(),
+//     sobriety: "sober",
+//     outfit: () => islandOutfit("freerun", source),
+//     combat: new CrimboStrategy(() => Macro.islandRunWith(action)),
+//     ...fragment,
+//   };
+// }
 
 // const NC_FORCERS = [
 //       {
@@ -106,30 +106,30 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       $skill`Free-For-All`,
     ),
     // Timer Free Runs
-    freeRunTask(
-      {
-        ready: () => AsdonMartin.installed(),
-        prepare: () => AsdonMartin.fillTo(50),
-        completed: () => true,
-        // getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
-      },
-      $skill`Asdon Martin: Spring-Loaded Front Bumper`,
-    ),
-    freeRunTask(
-      {
-        ready: () => have($item`spring shoes`),
-        completed: () => have($effect`Everything Looks Green`),
-      },
-      $skill`Spring Away`,
-      { acc1: $item`spring shoes` },
-    ),
-    freeRunTask(
-      {
-        completed: () => get("cosmicBowlingBallReturnCombats") >= 1,
-        ready: () => get("hasCosmicBowlingBall"),
-      },
-      $skill`Bowl a Curveball`,
-    ),
+    // freeRunTask(
+    //   {
+    //     ready: () => AsdonMartin.installed(),
+    //     prepare: () => AsdonMartin.fillTo(50),
+    //     completed: () => true,
+    //     // getBanishedMonsters().has($skill`Asdon Martin: Spring-Loaded Front Bumper`),
+    //   },
+    //   $skill`Asdon Martin: Spring-Loaded Front Bumper`,
+    // ),
+    // freeRunTask(
+    //   {
+    //     ready: () => have($item`spring shoes`),
+    //     completed: () => have($effect`Everything Looks Green`),
+    //   },
+    //   $skill`Spring Away`,
+    //   { acc1: $item`spring shoes` },
+    // ),
+    // freeRunTask(
+    //   {
+    //     completed: () => get("cosmicBowlingBallReturnCombats") >= 1,
+    //     ready: () => get("hasCosmicBowlingBall"),
+    //   },
+    //   $skill`Bowl a Curveball`,
+    // ),
     // NC Forcers
     //...NC_FORCERS,
     // Free Kills
@@ -202,28 +202,28 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       },
     ),
     // Free Runs
-    freeRunTask(
-      {
-        completed: () => get("_feelHatredUsed") >= 3,
-        ready: () => have($skill`Emotionally Chipped`),
-      },
-      $skill`Feel Hatred`,
-    ),
-    freeRunTask(
-      {
-        completed: () => get("_snokebombUsed") >= 3,
-        ready: () => have($skill`Snokebomb`),
-      },
-      $skill`Snokebomb`,
-    ),
-    freeRunTask(
-      {
-        completed: () => get("_reflexHammerUsed") >= 3,
-        ready: () => have($item`Lil' Doctor™ bag`),
-      },
-      $skill`Reflex Hammer`,
-      { acc1: $item`Lil' Doctor™ bag` },
-    ),
+    // freeRunTask(
+    //   {
+    //     completed: () => get("_feelHatredUsed") >= 3,
+    //     ready: () => have($skill`Emotionally Chipped`),
+    //   },
+    //   $skill`Feel Hatred`,
+    // ),
+    // freeRunTask(
+    //   {
+    //     completed: () => get("_snokebombUsed") >= 3,
+    //     ready: () => have($skill`Snokebomb`),
+    //   },
+    //   $skill`Snokebomb`,
+    // ),
+    // freeRunTask(
+    //   {
+    //     completed: () => get("_reflexHammerUsed") >= 3,
+    //     ready: () => have($item`Lil' Doctor™ bag`),
+    //   },
+    //   $skill`Reflex Hammer`,
+    //   { acc1: $item`Lil' Doctor™ bag` },
+    // ),
     // Regular Attack
     {
       name: "Island Adventuring",
