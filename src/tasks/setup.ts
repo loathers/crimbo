@@ -112,8 +112,7 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
         !have($familiar`Reagnimated Gnome`) ||
         have($item`gnomish housemaid's kgnee`),
       do: (): void => {
-        visitUrl("arena.php");
-        runChoice(4);
+        cliExecute("make 1 gnomish housemaid's kgnee");
       },
       outfit: { familiar: $familiar`Reagnimated Gnome` },
       sobriety: "sober",
