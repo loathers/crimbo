@@ -28740,10 +28740,8 @@ function _toPrimitive38(t, r) {
   return ("string" === r ? String : Number)(t);
 }
 var turncount = (0, import_kolmafia114.myTurncount)();
-var completed = args.turns > 0 ? function() {
-  return (0, import_kolmafia114.myTurncount)() - turncount >= args.turns || (0, import_kolmafia114.myAdventures)() === 0;
-} : function() {
-  return (0, import_kolmafia114.myAdventures)() === -args.turns;
+var completed = function() {
+  return args.turns > 0 ? (0, import_kolmafia114.myTurncount)() - turncount >= args.turns || (0, import_kolmafia114.myAdventures)() === 0 : (0, import_kolmafia114.myAdventures)() <= -args.turns;
 };
 var tasks_default = getTasks([SETUP_QUEST, _objectSpread19(_objectSpread19({}, GLOBAL_QUEST), {}, {
   completed: completed
