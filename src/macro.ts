@@ -29,6 +29,7 @@ import {
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
 import { shouldRedigitize } from "./lib";
+import { match } from "node:assert";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },
@@ -259,6 +260,6 @@ export default class Macro extends StrictMacro {
   }
 
   static islandCombat(): Macro {
-    return Macro.islandCombat();
+    return new Macro().islandCombat();
   }
 }
