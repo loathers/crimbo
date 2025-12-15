@@ -98,7 +98,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         totalTurnsPlayed() % 11 === 1 &&
         get("lastVoteMonsterTurn") < totalTurnsPlayed() &&
         get("_voteFreeFights") < 3,
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       outfit: () =>
         wandererOutfit(
           { wandererType: "wanderer", isFree: true },
@@ -120,7 +120,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           ),
         }),
       completed: () => get("_sourceTerminalDigitizeMonsterCount") !== digitizes,
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       post: () => (digitizes = get("_sourceTerminalDigitizeMonsterCount")),
       choices: () => wanderer().getChoices("wanderer"),
       combat: new CrimboStrategy(() => Macro.redigitize().standardCombat()),
@@ -137,7 +137,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
           { wandererType: "wanderer", isFree: true },
           { offhand: $item`cursed magnifying glass` },
         ),
-      do: () => wanderer().getTarget("wanderer"),
+      do: () => wanderer().getTarget("wanderer").location,
       choices: () => wanderer().getChoices("wanderer"),
       sobriety: "either",
       combat: new CrimboStrategy(() => Macro.standardCombat()),
