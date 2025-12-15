@@ -18,12 +18,10 @@ import {
   myPrimestat,
   putCloset,
   restoreMp,
-  runChoice,
   totalTurnsPlayed,
   use,
   useFamiliar,
   useSkill,
-  visitUrl,
 } from "kolmafia";
 import {
   $effect,

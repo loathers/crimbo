@@ -2,30 +2,8 @@ import { CrimboStrategy, CrimboTask } from "../engine";
 import Macro from "../macro";
 import { islandOutfit } from "../outfit";
 import { OutfitSpec, Quest } from "grimoire-kolmafia";
-import {
-  Item,
-  Location,
-  Skill,
-  cliExecute,
-  inebrietyLimit,
-  mallPrice,
-  myAdventures,
-  myInebriety,
-  use,
-  useSkill,
-} from "kolmafia";
-import {
-  $effect,
-  $item,
-  $items,
-  $skill,
-  AprilingBandHelmet,
-  AsdonMartin,
-  CinchoDeMayo,
-  get,
-  // getBanishedMonsters,
-  have,
-} from "libram";
+import { Item, Location, Skill, mallPrice, myAdventures } from "kolmafia";
+import { $effect, $item, $items, $skill, AsdonMartin, get, have } from "libram";
 
 function getLocation() {
   return Location.get("Smoldering Bone Spikes");
@@ -61,35 +39,35 @@ function freeRunTask(
   };
 }
 
-const NC_FORCERS = [
-      {
-      name: "Clara's Bell",
-      completed: () => get("_claraBellUsed"),
-      ready: () => have($item`Clara's bell`),
-      do: () => use($item`Clara's bell`),
-      sobriety: "either",
-    },
-    {
-      name: "Pillkeeper",
-      completed: () => get("_freePillKeeperUsed"),
-      ready: () => have($item`Eight Days a Week Pill Keeper`),
-      do: () => cliExecute("pillkeeper noncombat"),
-      sobriety: "either",
-    },
-    {
-      name: "Fiesta Exit",
-      completed: () => CinchoDeMayo.currentCinch() < 60,
-      ready: () => CinchoDeMayo.have(),
-      do: () => useSkill($skill`Cincho: Fiesta Exit`),
-      sobriety: "either",
-    },
-    {
-      name: "Apriling Tuba",
-      completed: () => !AprilingBandHelmet.canPlay("Apriling band tuba"),
-      do: () => AprilingBandHelmet.play("Apriling band tuba"),
-      sobriety: "either",
-    },
-];
+// const NC_FORCERS = [
+//       {
+//       name: "Clara's Bell",
+//       completed: () => get("_claraBellUsed"),
+//       ready: () => have($item`Clara's bell`),
+//       do: () => use($item`Clara's bell`),
+//       sobriety: "either",
+//     },
+//     {
+//       name: "Pillkeeper",
+//       completed: () => get("_freePillKeeperUsed"),
+//       ready: () => have($item`Eight Days a Week Pill Keeper`),
+//       do: () => cliExecute("pillkeeper noncombat"),
+//       sobriety: "either",
+//     },
+//     {
+//       name: "Fiesta Exit",
+//       completed: () => CinchoDeMayo.currentCinch() < 60,
+//       ready: () => CinchoDeMayo.have(),
+//       do: () => useSkill($skill`Cincho: Fiesta Exit`),
+//       sobriety: "either",
+//     },
+//     {
+//       name: "Apriling Tuba",
+//       completed: () => !AprilingBandHelmet.canPlay("Apriling band tuba"),
+//       do: () => AprilingBandHelmet.play("Apriling band tuba"),
+//       sobriety: "either",
+//     },
+// ];
 
 export const ISLAND_QUEST: Quest<CrimboTask> = {
   name: "Island Adventuring",
