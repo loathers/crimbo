@@ -62,7 +62,7 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
     ? $familiars`Temporal Riftlet, Reagnimated Gnome`
     : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (options.location?.zone === "Crimbo Island") {
+  if (options.location?.zone === "Crimbo25") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
 
     const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);

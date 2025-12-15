@@ -21,7 +21,7 @@ export function main(command?: string) {
 
   setDefaultMaximizeOptions({ preventSlot: $slots`crown-of-thrones, buddy-bjorn` });
 
-  sinceKolmafiaRevision(27753);
+  sinceKolmafiaRevision(28799); // First zone of the season added
 
   const engine = new CrimboEngine(Tasks);
   engine.print();
