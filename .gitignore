@@ -1,4 +1,4 @@
 .DS_Store
 .vscode
-KoLmafia/scripts/*
+dist/scripts/*
 node_modules
