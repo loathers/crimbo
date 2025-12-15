@@ -1,4 +1,4 @@
-import { Args, ParseError } from "grimoire-kolmafia";
+import { Args } from "grimoire-kolmafia";
 import {
   canEquip,
   descToItem,
@@ -14,11 +14,7 @@ import {
   runChoice,
   visitUrl,
 } from "kolmafia";
-import { $familiar, $item, $stat, Counter, CrystalBall, get, have, SourceTerminal } from "libram";
-
-import ISLANDS, { HolidayIsland } from "./islands";
-
-export type Island = keyof typeof ISLANDS;
+import { $familiar, $item, $stat, Counter, get, have, SourceTerminal } from "libram";
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -48,7 +44,7 @@ export function sober() {
   return myInebriety() <= inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0);
 }
 
-export const args = Args.create("crimbo24", "A script for farming elf stuff", {
+export const args = Args.create("crimbo25", "A script for farming skeleton stuff", {
   ascend: Args.flag({
     help: "Whether you plan to ascend right after this",
     default: false,
@@ -57,34 +53,6 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     help: "The number of turns to run (use negative numbers for the number of turns remaining)",
     default: Infinity,
   }),
-  island: Args.custom<Island[]>(
-    {
-      hidden: false,
-      help: `Which island to adventure at. Valid options include ${Object.keys(ISLANDS).map(
-        (island) => island.toLowerCase()
-      )}. Use two, separated by only a comma, if you want to use the orb. E.g., "easter,stpatrick".`,
-      default: [] as Island[],
-    },
-    (str): Island[] | ParseError => {
-      const splitStr = str.split(",").filter(Boolean);
-      if (![1, 2].includes(splitStr.length))
-        return new ParseError("Please select at least 1 island, and at most 2");
-      if (!CrystalBall.have() && splitStr.length === 2)
-        return new ParseError(
-          "Without miniature crystal ball, you may only select a single island."
-        );
-      const mappedStr = splitStr.map(
-        (islandName) =>
-          Object.keys(ISLANDS).find(
-            (island) => island.toLowerCase() === islandName.toLowerCase()
-          ) ?? new ParseError(`Cannot find island for string ${islandName}`)
-      );
-      const error = mappedStr.find((el): el is ParseError => el instanceof ParseError);
-      if (error) return error;
-      return mappedStr as Island[];
-    },
-    ""
-  ),
   shrub: Args.boolean({
     help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
     default: false,
@@ -94,35 +62,6 @@ export const args = Args.create("crimbo24", "A script for farming elf stuff", {
     default: false,
   }),
 });
-
-export function getIslands(): HolidayIsland[] {
-  if (!args.island?.length)
-    throw new Error(
-      "Listen, buddy, you've got to pick an Island. It's not clear how we got this far."
-    );
-
-  const islands = args.island
-    .map(
-      (island) =>
-        Object.entries(ISLANDS).find(([key]) => key.toLowerCase() === island.toLowerCase())?.[1]
-    )
-    .filter((x): x is HolidayIsland => !!x);
-  return islands;
-}
-
-export function getIsland(orb = true): HolidayIsland {
-  const islands = getIslands();
-
-  if (!orb || islands.length === 1) return islands[0];
-
-  const ponderResult = CrystalBall.getPrediction();
-
-  return (
-    islands.find(({ location, orbTarget }) => ponderResult.get(location) === orbTarget) ??
-    islands.find(({ location }) => !ponderResult.has(location)) ??
-    islands[0]
-  );
-}
 
 function getCMCChoices(): { [choice: string]: number } {
   const options = visitUrl("campground.php?action=workshed");

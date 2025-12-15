@@ -6,6 +6,7 @@ import {
   equippedAmount,
   haveEquipped,
   itemAmount,
+  Location,
   setAutoAttack,
 } from "kolmafia";
 import {
@@ -19,7 +20,7 @@ import {
 } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { getIslands, printd, sober } from "./lib";
+import { printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
@@ -45,7 +46,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
     if (
       CrystalBall.have() &&
       !haveEquipped(CrystalBall.orb) &&
-      getIslands().some(({ location }) => CrystalBall.getPrediction().has(location))
+      CrystalBall.getPrediction().has(Location.get("Smoldering Bone Spikes"))
     ) {
       OrbManager.shrineGaze();
     }
