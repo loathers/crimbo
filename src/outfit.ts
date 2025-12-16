@@ -23,6 +23,7 @@ import {
   get,
   getRemainingStomach,
   have,
+  SkeletonOfCrimboPast,
   sumNumbers,
   TearawayPants,
 } from "libram";
@@ -64,6 +65,7 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Crimbo25") {
     if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
+    if(SkeletonOfCrimboPast.have() && get("_knuckleboneDrops") < 100) return $familiar`Skeleton of Crimbo Past`
 
     const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);
     if (adventuresFamiliar) return adventuresFamiliar;
