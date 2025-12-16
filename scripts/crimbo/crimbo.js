@@ -20704,7 +20704,7 @@ var require_value = __commonJS({
     var _templateObject5214;
     var _templateObject5314;
     var _templateObject5414;
-    var _templateObject5513;
+    var _templateObject5514;
     var _templateObject5611;
     var _templateObject5711;
     var _templateObject5810;
@@ -20863,7 +20863,7 @@ var require_value = __commonJS({
       }]], _toConsumableArray41((0, libram_1.$items)(_templateObject5014 || (_templateObject5014 = _taggedTemplateLiteral103(["worthless gewgaw, worthless knick-knack, worthless trinket"]))).map(function(i) {
         return [i, currency.apply(void 0, _toConsumableArray41((0, libram_1.$items)(_templateObject5116 || (_templateObject5116 = _taggedTemplateLiteral103(["seal tooth, chisel, petrified noodles, jaba\xF1ero pepper, banjo strings, hot buttered roll, wooden figurine, ketchup, catsup, volleyball"])))).concat(_toConsumableArray41((0, kolmafia_1.myClass)() === (0, libram_1.$class)(_templateObject5214 || (_templateObject5214 = _taggedTemplateLiteral103(["Seal Clubber"]))) ? (0, libram_1.$items)(_templateObject5314 || (_templateObject5314 = _taggedTemplateLiteral103(["figurine of an ancient seal"]))) : [])))];
       })), [[(0, libram_1.$item)(_templateObject5414 || (_templateObject5414 = _taggedTemplateLiteral103(["Boris's key"]))), function() {
-        return value((0, libram_1.$item)(_templateObject5513 || (_templateObject5513 = _taggedTemplateLiteral103(["Boris's key lime"])))) - value((0, libram_1.$item)(_templateObject5611 || (_templateObject5611 = _taggedTemplateLiteral103(["lime"]))));
+        return value((0, libram_1.$item)(_templateObject5514 || (_templateObject5514 = _taggedTemplateLiteral103(["Boris's key lime"])))) - value((0, libram_1.$item)(_templateObject5611 || (_templateObject5611 = _taggedTemplateLiteral103(["lime"]))));
       }], [(0, libram_1.$item)(_templateObject5711 || (_templateObject5711 = _taggedTemplateLiteral103(["Jarlsberg's key"]))), function() {
         return value((0, libram_1.$item)(_templateObject5810 || (_templateObject5810 = _taggedTemplateLiteral103(["Jarlsberg's key lime"])))) - value((0, libram_1.$item)(_templateObject5910 || (_templateObject5910 = _taggedTemplateLiteral103(["lime"]))));
       }], [(0, libram_1.$item)(_templateObject6010 || (_templateObject6010 = _taggedTemplateLiteral103(["Sneaky Pete's key"]))), function() {
@@ -27716,6 +27716,7 @@ var _templateObject5115;
 var _templateObject5213;
 var _templateObject5313;
 var _templateObject5413;
+var _templateObject5513;
 function _toConsumableArray40(r) {
   return _arrayWithoutHoles40(r) || _iterableToArray40(r) || _unsupportedIterableToArray57(r) || _nonIterableSpread40();
 }
@@ -27940,18 +27941,18 @@ function islandOutfit(fight2) {
   }), ifHave("offhand", $item(_templateObject4813 || (_templateObject4813 = _taggedTemplateLiteral98(["carnivorous potted plant"]))))));
   if (fight2 === "regular") outfit2.equip(ifHave("acc3", $item(_templateObject4913 || (_templateObject4913 = _taggedTemplateLiteral98(["mafia thumb ring"])))));
   outfit2.equip(ifHave("weapon", $item(_templateObject5013 || (_templateObject5013 = _taggedTemplateLiteral98(["June cleaver"])))));
-  if (TearawayPants_exports.have()) {
-    if ((0, import_kolmafia110.getMonsters)(location).some(function(_ref8) {
+  mergeSpecs(ifHave("pants", $item(_templateObject5115 || (_templateObject5115 = _taggedTemplateLiteral98(["Pantsgiving"]))), function() {
+    return get("_pantsgivingCount") < 50 || get("_pantsgivingFullness") < 2 && getRemainingStomach() === 0;
+  }), ifHave("pants", $item(_templateObject5213 || (_templateObject5213 = _taggedTemplateLiteral98(["tearaway pants"]))), function() {
+    return (0, import_kolmafia110.getMonsters)(location).some(function(_ref8) {
       var phylum = _ref8.phylum;
-      return phylum === $phylum(_templateObject5115 || (_templateObject5115 = _taggedTemplateLiteral98(["plant"])));
-    })) {
-      outfit2.equip($item(_templateObject5213 || (_templateObject5213 = _taggedTemplateLiteral98(["tearaway pants"]))));
-    }
-  }
-  if ($familiars(_templateObject5313 || (_templateObject5313 = _taggedTemplateLiteral98(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"])))) {
+      return phylum === $phylum(_templateObject5313 || (_templateObject5313 = _taggedTemplateLiteral98(["plant"])));
+    });
+  }));
+  if ($familiars(_templateObject5413 || (_templateObject5413 = _taggedTemplateLiteral98(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"])))) {
     outfit2.modifier.push("1 Familiar Weight");
   } else {
-    outfit2.equip(ifHave("famequip", $item(_templateObject5413 || (_templateObject5413 = _taggedTemplateLiteral98(["tiny stillsuit"])))));
+    outfit2.equip(ifHave("famequip", $item(_templateObject5513 || (_templateObject5513 = _taggedTemplateLiteral98(["tiny stillsuit"])))));
   }
   return outfit2;
 }
