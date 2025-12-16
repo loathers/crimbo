@@ -23,7 +23,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.18.10":
+"@babel/core@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/core@npm:7.28.5"
   dependencies:
@@ -342,7 +342,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-object-rest-spread@npm:^7.18.9":
+"@babel/plugin-proposal-object-rest-spread@npm:^7.20.7":
   version: 7.20.7
   resolution: "@babel/plugin-proposal-object-rest-spread@npm:7.20.7"
   dependencies:
@@ -1049,7 +1049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.18.9":
+"@babel/preset-env@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/preset-env@npm:7.28.5"
   dependencies:
@@ -1142,7 +1142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.18.6":
+"@babel/preset-typescript@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/preset-typescript@npm:7.28.5"
   dependencies:
@@ -1630,7 +1630,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.1.19":
+"@types/babel__core@npm:^7.20.5":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
   dependencies:
@@ -1652,7 +1652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__preset-env@npm:^7.9.2":
+"@types/babel__preset-env@npm:^7.10.0":
   version: 7.10.0
   resolution: "@types/babel__preset-env@npm:7.10.0"
   checksum: 10c0/5ad0c3a8bec4f7612ee8aeecb4ee94494d3bc193f6da608cd118175e726bb2cf649515aded650defb968bfae4ec6e6c52c0c06fc83be261c0b8eaa3f8f2cf336
@@ -2202,15 +2202,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "crimbo@workspace:."
   dependencies:
-    "@babel/core": "npm:^7.18.10"
+    "@babel/core": "npm:^7.28.5"
     "@babel/plugin-proposal-class-properties": "npm:^7.18.6"
-    "@babel/plugin-proposal-object-rest-spread": "npm:^7.18.9"
-    "@babel/preset-env": "npm:^7.18.9"
-    "@babel/preset-typescript": "npm:^7.18.6"
+    "@babel/plugin-proposal-object-rest-spread": "npm:^7.20.7"
+    "@babel/preset-env": "npm:^7.28.5"
+    "@babel/preset-typescript": "npm:^7.28.5"
     "@eslint/js": "npm:^9.39.2"
     "@trivago/prettier-plugin-sort-imports": "npm:^6.0.0"
-    "@types/babel__core": "npm:^7.1.19"
-    "@types/babel__preset-env": "npm:^7.9.2"
+    "@types/babel__core": "npm:^7.20.5"
+    "@types/babel__preset-env": "npm:^7.10.0"
     "@types/node": "npm:^25.0.2"
     create-kolmafia-script: "npm:^0.1.0"
     esbuild: "npm:^0.27.1"
@@ -2218,10 +2218,10 @@ __metadata:
     eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-plugin-libram: "npm:^0.5.3"
-    garbo-lib: "npm:^1.0.0"
-    grimoire-kolmafia: "npm:^0.3.26"
+    garbo-lib: "npm:^1.0.3"
+    grimoire-kolmafia: "npm:^0.3.33"
     jiti: "npm:^2.6.1"
-    kolmafia: "npm:^5.27735.0"
+    kolmafia: "npm:^5.28804.0"
     libram: "npm:^0.11.14"
     prettier: "npm:^3.7.4"
     tsx: "npm:^4.21.0"
@@ -2762,7 +2762,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"garbo-lib@npm:^1.0.0":
+"garbo-lib@npm:^1.0.3":
   version: 1.0.3
   resolution: "garbo-lib@npm:1.0.3"
   peerDependencies:
@@ -2839,7 +2839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"grimoire-kolmafia@npm:^0.3.26":
+"grimoire-kolmafia@npm:^0.3.33":
   version: 0.3.33
   resolution: "grimoire-kolmafia@npm:0.3.33"
   dependencies:
@@ -3159,7 +3159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kolmafia@npm:^5.27735.0":
+"kolmafia@npm:^5.28804.0":
   version: 5.28804.0
   resolution: "kolmafia@npm:5.28804.0"
   checksum: 10c0/f9561907c8a9e004692dda0d246b1ba4c1c50d4ad2be32e30cd8291b9c8a58c28b3bbaa4999440bf7904b258d22a0951b6b664a455217be6459cbbc18bbf57da
