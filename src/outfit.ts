@@ -1,14 +1,14 @@
 import { DraggableFight } from "garbo-lib";
 import { Outfit, OutfitSlot, OutfitSpec } from "grimoire-kolmafia";
 import {
+  Familiar,
+  Item,
+  Location,
   canEquip,
   canInteract,
-  Familiar,
   getMonsters,
   inebrietyLimit,
-  Item,
   itemAmount,
-  Location,
   myInebriety,
   myPrimestat,
   toSlot,
@@ -20,15 +20,14 @@ import {
   $item,
   $phylum,
   $stat,
+  SkeletonOfCrimboPast,
   get,
   getRemainingStomach,
   have,
-  SkeletonOfCrimboPast,
   sumNumbers,
-  TearawayPants,
 } from "libram";
 
-import { freeFightFamiliar, MenuOptions } from "./familiar";
+import { MenuOptions, freeFightFamiliar } from "./familiar";
 import { args, realmAvailable, shouldPickpocket, sober } from "./lib";
 import { garboValue } from "./value";
 import { wanderer } from "./wanderer";
@@ -36,14 +35,16 @@ import { wanderer } from "./wanderer";
 export function ifHave(
   slot: OutfitSlot,
   item: Item | undefined,
-  condition?: () => boolean
+  condition?: () => boolean,
 ): OutfitSpec {
   return item && have(item) && canEquip(item) && (condition?.() ?? true)
     ? Object.fromEntries([[slot, item]])
     : {};
 }
 
-export const drunkSpec = sober() ? {} : { offhand: $item`Drunkula's wineglass` };
+export const drunkSpec = sober()
+  ? {}
+  : { offhand: $item`Drunkula's wineglass` };
 
 // export const orbSpec = () => {
 //   if (!CrystalBall.have()) return {};
@@ -64,47 +65,63 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
     : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Crimbo25") {
-    if (args.shrub && get("shrubGifts") === "gifts") return $familiar`Crimbo Shrub`;
-    if(SkeletonOfCrimboPast.have() && get("_knuckleboneDrops") < 100) return $familiar`Skeleton of Crimbo Past`
+    if (args.shrub && get("shrubGifts") === "gifts")
+      return $familiar`Crimbo Shrub`;
+    if (SkeletonOfCrimboPast.have() && get("_knuckleboneDrops") < 100)
+      return $familiar`Skeleton of Crimbo Past`;
 
-    const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have);
+    const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(
+      have,
+    );
     if (adventuresFamiliar) return adventuresFamiliar;
 
     if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
-    (canInteract() && sober() ? adventuresFamiliars(options.allowEquipment) : []).find((f) =>
-      have(f)
-    ) ?? freeFightFamiliar(options)
+    (canInteract() && sober()
+      ? adventuresFamiliars(options.allowEquipment)
+      : []
+    ).find((f) => have(f)) ?? freeFightFamiliar(options)
   );
 };
 
-type TaskOptions = { wandererType: DraggableFight | Location; isFree?: boolean };
+type TaskOptions = {
+  wandererType: DraggableFight | Location;
+  isFree?: boolean;
+};
 export function wandererOutfit(
   { wandererType, isFree }: TaskOptions,
   ...outfits: OutfitSpec[]
 ): OutfitSpec {
   const location =
-    wandererType instanceof Location ? wandererType : wanderer().getTarget(wandererType).location;
+    wandererType instanceof Location
+      ? wandererType
+      : wanderer().getTarget(wandererType).location;
   const mergedOutfits = mergeSpecs(...outfits);
-  const familiar = chooseFamiliar({ location, allowEquipment: !("famequip" in mergedOutfits) });
+  const familiar = chooseFamiliar({
+    location,
+    allowEquipment: !("famequip" in mergedOutfits),
+  });
   const famEquip = mergeSpecs(
     ifHave("famequip", equipmentFamiliars.get(familiar)),
     ifHave("famequip", $item`tiny stillsuit`),
-    ifHave("famequip", $item`amulet coin`)
+    ifHave("famequip", $item`amulet coin`),
   );
 
   const weapons = mergeSpecs(
     ifHave("weapon", $item`June cleaver`),
-    ifHave("weapon", $item`Fourth of May Cosplay Saber`)
+    ifHave("weapon", $item`Fourth of May Cosplay Saber`),
   );
   const offhands = mergeSpecs(
     ifHave("offhand", $item`carnivorous potted plant`),
     ifHave(
       "offhand",
       $item`cursed magnifying glass`,
-      () => !isFree && get("_voidFreeFights") < 5 && get("cursedMagnifyingGlassCount") < 13
-    )
+      () =>
+        !isFree &&
+        get("_voidFreeFights") < 5 &&
+        get("cursedMagnifyingGlassCount") < 13,
+    ),
   );
 
   const backs = mergeSpecs(
@@ -114,9 +131,9 @@ export function wandererOutfit(
       () =>
         get("questPAGhost") === "unstarted" &&
         get("nextParanormalActivity") <= totalTurnsPlayed() &&
-        sober()
+        sober(),
     ),
-    ifHave("back", $item`Buddy Bjorn`)
+    ifHave("back", $item`Buddy Bjorn`),
   );
   const spec = mergeSpecs(
     ifHave("hat", $item`Crown of Thrones`, () => !have($item`Buddy Bjorn`)),
@@ -128,16 +145,16 @@ export function wandererOutfit(
     ifHave(
       "pants",
       $item`designer sweatpants`,
-      () => 25 * get("_sweatOutSomeBoozeUsed") + get("sweat") < 75
+      () => 25 * get("_sweatOutSomeBoozeUsed") + get("sweat") < 75,
     ),
     ifHave(
       "pants",
       $item`Pantsgiving`,
       () =>
         get("_pantsgivingCount") < 50 ||
-        (get("_pantsgivingFullness") < 2 && getRemainingStomach() === 0)
+        (get("_pantsgivingFullness") < 2 && getRemainingStomach() === 0),
     ),
-    { modifier: "Familiar Weight" }
+    { modifier: "Familiar Weight" },
   );
 
   const bestAccessories = getBestAccessories(location, isFree);
@@ -148,9 +165,16 @@ export function wandererOutfit(
   }
   const mergedSpec = mergeSpecs(...outfits, spec);
 
-  const [goodFammy, lessGoodFammy] = [$item`Buddy Bjorn`, $item`Crown of Thrones`];
+  const [goodFammy, lessGoodFammy] = [
+    $item`Buddy Bjorn`,
+    $item`Crown of Thrones`,
+  ];
   const lessGoodSlot = toSlot(lessGoodFammy).toString() as OutfitSlot;
-  if (!have(goodFammy) && have(lessGoodFammy) && !(lessGoodSlot in mergedSpec)) {
+  if (
+    !have(goodFammy) &&
+    have(lessGoodFammy) &&
+    !(lessGoodSlot in mergedSpec)
+  ) {
     mergedSpec[lessGoodSlot] = lessGoodFammy;
   } else {
     mergedSpec.avoid = [...(mergedSpec.avoid ?? []), lessGoodFammy];
@@ -173,11 +197,15 @@ function luckyGoldRing() {
     ...[
       itemAmount($item`hobo nickel`) > 0 ? 100 : 0, // This should be closeted
       itemAmount($item`sand dollar`) > 0 ? garboValue($item`sand dollar`) : 0, // This should be closeted
-      itemAmount($item`Freddy Kruegerand`) > 0 ? garboValue($item`Freddy Kruegerand`) : 0,
+      itemAmount($item`Freddy Kruegerand`) > 0
+        ? garboValue($item`Freddy Kruegerand`)
+        : 0,
       realmAvailable("sleaze") ? garboValue($item`Beach Buck`) : 0,
       realmAvailable("spooky") ? garboValue($item`Coinspiracy`) : 0,
       realmAvailable("stench") ? garboValue($item`FunFunds™`) : 0,
-      realmAvailable("hot") && !get("_luckyGoldRingVolcoino") ? garboValue($item`Volcoino`) : 0,
+      realmAvailable("hot") && !get("_luckyGoldRingVolcoino")
+        ? garboValue($item`Volcoino`)
+        : 0,
       realmAvailable("cold") ? garboValue($item`Wal-Mart gift certificate`) : 0,
       realmAvailable("fantasy") ? garboValue($item`Rubee™`) : 0,
     ].filter((value) => value > 0),
@@ -188,10 +216,14 @@ function luckyGoldRing() {
 }
 
 type AccessoryOptions = { location: Location; isFree?: boolean };
-const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => number }[] = [
+const accessories: {
+  item: Item;
+  valueFunction: (options: AccessoryOptions) => number;
+}[] = [
   {
     item: $item`mafia thumb ring`,
-    valueFunction: ({ isFree }) => (!isFree ? (1 / 0.96 - 1) * get("valueOfAdventure") : 0),
+    valueFunction: ({ isFree }) =>
+      !isFree ? (1 / 0.96 - 1) * get("valueOfAdventure") : 0,
   },
   {
     item: $item`lucky gold ring`,
@@ -210,7 +242,10 @@ const accessories: { item: Item; valueFunction: (options: AccessoryOptions) => n
 function getBestAccessories(location: Location, isFree?: boolean) {
   return accessories
     .filter(({ item }) => have(item) && canEquip(item))
-    .map(({ item, valueFunction }) => ({ item, value: valueFunction({ location, isFree }) }))
+    .map(({ item, valueFunction }) => ({
+      item,
+      value: valueFunction({ location, isFree }),
+    }))
     .sort(({ value: a }, { value: b }) => b - a)
     .map(({ item }) => item)
     .splice(0, 3);
@@ -218,11 +253,11 @@ function getBestAccessories(location: Location, isFree?: boolean) {
 
 export function islandOutfit(
   fight: "freekill" | "freerun" | "regular",
-  baseSpec: OutfitSpec = {}
+  baseSpec: OutfitSpec = {},
 ): Outfit {
   const outfit = Outfit.from(
     baseSpec,
-    new Error(`Failed to construct outfit from spec: ${baseSpec}`)
+    new Error(`Failed to construct outfit from spec: ${baseSpec}`),
   );
   const location = Location.get("Smoldering Bone Spikes");
 
@@ -243,13 +278,22 @@ export function islandOutfit(
 
   outfit.equip(
     mergeSpecs(
-      ifHave("offhand", $item`Drunkula's wineglass`, () => myInebriety() > inebrietyLimit()),
-      ifHave("offhand", $item`deft pirate hook`, () => shouldPickpocket() && fight === "regular"),
-      ifHave("offhand", $item`carnivorous potted plant`)
-    )
+      ifHave(
+        "offhand",
+        $item`Drunkula's wineglass`,
+        () => myInebriety() > inebrietyLimit(),
+      ),
+      ifHave(
+        "offhand",
+        $item`deft pirate hook`,
+        () => shouldPickpocket() && fight === "regular",
+      ),
+      ifHave("offhand", $item`carnivorous potted plant`),
+    ),
   );
 
-  if (fight === "regular") outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
+  if (fight === "regular")
+    outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
 
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
@@ -258,14 +302,25 @@ export function islandOutfit(
   // if (get("_spikolodonSpikeUses") < 5)
   //   outfit.tryEquip({ shirt: $item`Jurassic Parka`, modes: { parka: "spikolodon" } });
 
-  // Also: GAP running
-  if (TearawayPants.have()) {
-    if (getMonsters(location).some(({ phylum }) => phylum === $phylum`plant`)) {
-      outfit.equip($item`tearaway pants`);
-    }
-  }
+  mergeSpecs(
+    ifHave(
+      "pants",
+      $item`Pantsgiving`,
+      () =>
+        get("_pantsgivingCount") < 50 ||
+        (get("_pantsgivingFullness") < 2 && getRemainingStomach() === 0),
+    ),
+    ifHave("pants", $item`tearaway pants`, () =>
+      getMonsters(location).some(({ phylum }) => phylum === $phylum`plant`),
+    ),
+  );
 
-  if ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (Familiar | undefined)[]) {
+  if (
+    $familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
+      | Familiar
+      | undefined
+    )[]
+  ) {
     outfit.modifier.push("1 Familiar Weight");
   } else {
     outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
