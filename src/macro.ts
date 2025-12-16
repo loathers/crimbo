@@ -1,14 +1,14 @@
 import {
+  Item,
+  Skill,
   equippedItem,
   haveEquipped,
   haveSkill,
-  Item,
   itemType,
   myBuffedstat,
   myClass,
   myFamiliar,
   myPrimestat,
-  Skill,
   visitUrl,
 } from "kolmafia";
 import {
@@ -20,11 +20,11 @@ import {
   $skill,
   $slot,
   $stat,
+  SongBoom,
+  StrictMacro,
   get,
   have,
   maxBy,
-  SongBoom,
-  StrictMacro,
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
@@ -39,7 +39,9 @@ const gooKillSkills = [
 let monsterManuelCached: boolean | undefined = undefined;
 function monsterManuelAvailable(): boolean {
   if (monsterManuelCached !== undefined) return Boolean(monsterManuelCached);
-  monsterManuelCached = visitUrl("questlog.php?which=3").includes("Monster Manuel");
+  monsterManuelCached = visitUrl("questlog.php?which=3").includes(
+    "Monster Manuel",
+  );
   return Boolean(monsterManuelCached);
 }
 
@@ -65,8 +67,8 @@ export default class Macro extends StrictMacro {
       shouldRedigitize(),
       Macro.if_(
         get("_sourceTerminalDigitizeMonster") ?? $monster.none,
-        Macro.skill($skill`Digitize`)
-      )
+        Macro.skill($skill`Digitize`),
+      ),
     );
   }
 
@@ -97,7 +99,7 @@ export default class Macro extends StrictMacro {
 
   doStandardItems(): this {
     return this.doItems(
-      $items`Rain-Doh blue balls, Time-Spinner, Rain-Doh indigo cup, porquoise-handled sixgun`
+      $items`Rain-Doh blue balls, Time-Spinner, Rain-Doh indigo cup, porquoise-handled sixgun`,
     );
   }
 
@@ -107,7 +109,7 @@ export default class Macro extends StrictMacro {
 
   doHardItems(): this {
     return this.doItems(
-      $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`
+      $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
     );
   }
 
@@ -118,10 +120,10 @@ export default class Macro extends StrictMacro {
   familiarActions(): this {
     return this.externalIf(
       canOpenRedPresent() && myFamiliar() === $familiar`Crimbo Shrub`,
-      Macro.trySkill($skill`Open a Big Red Present`)
+      Macro.trySkill($skill`Open a Big Red Present`),
     ).externalIf(
       timeToMeatify() && myFamiliar() === $familiar`Grey Goose`,
-      Macro.trySkill($skill`Meatify Matter`)
+      Macro.trySkill($skill`Meatify Matter`),
     );
   }
 
@@ -134,13 +136,16 @@ export default class Macro extends StrictMacro {
 
     return this.externalIf(
       myPrimestat() === $stat`mysticality`,
-      Macro.ifNot($monster`Section 11`, Macro.trySkillRepeat($skill`Saucegeyser`))
+      Macro.ifNot(
+        $monster`Section 11`,
+        Macro.trySkillRepeat($skill`Saucegeyser`),
+      ),
     )
       .externalIf(
         haveSkill($skill`Shieldbutt`) &&
           itemType(equippedItem($slot`offhand`)) === "shield" &&
           myClass() === $class`Turtle Tamer`,
-        Macro.trySkillRepeat($skill`Shieldbutt`)
+        Macro.trySkillRepeat($skill`Shieldbutt`),
       )
       .trySkillRepeat($skill`Lunging Thrust-Smack`)
       .trySkillRepeat($skill`Kneebutt`);
@@ -155,15 +160,18 @@ export default class Macro extends StrictMacro {
 
     const gooKillSkill: Skill = maxBy(
       gooKillSkills.filter(({ skill }) => have(skill)),
-      ({ stat }) => myBuffedstat(stat)
+      ({ stat }) => myBuffedstat(stat),
     ).skill;
 
     return this.externalIf(
       monsterManuelAvailable() && haveSkill($skill`Infinite Loop`),
-      Macro.while_(`monsterhpabove ${myBuffedstat($stat`moxie`)}`, Macro.skill(gooKillSkill))
+      Macro.while_(
+        `monsterhpabove ${myBuffedstat($stat`moxie`)}`,
+        Macro.skill(gooKillSkill),
+      )
         .skill($skill`Infinite Loop`)
         .repeat(),
-      Macro.skill(gooKillSkill).repeat()
+      Macro.skill(gooKillSkill).repeat(),
     );
   }
 
@@ -176,10 +184,13 @@ export default class Macro extends StrictMacro {
       .familiarActions()
       .externalIf(
         SongBoom.song() === "Total Eclipse of Your Meat",
-        Macro.tryHaveSkill($skill`Sing Along`)
+        Macro.tryHaveSkill($skill`Sing Along`),
       )
       .tryHaveSkill($skill`Extract`)
-      .externalIf(have($skill`Meteor Lore`), Macro.trySkill($skill`Micrometeorite`))
+      .externalIf(
+        have($skill`Meteor Lore`),
+        Macro.trySkill($skill`Micrometeorite`),
+      )
       .trySkill($skill`Pocket Crumbs`)
       .doStandardItems()
       .gooKill()
@@ -194,7 +205,10 @@ export default class Macro extends StrictMacro {
   hardCombat(): this {
     return this.tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
-      .externalIf(have($skill`Meteor Lore`), Macro.skill($skill`Micrometeorite`))
+      .externalIf(
+        have($skill`Meteor Lore`),
+        Macro.skill($skill`Micrometeorite`),
+      )
       .tryHaveSkill($skill`Pocket Crumbs`)
       .doHardItems()
       .gooKill()
@@ -221,13 +235,18 @@ export default class Macro extends StrictMacro {
   }
 
   islandKillWith(thing: Item | Skill): this {
-    return this.pickpocket()
-      //.trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
-      .itemOrSkill(thing);
+    return (
+      this.pickpocket()
+        //.trySkill($skill`Launch spikolodon spikes`)
+        .externalIf(
+          haveEquipped($item`tearaway pants`),
+          Macro.if_(
+            "!pastround 1 && monsterphylum plant",
+            Macro.skill($skill`Tear Away your Pants!`),
+          ),
+        )
+        .itemOrSkill(thing)
+    );
   }
 
   static islandKillWith(thing: Item | Skill): Macro {
@@ -235,13 +254,18 @@ export default class Macro extends StrictMacro {
   }
 
   islandRunWith(thing: Item | Skill): this {
-    return this.pickpocket()
-      //.trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
-      .itemOrSkill(thing);
+    return (
+      this.pickpocket()
+        //.trySkill($skill`Launch spikolodon spikes`)
+        .externalIf(
+          haveEquipped($item`tearaway pants`),
+          Macro.if_(
+            "!pastround 1 && monsterphylum plant",
+            Macro.skill($skill`Tear Away your Pants!`),
+          ),
+        )
+        .itemOrSkill(thing)
+    );
   }
 
   static islandRunWith(thing: Item | Skill): Macro {
@@ -249,13 +273,18 @@ export default class Macro extends StrictMacro {
   }
 
   islandCombat(): Macro {
-    return this.pickpocket()
-      //.trySkill($skill`Launch spikolodon spikes`)
-      .externalIf(
-        haveEquipped($item`tearaway pants`),
-        Macro.if_("!pastround 1 && monsterphylum plant", Macro.skill($skill`Tear Away your Pants!`))
-      )
-      .standardCombat();
+    return (
+      this.pickpocket()
+        //.trySkill($skill`Launch spikolodon spikes`)
+        .externalIf(
+          haveEquipped($item`tearaway pants`),
+          Macro.if_(
+            "!pastround 1 && monsterphylum plant",
+            Macro.skill($skill`Tear Away your Pants!`),
+          ),
+        )
+        .standardCombat()
+    );
   }
 
   static islandCombat(): Macro {

@@ -19,7 +19,9 @@ export function main(command?: string) {
     return;
   }
 
-  setDefaultMaximizeOptions({ preventSlot: $slots`crown-of-thrones, buddy-bjorn` });
+  setDefaultMaximizeOptions({
+    preventSlot: $slots`crown-of-thrones, buddy-bjorn`,
+  });
 
   sinceKolmafiaRevision(28799); // First zone of the season added
 
