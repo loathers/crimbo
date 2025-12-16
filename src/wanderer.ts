@@ -1,5 +1,5 @@
 import { WandererManager } from "garbo-lib";
-import { getMonsters, Location, myAdventures } from "kolmafia";
+import { Location, getMonsters, myAdventures } from "kolmafia";
 import { get, notNull } from "libram";
 
 import { args, digitizedMonstersRemaining } from "./lib";
@@ -18,7 +18,7 @@ export function wanderer(): WandererManager {
     digitzesRemaining: digitizedMonstersRemaining,
     plentifulMonsters: [
       get("_sourceTerminalDigitizeMonster"),
-      ...(getMonsters(Location.get("Smoldering Bone Spikes"))) ,
+      ...getMonsters(Location.get("Smoldering Bone Spikes")),
     ].filter(notNull),
   }));
 }

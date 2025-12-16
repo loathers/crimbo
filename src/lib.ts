@@ -1,10 +1,10 @@
 import { Args } from "grimoire-kolmafia";
 import {
+  Item,
   canEquip,
   descToItem,
   inebrietyLimit,
   isDarkMode,
-  Item,
   myAdventures,
   myFamiliar,
   myInebriety,
@@ -14,7 +14,15 @@ import {
   runChoice,
   visitUrl,
 } from "kolmafia";
-import { $familiar, $item, $stat, Counter, get, have, SourceTerminal } from "libram";
+import {
+  $familiar,
+  $item,
+  $stat,
+  Counter,
+  SourceTerminal,
+  get,
+  have,
+} from "libram";
 
 export function shouldRedigitize(): boolean {
   const digitizesLeft = SourceTerminal.getDigitizeUsesRemaining();
@@ -41,27 +49,34 @@ export function printd(message: string) {
 }
 
 export function sober() {
-  return myInebriety() <= inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0);
+  return (
+    myInebriety() <=
+    inebrietyLimit() + (myFamiliar() === $familiar`Stooper` ? -1 : 0)
+  );
 }
 
-export const args = Args.create("crimbo25", "A script for farming skeleton stuff", {
-  ascend: Args.flag({
-    help: "Whether you plan to ascend right after this",
-    default: false,
-  }),
-  turns: Args.number({
-    help: "The number of turns to run (use negative numbers for the number of turns remaining)",
-    default: Infinity,
-  }),
-  shrub: Args.boolean({
-    help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
-    default: false,
-  }),
-  debug: Args.flag({
-    help: "Turn on debug printing",
-    default: false,
-  }),
-});
+export const args = Args.create(
+  "crimbo25",
+  "A script for farming skeleton stuff",
+  {
+    ascend: Args.flag({
+      help: "Whether you plan to ascend right after this",
+      default: false,
+    }),
+    turns: Args.number({
+      help: "The number of turns to run (use negative numbers for the number of turns remaining)",
+      default: Infinity,
+    }),
+    shrub: Args.boolean({
+      help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
+      default: false,
+    }),
+    debug: Args.flag({
+      help: "Turn on debug printing",
+      default: false,
+    }),
+  },
+);
 
 function getCMCChoices(): { [choice: string]: number } {
   const options = visitUrl("campground.php?action=workshed");
@@ -90,14 +105,24 @@ export function countEnvironment(environment: CMCEnvironment): number {
     .filter((e) => e === environment).length;
 }
 
-export type RealmType = "spooky" | "stench" | "hot" | "cold" | "sleaze" | "fantasy" | "pirate";
+export type RealmType =
+  | "spooky"
+  | "stench"
+  | "hot"
+  | "cold"
+  | "sleaze"
+  | "fantasy"
+  | "pirate";
 export function realmAvailable(identifier: RealmType): boolean {
   if (identifier === "fantasy") {
     return get(`_frToday`) || get(`frAlways`);
   } else if (identifier === "pirate") {
     return get(`_prToday`) || get(`prAlways`);
   }
-  return get(`_${identifier}AirportToday`, false) || get(`${identifier}AirportAlways`, false);
+  return (
+    get(`_${identifier}AirportToday`, false) ||
+    get(`${identifier}AirportAlways`, false)
+  );
 }
 
 function untangleDigitizes(turnCount: number, chunks: number): number {
@@ -122,7 +147,8 @@ export function digitizedMonstersRemaining(turns = myTurncount()): number {
 
   const turnsLeftAtNextMonster = turns - Counter.get("Digitize Monster");
   if (turnsLeftAtNextMonster <= 0) return 0;
-  const turnsAtLastDigitize = turnsLeftAtNextMonster + ((monsterCount + 1) * monsterCount * 5 - 3);
+  const turnsAtLastDigitize =
+    turnsLeftAtNextMonster + ((monsterCount + 1) * monsterCount * 5 - 3);
   return (
     untangleDigitizes(turnsAtLastDigitize, digitizesLeft + 1) -
     SourceTerminal.getDigitizeMonsterCount()
@@ -133,4 +159,6 @@ export const canPickpocket = () =>
   myPrimestat() === $stat`moxie` ||
   [have, canEquip].some((func) => func($item`mime army infiltration glove`));
 export const shouldPickpocket = () =>
-  myInebriety() <= inebrietyLimit() && canPickpocket() && have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?
+  myInebriety() <= inebrietyLimit() &&
+  canPickpocket() &&
+  have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?

@@ -1,4 +1,12 @@
-import { adv1, canAdventure, equip, print, runChoice, toUrl, visitUrl } from "kolmafia";
+import {
+  adv1,
+  canAdventure,
+  equip,
+  print,
+  runChoice,
+  toUrl,
+  visitUrl,
+} from "kolmafia";
 import { $location, CrystalBall, get, withChoices } from "libram";
 
 export function shrineGaze(): void {
@@ -6,7 +14,7 @@ export function shrineGaze(): void {
   const dailyDungeon =
     get("dailyDungeonDone") ||
     ["It's Almost Certainly a Trap", "I Wanna Be a Door"].includes(
-      get("_lastDailyDungeonEncounter")
+      get("_lastDailyDungeonEncounter"),
     );
 
   if (!hiddencity && !dailyDungeon) return;
@@ -28,15 +36,23 @@ export function shrineGaze(): void {
       // Walk away
       runChoice(6);
     } catch (e) {
-      print(`We ran into an issue when gazing at a shrine for balls: ${e}.`, "red");
+      print(
+        `We ran into an issue when gazing at a shrine for balls: ${e}.`,
+        "red",
+      );
     }
   } else
     try {
       print("Gazing at daily dungeon to reset the orb prediction");
       equip(CrystalBall.orb);
-      withChoices({ 692: 8, 693: 3 }, () => adv1($location`The Daily Dungeon`, -1, ""));
+      withChoices({ 692: 8, 693: 3 }, () =>
+        adv1($location`The Daily Dungeon`, -1, ""),
+      );
     } catch (e) {
-      print(`We ran into an issue when gazing at a shrine for balls: ${e}.`, "red");
+      print(
+        `We ran into an issue when gazing at a shrine for balls: ${e}.`,
+        "red",
+      );
     }
 
   CrystalBall.ponder();

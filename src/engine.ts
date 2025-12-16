@@ -1,12 +1,12 @@
 import { CombatStrategy, Engine, Outfit, Quest, Task } from "grimoire-kolmafia";
 import {
+  Location,
   bjornifyFamiliar,
   enthroneFamiliar,
   equip,
   equippedAmount,
   haveEquipped,
   itemAmount,
-  Location,
   setAutoAttack,
 } from "kolmafia";
 import {
@@ -14,9 +14,9 @@ import {
   $item,
   CrownOfThrones,
   CrystalBall,
-  get,
   JuneCleaver,
   PropertiesManager,
+  get,
 } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
@@ -91,8 +91,8 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
           JuneCleaver.choices.map((choice) => [
             choice,
             shouldSkip(choice) ? 4 : bestJuneCleaverOption(choice),
-          ])
-        )
+          ]),
+        ),
       );
     }
     this.propertyManager.setChoices({ 955: 2 });
