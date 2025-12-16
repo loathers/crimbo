@@ -24,7 +24,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-typescript": "^7.18.6",
-    "@eslint/js": "^9.32.0",
+    "@eslint/js": "^9.39.2",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
@@ -32,13 +32,14 @@
     "create-kolmafia-script": "^0.1.0",
     "esbuild": "^0.27.1",
     "esbuild-plugin-babel": "^0.2.3",
-    "eslint": "^9.32.0",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-libram": "^0.4.30",
+    "eslint-plugin-libram": "^0.5.3",
+    "jiti": "^2.6.1",
     "prettier": "^3.7.4",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.50.0"
   },
-  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  "packageManager": "yarn@4.12.0"
 }

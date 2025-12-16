@@ -1,16 +1,16 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
-import libram from "eslint-plugin-libram";
+import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import tseslint from "typescript-eslint";
+
+await verifyConstantsSinceRevision(28804);
 
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  ...libram.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
-    plugins: {
-      libram: libram,
-    },
     rules: {
       "block-scoped-var": "error",
       "eol-last": "error",
@@ -22,7 +22,6 @@ export default tseslint.config(
       "prefer-template": "error",
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
-      "libram/verify-constants": "error",
       "no-restricted-syntax": [
         "error",
         {
