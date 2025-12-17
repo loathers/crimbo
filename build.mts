@@ -1,4 +1,3 @@
-/* eslint-env node */
 import esbuild, { Plugin } from "esbuild";
 import babel from "esbuild-plugin-babel";
 

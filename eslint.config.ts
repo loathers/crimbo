@@ -1,11 +1,15 @@
 import js from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import tseslint from "typescript-eslint";
 
 await verifyConstantsSinceRevision(28804);
 
-export default tseslint.config(
+export default defineConfig(
+  {
+    ignores: ["dist"],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...libram.configs.recommended,

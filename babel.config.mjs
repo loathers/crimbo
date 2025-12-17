@@ -1,5 +1,4 @@
-/* eslint-env node */
-
+/* global module */
 /**
  * @returns {import("@babel/core").TransformOptions}
  */
