@@ -327,11 +327,13 @@ export function islandOutfit(
   );
 
   if (
-    ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
-      | Familiar
-      | undefined
-    )[]
-  ).includes(outfit.familiar)) {
+    (
+      $familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
+        | Familiar
+        | undefined
+      )[]
+    ).includes(outfit.familiar)
+  ) {
     outfit.modifier.push("1 Familiar Weight");
   } else {
     outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
