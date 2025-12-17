@@ -4,7 +4,7 @@ import prettier from "eslint-config-prettier";
 import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import tseslint from "typescript-eslint";
 
-await verifyConstantsSinceRevision(28804);
+await verifyConstantsSinceRevision(28806);
 
 export default defineConfig(
   {
@@ -13,11 +13,6 @@ export default defineConfig(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...libram.configs.recommended,
-  {
-    rules: {
-      "libram/verify-constants": ["error", { data: { locations: ["Smoldering Fingerbones"] } }],
-    }
-  },
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
