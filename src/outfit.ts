@@ -28,8 +28,7 @@ import {
 } from "libram";
 
 import { MenuOptions, freeFightFamiliar } from "./familiar";
-import { args, realmAvailable, shouldPickpocket, sober } from "./lib";
-import { getLocation } from "./tasks/island";
+import { args, realmAvailable, shouldPickpocket, sober, getLocation } from "./lib";
 import { garboValue } from "./value";
 import { wanderer } from "./wanderer";
 

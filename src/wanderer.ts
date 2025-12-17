@@ -2,8 +2,7 @@ import { WandererManager } from "garbo-lib";
 import { getMonsters, myAdventures } from "kolmafia";
 import { get, notNull } from "libram";
 
-import { args, digitizedMonstersRemaining } from "./lib";
-import { getLocation } from "./tasks/island";
+import { args, digitizedMonstersRemaining, getLocation } from "./lib";
 import { garboValue } from "./value";
 
 let _wanderer: WandererManager;

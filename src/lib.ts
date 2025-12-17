@@ -17,6 +17,7 @@ import {
 import {
   $familiar,
   $item,
+  $location,
   $stat,
   Counter,
   SourceTerminal,
@@ -162,3 +163,7 @@ export const shouldPickpocket = () =>
   myInebriety() <= inebrietyLimit() &&
   canPickpocket() &&
   have($item`deft pirate hook`); // && unlikely to be the guy you can't pickpocket, I guess?
+
+export function getLocation() {
+  return $location`Smoldering Fingerbones`;
+}

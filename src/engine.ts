@@ -19,10 +19,9 @@ import {
 } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { printd, sober } from "./lib";
+import { printd, sober, getLocation } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
-import { getLocation } from "./tasks/island";
 
 export type CrimboTask = Task & {
   sobriety: "sober" | "drunk" | "either";
