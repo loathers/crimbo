@@ -19,7 +19,7 @@ import {
 } from "libram";
 
 import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
-import { printd, sober, getLocation } from "./lib";
+import { getLocation, printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
 
