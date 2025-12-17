@@ -2,11 +2,11 @@ import { CrimboStrategy, CrimboTask } from "../engine";
 import Macro from "../macro";
 import { islandOutfit } from "../outfit";
 import { OutfitSpec, Quest } from "grimoire-kolmafia";
-import { Item, Location, Skill, mallPrice, myAdventures } from "kolmafia";
-import { $effect, $item, $items, $skill, get, have } from "libram";
+import { Item, Skill, mallPrice, myAdventures } from "kolmafia";
+import { $effect, $item, $items, $location, $skill, get, have } from "libram";
 
-function getLocation() {
-  return Location.get("Smoldering Bone Spikes");
+export function getLocation() {
+  return $location`Smoldering Fingerbones`;
 }
 
 function freeKillTask(

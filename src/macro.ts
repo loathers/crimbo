@@ -109,7 +109,7 @@ export default class Macro extends StrictMacro {
 
   doHardItems(): this {
     return this.doItems(
-      $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
+      $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun, Mayor Ghost's scissors, El Vibrato restraints`,
     );
   }
 
@@ -283,7 +283,7 @@ export default class Macro extends StrictMacro {
             Macro.skill($skill`Tear Away your Pants!`),
           ),
         )
-        .standardCombat()
+        .hardCombat()
     );
   }
 

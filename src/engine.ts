@@ -1,6 +1,5 @@
 import { CombatStrategy, Engine, Outfit, Quest, Task } from "grimoire-kolmafia";
 import {
-  Location,
   bjornifyFamiliar,
   enthroneFamiliar,
   equip,
@@ -23,6 +22,7 @@ import { bestJuneCleaverOption, shouldSkip } from "./juneCleaver";
 import { printd, sober } from "./lib";
 import Macro from "./macro";
 import * as OrbManager from "./orbmanager";
+import { getLocation } from "./tasks/island";
 
 export type CrimboTask = Task & {
   sobriety: "sober" | "drunk" | "either";
@@ -46,7 +46,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
     if (
       CrystalBall.have() &&
       !haveEquipped(CrystalBall.orb) &&
-      CrystalBall.getPrediction().has(Location.get("Smoldering Bone Spikes"))
+      CrystalBall.getPrediction().has(getLocation())
     ) {
       OrbManager.shrineGaze();
     }

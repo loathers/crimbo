@@ -29,6 +29,7 @@ import {
 
 import { MenuOptions, freeFightFamiliar } from "./familiar";
 import { args, realmAvailable, shouldPickpocket, sober } from "./lib";
+import { getLocation } from "./tasks/island";
 import { garboValue } from "./value";
 import { wanderer } from "./wanderer";
 
@@ -61,7 +62,7 @@ function mergeSpecs(...outfits: OutfitSpec[]): OutfitSpec {
 
 const adventuresFamiliars = (allowEquipment?: boolean) =>
   allowEquipment && have($item`gnomish housemaid's kgnee`)
-    ? $familiars`Temporal Riftlet, Reagnimated Gnome`
+    ? $familiars`Reagnimated Gnome, Temporal Riftlet`
     : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
   if (options.location?.zone === "Crimbo25") {
@@ -259,12 +260,12 @@ export function islandOutfit(
     baseSpec,
     new Error(`Failed to construct outfit from spec: ${baseSpec}`),
   );
-  const location = Location.get("Smoldering Bone Spikes");
+  const location = getLocation();
 
   outfit.familiar ??= chooseFamiliar({
     location: location,
     allowEquipment: true,
-    allowAttackFamiliars: fight === "regular",
+    allowAttackFamiliars: true,
   });
 
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
