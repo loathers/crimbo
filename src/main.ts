@@ -23,7 +23,7 @@ export function main(command?: string) {
     preventSlot: $slots`crown-of-thrones, buddy-bjorn`,
   });
 
-  sinceKolmafiaRevision(28799); // First zone of the season added
+  sinceKolmafiaRevision(28806); // Second zone of the season added
 
   const engine = new CrimboEngine(Tasks);
   engine.print();
