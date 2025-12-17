@@ -8,8 +8,8 @@ import {
   myBuffedstat,
   myClass,
   myFamiliar,
-  myPrimestat,
   visitUrl,
+  weaponType,
 } from "kolmafia";
 import {
   $class,
@@ -137,11 +137,9 @@ export default class Macro extends StrictMacro {
     if (myClass() === $class`Grey Goo`) return this;
 
     return this.externalIf(
-      myPrimestat() === $stat`mysticality`,
-      Macro.ifNot(
-        $monster`Section 11`,
-        Macro.trySkillRepeat($skill`Saucegeyser`),
-      ),
+      myBuffedstat($stat`mysticality`) >= myBuffedstat($stat`muscle`) ||
+        weaponType(equippedItem($slot`weapon`)) !== $stat`muscle`,
+      Macro.trySkillRepeat($skill`Saucegeyser`),
     )
       .externalIf(
         haveSkill($skill`Shieldbutt`) &&
