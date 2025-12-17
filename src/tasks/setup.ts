@@ -53,6 +53,14 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
   name: "Setup",
   tasks: [
     {
+      name: "Validate Location",
+      completed: () => args.location.zone === "Crimbo25",
+      do: () =>
+        abort(`${args.location} zone '${args.location.zone}' is not Crimbo25`),
+      sobriety: "either",
+      limit: { skip: 1 },
+    },
+    {
       name: "Beaten Up",
       completed: () => !have($effect`Beaten Up`),
       do: () => {

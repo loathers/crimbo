@@ -16,6 +16,7 @@ import {
   $familiar,
   $item,
   $items,
+  $location,
   $monster,
   $skill,
   $slot,
@@ -28,7 +29,7 @@ import {
 } from "libram";
 
 import { canOpenRedPresent, timeToMeatify } from "./familiar";
-import { shouldRedigitize } from "./lib";
+import { getLocation, shouldRedigitize } from "./lib";
 
 const gooKillSkills = [
   { skill: $skill`Nantlers`, stat: $stat`muscle` },
@@ -109,7 +110,7 @@ export default class Macro extends StrictMacro {
 
   doHardItems(): this {
     return this.doItems(
-      $items`train whistle, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun, Mayor Ghost's scissors, El Vibrato restraints`,
+      $items`Mayor Ghost's scissors, El Vibrato restraints, train whistle, Rain-Doh blue balls, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
     );
   }
 
@@ -182,16 +183,7 @@ export default class Macro extends StrictMacro {
   standardCombat(): this {
     return this.tryHaveSkill($skill`Curse of Weaksauce`)
       .familiarActions()
-      .externalIf(
-        SongBoom.song() === "Total Eclipse of Your Meat",
-        Macro.tryHaveSkill($skill`Sing Along`),
-      )
-      .tryHaveSkill($skill`Extract`)
-      .externalIf(
-        have($skill`Meteor Lore`),
-        Macro.trySkill($skill`Micrometeorite`),
-      )
-      .trySkill($skill`Pocket Crumbs`)
+      .miscSkills()
       .doStandardItems()
       .gooKill()
       .attack()
@@ -209,8 +201,8 @@ export default class Macro extends StrictMacro {
         have($skill`Meteor Lore`),
         Macro.skill($skill`Micrometeorite`),
       )
-      .tryHaveSkill($skill`Pocket Crumbs`)
       .doHardItems()
+      .miscSkills()
       .gooKill()
       .hardKill()
       .attack()
@@ -219,6 +211,20 @@ export default class Macro extends StrictMacro {
 
   static hardCombat(): Macro {
     return new Macro().hardCombat();
+  }
+
+  miscSkills(): this {
+    return this.tryHaveSkill($skill`Pocket Crumbs`)
+      .externalIf(
+        SongBoom.song() === "Total Eclipse of Your Meat",
+        Macro.tryHaveSkill($skill`Sing Along`),
+      )
+      .tryHaveSkill($skill`Pocket Crumbs`)
+      .tryHaveSkill($skill`Extract`);
+  }
+
+  static miscSkills(): Macro {
+    return new Macro().miscSkills();
   }
 
   pickpocket(): this {
@@ -235,18 +241,15 @@ export default class Macro extends StrictMacro {
   }
 
   islandKillWith(thing: Item | Skill): this {
-    return (
-      this.pickpocket()
-        //.trySkill($skill`Launch spikolodon spikes`)
-        .externalIf(
-          haveEquipped($item`tearaway pants`),
-          Macro.if_(
-            "!pastround 1 && monsterphylum plant",
-            Macro.skill($skill`Tear Away your Pants!`),
-          ),
-        )
-        .itemOrSkill(thing)
-    );
+    return this.pickpocket()
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_(
+          "!pastround 1 && monsterphylum plant",
+          Macro.skill($skill`Tear Away your Pants!`),
+        ),
+      )
+      .itemOrSkill(thing);
   }
 
   static islandKillWith(thing: Item | Skill): Macro {
@@ -254,18 +257,15 @@ export default class Macro extends StrictMacro {
   }
 
   islandRunWith(thing: Item | Skill): this {
-    return (
-      this.pickpocket()
-        //.trySkill($skill`Launch spikolodon spikes`)
-        .externalIf(
-          haveEquipped($item`tearaway pants`),
-          Macro.if_(
-            "!pastround 1 && monsterphylum plant",
-            Macro.skill($skill`Tear Away your Pants!`),
-          ),
-        )
-        .itemOrSkill(thing)
-    );
+    return this.pickpocket()
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_(
+          "!pastround 1 && monsterphylum plant",
+          Macro.skill($skill`Tear Away your Pants!`),
+        ),
+      )
+      .itemOrSkill(thing);
   }
 
   static islandRunWith(thing: Item | Skill): Macro {
@@ -273,18 +273,19 @@ export default class Macro extends StrictMacro {
   }
 
   islandCombat(): Macro {
-    return (
-      this.pickpocket()
-        //.trySkill($skill`Launch spikolodon spikes`)
-        .externalIf(
-          haveEquipped($item`tearaway pants`),
-          Macro.if_(
-            "!pastround 1 && monsterphylum plant",
-            Macro.skill($skill`Tear Away your Pants!`),
-          ),
-        )
-        .hardCombat()
-    );
+    return this.pickpocket()
+      .externalIf(
+        haveEquipped($item`tearaway pants`),
+        Macro.if_(
+          "!pastround 1 && monsterphylum plant",
+          Macro.skill($skill`Tear Away your Pants!`),
+        ),
+      )
+      .externalIf(
+        getLocation() === $location`Smoldering Bone Spikes`,
+        Macro.standardCombat(),
+        Macro.hardCombat(),
+      );
   }
 
   static islandCombat(): Macro {
