@@ -22,6 +22,7 @@ import {
   $slot,
   $stat,
   SongBoom,
+  SourceTerminal,
   StrictMacro,
   get,
   have,
@@ -219,8 +220,14 @@ export default class Macro extends StrictMacro {
         SongBoom.song() === "Total Eclipse of Your Meat",
         Macro.tryHaveSkill($skill`Sing Along`),
       )
-      .tryHaveSkill($skill`Pocket Crumbs`)
-      .tryHaveSkill($skill`Extract`);
+      .externalIf(
+        haveEquipped($item`Pantsgiving`),
+        Macro.trySkill($skill`Pocket Crumbs`),
+      )
+      .externalIf(
+        SourceTerminal.getSkills().includes($skill`Extract`),
+        Macro.trySkill($skill`Extract`),
+      );
   }
 
   static miscSkills(): Macro {
