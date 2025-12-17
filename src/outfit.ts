@@ -276,6 +276,18 @@ export function islandOutfit(
     allowAttackFamiliars: true,
   });
 
+  const bestAccessories = getBestAccessories(location, false);
+
+   for (const item of bestAccessories) {
+    outfit.equip(
+      mergeSpecs(
+        ifHave("acc1", item),
+        ifHave("acc2", item),
+        ifHave("acc3", item),
+      ),
+    );
+  }
+
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
     outfit.equip($item`gnomish housemaid's kgnee`);
 
@@ -300,9 +312,6 @@ export function islandOutfit(
       ifHave("offhand", $item`carnivorous potted plant`),
     ),
   );
-
-  if (fight === "regular")
-    outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
 
   // Do we try other weapons? Saber?
   outfit.equip(ifHave("weapon", $item`June cleaver`));
