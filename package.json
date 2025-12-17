@@ -6,10 +6,10 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "node --import tsx build.mts",
+    "build": "node --import tsx build.ts",
     "format": "eslint src --fix --ext .ts && prettier --write src/**/*.ts",
     "lint": "eslint src --ext .ts && prettier --check src/**/*.ts",
-    "watch": "node --import tsx build.mts --watch",
+    "watch": "node --import tsx build.ts --watch",
     "install-mafia": "create-kolmafia-script --install"
   },
   "dependencies": {

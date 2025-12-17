@@ -1,12 +1,16 @@
 import esbuild, { Plugin } from "esbuild";
-import babel from "esbuild-plugin-babel";
+
+// @ts-expect-error No types for this module
+const { default: babel } = (await import("esbuild-plugin-babel")) as {
+  default: () => Plugin;
+};
 
 const watch = process.argv.some((arg) => ["--watch", "-w"].includes(arg));
 
 const context = await esbuild.context({
   bundle: true,
   platform: "node",
-  target: "rhino1.7.15",
+  target: "rhino1.8.0",
   external: ["kolmafia"],
   define: {
     "process.env.GITHUB_SHA": `"${

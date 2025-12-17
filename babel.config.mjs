@@ -7,7 +7,7 @@ module.exports = function (api) {
 
   /** @type {import("@babel/preset-env").Options} */
   const presetEnvConfig = {
-    targets: { rhino: "1.7.15" },
+    targets: { rhino: "1.8.0" },
   };
 
   return {
