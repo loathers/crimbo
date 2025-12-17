@@ -23082,7 +23082,7 @@ function main(command) {
   setDefaultMaximizeOptions({
     preventSlot: $slots(_templateObject || (_templateObject = _taggedTemplateLiteral(["crown-of-thrones, buddy-bjorn"])))
   });
-  sinceKolmafiaRevision(28799); // First zone of the season added
+  sinceKolmafiaRevision(28806); // Second zone of the season added
 
   var engine = new CrimboEngine(Tasks);
   engine.print();
