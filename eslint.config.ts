@@ -14,6 +14,11 @@ export default defineConfig(
   ...tseslint.configs.recommended,
   ...libram.configs.recommended,
   {
+    rules: {
+      "libram/verify-constants": ["error", { data: { items: ["undertakers' forceps"] } }],
+    }
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {
       "block-scoped-var": "error",
