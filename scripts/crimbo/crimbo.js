@@ -22602,6 +22602,12 @@ function islandOutfit(fight) {
   var baseSpec = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var outfit = Outfit.from(baseSpec, new Error("Failed to construct outfit from spec: ".concat(baseSpec)));
   var location = getLocation();
+  var bestAccessories = getBestAccessories(location, false);
+  for (var i = 0; i < 3; i++) {
+    var accessory = bestAccessories[i];
+    if (!accessory) break;
+    outfit.equip(ifHave("acc".concat(i + 1), accessory));
+  }
   outfit.familiar ?? (outfit.familiar = chooseFamiliar({
     location: location,
     allowEquipment: true,
@@ -22617,7 +22623,7 @@ function islandOutfit(fight) {
   if (fight === "regular") outfit.equip(ifHave("acc3", $item(_templateObject49 || (_templateObject49 = _taggedTemplateLiteral(["mafia thumb ring"])))));
 
   // Do we try other weapons? Saber?
-  outfit.equip(mergeSpecs(ifHave("weapon", $item(_templateObject50 || (_templateObject50 = _taggedTemplateLiteral(["undertakers' forceps"])))), ifHave("weapon", $item(_templateObject51 || (_templateObject51 = _taggedTemplateLiteral(["June cleaver"]))))));
+  outfit.equip(mergeSpecs(ifHave("weapon", $item(_templateObject50 || (_templateObject50 = _taggedTemplateLiteral(["undertakers' forceps"]))), () => require$$0.myInebriety() <= require$$0.inebrietyLimit()), ifHave("weapon", $item(_templateObject51 || (_templateObject51 = _taggedTemplateLiteral(["June cleaver"]))))));
 
   // We don't care about NCs yet
   // if (get("_spikolodonSpikeUses") < 5)
