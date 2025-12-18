@@ -304,11 +304,6 @@ export function islandOutfit(
         $item`Drunkula's wineglass`,
         () => myInebriety() > inebrietyLimit(),
       ),
-      ifHave(
-        "offhand",
-        $item`deft pirate hook`,
-        () => shouldPickpocket() && fight === "regular",
-      ),
       ifHave("offhand", $item`carnivorous potted plant`),
     ),
   );
@@ -317,6 +312,8 @@ export function islandOutfit(
     outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
 
   // Do we try other weapons? Saber?
+  // eslint-disable-next-line libram/verify-constants
+  outfit.equip(ifHave("weapon", $item`undertakers' forceps`, () => myInebriety() < inebrietyLimit()));
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
   // We don't care about NCs yet
@@ -339,14 +336,16 @@ export function islandOutfit(
   );
 
   if (
-    $familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
-      | Familiar
-      | undefined
-    )[]
+    ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
+        | Familiar
+        | undefined
+      )[]
+    ).includes(outfit.familiar)
   ) {
-    outfit.modifier.push("1 Familiar Weight");
+    outfit.modifier.push("1 Hot Res, 1 familiar weight");
   } else {
     outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
+    outfit.modifier.push("1 Hot Res")
   }
 
   return outfit;

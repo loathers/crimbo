@@ -147,7 +147,7 @@ export default class Macro extends StrictMacro {
           myClass() === $class`Turtle Tamer`,
         Macro.trySkillRepeat($skill`Shieldbutt`),
       )
-      .trySkillRepeat($skill`Lunging Thrust-Smack`)
+      .trySkillRepeat($skill`Saucegeyser`)
       .trySkillRepeat($skill`Kneebutt`);
   }
 

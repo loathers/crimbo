@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "rollup -c rollup.config.ts",
+    "build": "node --loader ts-node/esm ./node_modules/rollup/dist/bin/rollup -c",
     "format": "eslint src --fix --ext .ts && prettier --write src/**/*.ts",
     "lint": "eslint src --ext .ts && prettier --check src/**/*.ts",
     "watch": "node --import tsx build.ts --watch",
@@ -38,6 +38,7 @@
     "jiti": "^2.6.1",
     "prettier": "^3.7.4",
     "rollup": "^4.53.5",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0"
