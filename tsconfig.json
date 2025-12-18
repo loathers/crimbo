@@ -15,5 +15,5 @@
     "strict": true,
     "target": "es2018"
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }
