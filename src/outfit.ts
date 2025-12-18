@@ -314,10 +314,11 @@ export function islandOutfit(
   // Do we try other weapons? Saber?
   outfit.equip(
     ifHave(
-      "weapon", $item`undertakers' forceps`, 
-      () => myInebriety() < inebrietyLimit()
-      ) 
-    );
+      "weapon",
+      $item`undertakers' forceps`,
+      () => myInebriety() < inebrietyLimit(),
+    ),
+  );
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
   // We don't care about NCs yet
@@ -340,7 +341,8 @@ export function islandOutfit(
   );
 
   if (
-    ($familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
+    (
+      $familiars`Peace Turkey, Temporal Riftlet, Reagnimated Gnome` as (
         | Familiar
         | undefined
       )[]
@@ -349,7 +351,7 @@ export function islandOutfit(
     outfit.modifier.push("1 Hot Res, 1 familiar weight");
   } else {
     outfit.equip(ifHave("famequip", $item`tiny stillsuit`));
-    outfit.modifier.push("1 Hot Res")
+    outfit.modifier.push("1 Hot Res");
   }
 
   return outfit;
