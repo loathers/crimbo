@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "node --loader ts-node/esm ./node_modules/rollup/dist/bin/rollup -c",
+    "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "format": "eslint src --fix --ext .ts && prettier --write src/**/*.ts",
     "lint": "eslint src --ext .ts && prettier --check src/**/*.ts",
     "watch": "node --import tsx build.ts --watch",
@@ -27,6 +27,7 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/babel__core": "^7.20.5",
     "@types/babel__preset-env": "^7.10.0",
