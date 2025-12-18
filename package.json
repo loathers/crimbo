@@ -7,10 +7,13 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "format": "eslint src --fix --ext .ts && prettier --write src/**/*.ts",
+    "format": "eslint src --fix --ext .ts && NODE_OPTIONS=\"--experimental-strip-types\" prettier --write src/**/*.ts",
     "lint": "eslint src --ext .ts && prettier --check src/**/*.ts",
     "watch": "node --import tsx build.ts --watch",
     "install-mafia": "create-kolmafia-script --install"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "dependencies": {
     "garbo-lib": "^1.0.3",
