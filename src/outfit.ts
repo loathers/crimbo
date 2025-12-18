@@ -270,6 +270,13 @@ export function islandOutfit(
   );
   const location = getLocation();
 
+  const bestAccessories = getBestAccessories(location, false);
+  for (let i = 0; i < 3; i++) {
+    const accessory = bestAccessories[i];
+    if (!accessory) break;
+    outfit.equip(ifHave(`acc${i + 1}` as OutfitSlot, accessory));
+  }
+
   outfit.familiar ??= chooseFamiliar({
     location: location,
     allowEquipment: true,
