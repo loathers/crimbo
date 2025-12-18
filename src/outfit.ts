@@ -312,8 +312,12 @@ export function islandOutfit(
     outfit.equip(ifHave("acc3", $item`mafia thumb ring`));
 
   // Do we try other weapons? Saber?
-  // eslint-disable-next-line libram/verify-constants
-  outfit.equip(ifHave("weapon", $item`undertakers' forceps`, () => myInebriety() < inebrietyLimit()));
+  outfit.equip(
+    ifHave(
+      "weapon", $item`undertakers' forceps`, 
+      () => myInebriety() < inebrietyLimit()
+      ) 
+    );
   outfit.equip(ifHave("weapon", $item`June cleaver`));
 
   // We don't care about NCs yet
