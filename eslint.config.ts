@@ -1,7 +1,7 @@
 import js from "@eslint/js";
-import { defineConfig } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 await verifyConstantsSinceRevision(28806);
@@ -15,8 +15,11 @@ export default defineConfig(
   ...libram.configs.recommended,
   {
     rules: {
-      "libram/verify-constants": ["error", { data: { items: ["undertakers' forceps"] } }],
-    }
+      "libram/verify-constants": [
+        "error",
+        { data: { items: ["undertakers' forceps"] } },
+      ],
+    },
   },
   {
     files: ["**/*.ts", "**/*.tsx"],

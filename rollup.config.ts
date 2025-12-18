@@ -1,10 +1,9 @@
 import babel from "@rollup/plugin-babel";
-import replace from "@rollup/plugin-replace";
-import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
 
-const watch =
-  process.argv.includes("--watch") || process.argv.includes("-w");
+const watch = process.argv.includes("--watch") || process.argv.includes("-w");
 
 export default {
   input: {
@@ -26,13 +25,13 @@ export default {
       preventAssignment: true,
       values: {
         "process.env.GITHUB_SHA": JSON.stringify(
-          process.env.GITHUB_SHA ?? "CustomBuild"
+          process.env.GITHUB_SHA ?? "CustomBuild",
         ),
         "process.env.GITHUB_REF_NAME": JSON.stringify(
-          process.env.GITHUB_REF_NAME ?? "CustomBuild"
+          process.env.GITHUB_REF_NAME ?? "CustomBuild",
         ),
         "process.env.GITHUB_REPOSITORY": JSON.stringify(
-          process.env.GITHUB_REPOSITORY ?? "CustomBuild"
+          process.env.GITHUB_REPOSITORY ?? "CustomBuild",
         ),
       },
     }),

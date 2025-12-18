@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "format": "eslint src --fix --ext .ts && NODE_OPTIONS=\"--experimental-strip-types\" prettier --write src/**/*.ts",
-    "lint": "eslint src --ext .ts &&  NODE_OPTIONS=\"--experimental-strip-types\" prettier --check src/**/*.ts",
+    "format": "eslint src --fix --ext .ts && NODE_OPTIONS=\"--experimental-strip-types\" prettier --write .",
+    "lint": "eslint src --ext .ts &&  NODE_OPTIONS=\"--experimental-strip-types\" prettier --check .",
     "watch": "node --import tsx build.ts --watch",
     "install-mafia": "create-kolmafia-script --install"
   },
