@@ -22633,7 +22633,7 @@ function islandOutfit(fight) {
     var phylum = _ref8.phylum;
     return phylum === $phylum(_templateObject54 || (_templateObject54 = _taggedTemplateLiteral(["plant"])));
   }))));
-  if ($familiars(_templateObject55 || (_templateObject55 = _taggedTemplateLiteral(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"])))) {
+  if ($familiars(_templateObject55 || (_templateObject55 = _taggedTemplateLiteral(["Peace Turkey, Temporal Riftlet, Reagnimated Gnome"]))).includes(outfit.familiar)) {
     outfit.modifier.push("1 Familiar Weight");
   } else {
     outfit.equip(ifHave("famequip", $item(_templateObject56 || (_templateObject56 = _taggedTemplateLiteral(["tiny stillsuit"])))));
