@@ -70,7 +70,6 @@ export const args = Args.create(
     }),
     location: Args.location({
       help: "The location to adventure in.",
-      // eslint-disable-next-line libram/verify-constants
       default: $location`A Smoldering Pelvis`,
     }),
     shrub: Args.boolean({
