@@ -35,8 +35,7 @@ const defaultOptionalEffects: OptionalEffect[] = [
 export function validDefaultEffects(): OptionalEffect[] {
   return defaultOptionalEffects.filter(
     (optionalEffect) =>
-      have(optionalEffect.skill) &&
-      (!optionalEffect.condition || optionalEffect.condition()),
+      have(optionalEffect.skill) && (optionalEffect.condition?.() ?? true),
   );
 }
 
