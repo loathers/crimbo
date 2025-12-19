@@ -30,10 +30,6 @@ const defaultOptionalEffects: OptionalEffect[] = [
   },
   { effect: $effect`Blood Bond`, skill: $skill`Blood Bond` },
   {
-    effect: $effect`Blood Bubble`,
-    skill: $skill`Blood Bubble`,
-  },
-  {
     effect: $effect`Elemental Saucesphere`,
     skill: $skill`Elemental Saucesphere`,
   },
