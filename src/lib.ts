@@ -70,7 +70,8 @@ export const args = Args.create(
     }),
     location: Args.location({
       help: "The location to adventure in.",
-      default: $location`Smoldering Fingerbones`,
+      // eslint-disable-next-line libram/verify-constants
+      default: $location`A Smoldering Pelvis`,
     }),
     shrub: Args.boolean({
       help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
