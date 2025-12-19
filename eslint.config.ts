@@ -17,7 +17,12 @@ export default defineConfig(
     rules: {
       "libram/verify-constants": [
         "error",
-        { data: { items: ["undertakers' forceps"] } },
+        {
+          data: {
+            items: ["undertakers' forceps"],
+            locations: ["A Smoldering Pelvis"],
+          },
+        },
       ],
     },
   },

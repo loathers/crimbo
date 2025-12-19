@@ -18,7 +18,7 @@
   "dependencies": {
     "garbo-lib": "^1.0.3",
     "grimoire-kolmafia": "^0.3.33",
-    "kolmafia": "^5.28805.0",
+    "kolmafia": "^5.28814.0",
     "libram": "^0.11.14"
   },
   "devDependencies": {

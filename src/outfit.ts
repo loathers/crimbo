@@ -121,16 +121,13 @@ export function wandererOutfit(
     ifHave("weapon", $item`June cleaver`),
     ifHave("weapon", $item`Fourth of May Cosplay Saber`),
   );
-  const offhands = mergeSpecs(
-    ifHave("offhand", $item`carnivorous potted plant`),
-    ifHave(
-      "offhand",
-      $item`cursed magnifying glass`,
-      () =>
-        !isFree &&
-        get("_voidFreeFights") < 5 &&
-        get("cursedMagnifyingGlassCount") < 13,
-    ),
+  const offhands = ifHave(
+    "offhand",
+    $item`cursed magnifying glass`,
+    () =>
+      !isFree &&
+      get("_voidFreeFights") < 5 &&
+      get("cursedMagnifyingGlassCount") < 13,
   );
 
   const backs = mergeSpecs(
