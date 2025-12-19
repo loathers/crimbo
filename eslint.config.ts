@@ -4,7 +4,7 @@ import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-await verifyConstantsSinceRevision(28806);
+await verifyConstantsSinceRevision(28814);
 
 export default defineConfig(
   {
@@ -19,8 +19,8 @@ export default defineConfig(
         "error",
         {
           data: {
-            items: ["undertakers' forceps"],
-            locations: ["A Smoldering Pelvis"],
+            items: [],
+            locations: [],
           },
         },
       ],
