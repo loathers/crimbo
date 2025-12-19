@@ -51,7 +51,7 @@ export function prebuff(turns: number): void {
     );
     if (casts > 0) {
       // this should automatically handle maintaining hp/mp
-      cliExecute(`cast ${casts} ${ef.skill}`);
+      cliExecute(`cast ${casts} ${ef.skill} ^ ${ef.effect}`);
     }
   }
 }
