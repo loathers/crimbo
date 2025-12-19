@@ -1,4 +1,4 @@
-import { Effect, Skill, turnsPerCast, useSkill } from "kolmafia";
+import { Effect, Skill, haveEffect, turnsPerCast, useSkill } from "kolmafia";
 import { $effect, $item, $skill, have } from "libram";
 
 interface OptionalEffect {
@@ -50,7 +50,11 @@ export function defaultEffects(): Effect[] {
 
 export function prebuff(turns: number): void {
   for (const ef of validDefaultEffects()) {
-    const casts = Math.ceil(turns / turnsPerCast(ef.skill));
-    useSkill(casts, ef.skill);
+    const casts = Math.ceil(
+      (turns - haveEffect(ef.effect)) / turnsPerCast(ef.skill),
+    );
+    if (casts > 0) {
+      useSkill(casts, ef.skill);
+    }
   }
 }
