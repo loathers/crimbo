@@ -21724,7 +21724,8 @@ var args = Args.create("crimbo25", "A script for farming skeleton stuff", {
   }),
   location: Args.location({
     help: "The location to adventure in.",
-    default: $location(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["Smoldering Fingerbones"])))
+    // eslint-disable-next-line libram/verify-constants
+    default: $location(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["A Smoldering Pelvis"])))
   }),
   shrub: Args.boolean({
     help: "Whether to use the Crimbo Shrub when farming Crimbo zones.",
