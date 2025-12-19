@@ -7,6 +7,7 @@ import {
   withProperty,
 } from "libram";
 
+import { defaultEffects } from "./effects";
 import { CrimboEngine } from "./engine";
 import { args, printh } from "./lib";
 import Tasks from "./tasks";
@@ -25,7 +26,9 @@ export function main(command?: string) {
 
   sinceKolmafiaRevision(28806); // Second zone of the season added
 
-  const engine = new CrimboEngine(Tasks);
+  const engine = new CrimboEngine(Tasks, {
+    default_task_options: { effects: defaultEffects() },
+  });
   engine.print();
 
   const sessionStart = Session.current();
