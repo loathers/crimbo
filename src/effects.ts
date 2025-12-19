@@ -26,6 +26,14 @@ const defaultOptionalEffects: OptionalEffect[] = [
     effect: $effect`Blood Bubble`,
     condition: () => have($skill`Blood Bubble`),
   },
+  {
+    effect: $effect`Elemental Saucesphere`,
+    condition: () => have($skill`Elemental Saucesphere`),
+  },
+  {
+    effect: $effect`Astral Shell`,
+    condition: () => have($skill`Astral Shell`),
+  },
 ];
 
 export function defaultEffects(): Effect[] {
