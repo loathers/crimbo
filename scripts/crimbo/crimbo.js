@@ -22496,9 +22496,9 @@ function mergeSpecs() {
 }
 var adventuresFamiliars = allowEquipment => allowEquipment && have$18($item(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["gnomish housemaid's kgnee"])))) ? $familiars(_templateObject3$3 || (_templateObject3$3 = _taggedTemplateLiteral(["Reagnimated Gnome, Temporal Riftlet"]))) : $familiars(_templateObject4$3 || (_templateObject4$3 = _taggedTemplateLiteral(["Temporal Riftlet"])));
 var chooseFamiliar = function chooseFamiliar() {
-  var _options$location;
+  var _options$location, _options$location2;
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  if (((_options$location = options.location) === null || _options$location === void 0 ? void 0 : _options$location.zone) === "Crimbo25") {
+  if (((_options$location = options.location) === null || _options$location === void 0 ? void 0 : _options$location.zone) === "Crimbo25" || ((_options$location2 = options.location) === null || _options$location2 === void 0 ? void 0 : _options$location2.zone) === "Override") {
     if (args.shrub && get$2("shrubGifts") === "gifts") return $familiar(_templateObject5$3 || (_templateObject5$3 = _taggedTemplateLiteral(["Crimbo Shrub"])));
     if (have$7() && get$2("_knuckleboneDrops") < 100) return $familiar(_templateObject6$3 || (_templateObject6$3 = _taggedTemplateLiteral(["Skeleton of Crimbo Past"])));
     var adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(have$18);
@@ -22937,8 +22937,8 @@ var SETUP_QUEST = {
   name: "Setup",
   tasks: [{
     name: "Validate Location",
-    completed: () => args.location.zone === "Crimbo25",
-    do: () => require$$0.abort("".concat(args.location, " zone '").concat(args.location.zone, "' is not Crimbo25")),
+    completed: () => args.location.zone === "Crimbo25" || args.location.zone === "Override",
+    do: () => require$$0.abort("".concat(args.location, " zone '").concat(args.location.zone, "' is not Crimbo25 or Override")),
     sobriety: "either",
     limit: {
       skip: 1
