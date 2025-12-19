@@ -122,7 +122,6 @@ export function wandererOutfit(
     ifHave("weapon", $item`Fourth of May Cosplay Saber`),
   );
   const offhands = mergeSpecs(
-    ifHave("offhand", $item`carnivorous potted plant`),
     ifHave(
       "offhand",
       $item`cursed magnifying glass`,
