@@ -28,11 +28,11 @@ export function main(command?: string) {
   sinceKolmafiaRevision(28806); // Second zone of the season added
 
   const targetTurns =
-    args.turns > 0
+    args.turns > 0 && args.turns !== Infinity
       ? args.turns
       : // Add args.turns to adventures in case it's a negative input, harmless if it's 0
         // Multiply by 1.3 as a generous estimate of turngen from things like gnome and mafia ring
-        Math.ceil((myAdventures() + args.turns) * 1.3);
+        Math.ceil((myAdventures() + (args.turns < 0 ? args.turns : 0)) * 1.3);
   prebuff(targetTurns);
   const engine = new CrimboEngine(Tasks, {
     default_task_options: { effects: defaultEffects() },
