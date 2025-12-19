@@ -110,14 +110,8 @@ export default class Macro extends StrictMacro {
   }
 
   doHardItems(): this {
-    return this.externalIf(
-      getLocation() === $location`Smoldering Fingerbones`,
-      Macro.doItems(
-        $items`Mayor Ghost's scissors, El Vibrato restraints, train whistle, Rain-Doh blue balls, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
-      ),
-      Macro.doItems(
-        $items`Mayor Ghost's scissors, train whistle, Rain-Doh blue balls, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
-      ),
+    return this.doItems(
+      $items`Mayor Ghost's scissors, El Vibrato restraints, train whistle, Rain-Doh blue balls, Time-Spinner, little red book, Rain-Doh indigo cup, porquoise-handled sixgun`,
     );
   }
 
