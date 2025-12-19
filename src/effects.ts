@@ -1,11 +1,4 @@
-import {
-  Effect,
-  Skill,
-  cliExecute,
-  haveEffect,
-  print,
-  turnsPerCast,
-} from "kolmafia";
+import { Effect, Skill, cliExecute, haveEffect, turnsPerCast } from "kolmafia";
 import { $effect, $item, $skill, have } from "libram";
 
 interface OptionalEffect {
@@ -52,7 +45,6 @@ export function defaultEffects(): Effect[] {
 }
 
 export function prebuff(turns: number): void {
-  print(`Maintaining ${turns} turns worth of buffs`);
   for (const ef of validDefaultEffects()) {
     const casts = Math.ceil(
       (turns - haveEffect(ef.effect)) / turnsPerCast(ef.skill),
