@@ -54,9 +54,12 @@ export const SETUP_QUEST: Quest<CrimboTask> = {
   tasks: [
     {
       name: "Validate Location",
-      completed: () => args.location.zone === "Crimbo25",
+      completed: () =>
+        args.location.zone === "Crimbo25" || args.location.zone === "Override",
       do: () =>
-        abort(`${args.location} zone '${args.location.zone}' is not Crimbo25`),
+        abort(
+          `${args.location} zone '${args.location.zone}' is not Crimbo25 or Override`,
+        ),
       sobriety: "either",
       limit: { skip: 1 },
     },

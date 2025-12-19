@@ -70,7 +70,10 @@ const adventuresFamiliars = (allowEquipment?: boolean) =>
     ? $familiars`Reagnimated Gnome, Temporal Riftlet`
     : $familiars`Temporal Riftlet`;
 const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
-  if (options.location?.zone === "Crimbo25") {
+  if (
+    options.location?.zone === "Crimbo25" ||
+    options.location?.zone === "Override"
+  ) {
     if (args.shrub && get("shrubGifts") === "gifts")
       return $familiar`Crimbo Shrub`;
     if (SkeletonOfCrimboPast.have() && get("_knuckleboneDrops") < 100)
