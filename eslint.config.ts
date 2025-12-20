@@ -4,7 +4,7 @@ import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-await verifyConstantsSinceRevision(28814);
+await verifyConstantsSinceRevision(28818);
 
 export default defineConfig(
   {
@@ -19,7 +19,7 @@ export default defineConfig(
         "error",
         {
           data: {
-            items: ["bone-polishing rag"],
+            items: [],
             locations: [],
           },
         },
