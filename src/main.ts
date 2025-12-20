@@ -25,7 +25,7 @@ export function main(command?: string) {
     preventSlot: $slots`crown-of-thrones, buddy-bjorn`,
   });
 
-  sinceKolmafiaRevision(28806); // Second zone of the season added
+  sinceKolmafiaRevision(28818); // Shanties
 
   const targetTurns =
     args.turns > 0 && args.turns !== Infinity
