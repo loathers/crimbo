@@ -4,7 +4,7 @@ import libram, { verifyConstantsSinceRevision } from "eslint-plugin-libram";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
-await verifyConstantsSinceRevision(28819);
+await verifyConstantsSinceRevision(28818);
 
 export default defineConfig(
   {

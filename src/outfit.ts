@@ -78,13 +78,18 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
       return $familiar`Crimbo Shrub`;
     if (SkeletonOfCrimboPast.have() && get("_knuckleboneDrops") < 100)
       return $familiar`Skeleton of Crimbo Past`;
+    if (
+      have($familiar`Left-Hand Man`) &&
+      have($item`bone-polishing rag`) &&
+      have($item`Drunkula's wineglass`) &&
+      !sober()
+    )
+      return $familiar`Left-Hand Man`;
 
     const adventuresFamiliar = adventuresFamiliars(options.allowEquipment).find(
       have,
     );
     if (adventuresFamiliar) return adventuresFamiliar;
-
-    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
     (canInteract() && sober()
@@ -285,6 +290,8 @@ export function islandOutfit(
 
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
     outfit.equip($item`gnomish housemaid's kgnee`);
+  if (outfit.familiar === $familiar`Left-Hand Man` && !sober())
+    outfit.equip({ famequip: $item`bone-polishing rag` });
 
   // acc1 reserved for outfit args
   // acc2 used here
@@ -299,6 +306,7 @@ export function islandOutfit(
         $item`Drunkula's wineglass`,
         () => myInebriety() > inebrietyLimit(),
       ),
+      ifHave("offhand", $item`bone-polishing rag`),
       ifHave(
         "offhand",
         $item`deft pirate hook`,

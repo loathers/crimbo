@@ -80,6 +80,11 @@ const standardFamiliars: ConstantValueFamiliar[] = [
         )) /
       11,
   },
+  // For crimbo25, all the mobs in the zones are skeletons so we should only use this familiar there as we have 100% chance of getting a bone
+  // {
+  //  familiar: $familiar`Skeleton of Crimbo Past`,
+  //  value: () => (get("_knuckleboneDrops") < 100 ? 100_000 : 0),
+  // },
   {
     familiar: maxBy(Familiar.all().filter(have), findLeprechaunMultiplier),
     value: () => 1,
