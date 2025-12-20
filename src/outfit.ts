@@ -84,7 +84,6 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
     );
     if (adventuresFamiliar) return adventuresFamiliar;
 
-    if (have($familiar`Peace Turkey`)) return $familiar`Peace Turkey`;
   }
   return (
     (canInteract() && sober()
