@@ -299,6 +299,7 @@ export function islandOutfit(
         $item`Drunkula's wineglass`,
         () => myInebriety() > inebrietyLimit(),
       ),
+      ifHave("offhand", $item`bone-polishing rag`),
       ifHave(
         "offhand",
         $item`deft pirate hook`,

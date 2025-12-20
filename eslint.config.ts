@@ -19,7 +19,7 @@ export default defineConfig(
         "error",
         {
           data: {
-            items: [],
+            items: ["bone-polishing rag"],
             locations: [],
           },
         },
