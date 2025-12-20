@@ -82,7 +82,7 @@ const standardFamiliars: ConstantValueFamiliar[] = [
   },
   {
     familiar: $familiar`Skeleton of Crimbo Past`,
-    value: () => get("_knuckleboneDrops") < 100 ? 100_000 : 0
+    value: () => (get("_knuckleboneDrops") < 100 ? 100_000 : 0),
   },
   {
     familiar: maxBy(Familiar.all().filter(have), findLeprechaunMultiplier),

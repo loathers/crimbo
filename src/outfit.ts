@@ -83,7 +83,6 @@ const chooseFamiliar = (options: MenuOptions = {}): Familiar => {
       have,
     );
     if (adventuresFamiliar) return adventuresFamiliar;
-
   }
   return (
     (canInteract() && sober()
