@@ -2459,7 +2459,7 @@ __metadata:
     garbo-lib: "npm:^1.0.3"
     grimoire-kolmafia: "npm:^0.3.33"
     jiti: "npm:^2.6.1"
-    kolmafia: "npm:^5.28814.0"
+    kolmafia: "npm:^5.28818.0"
     libram: "npm:^0.11.14"
     prettier: "npm:^3.7.4"
     rollup: "npm:^4.53.5"
@@ -3419,10 +3419,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kolmafia@npm:^5.28814.0":
-  version: 5.28814.0
-  resolution: "kolmafia@npm:5.28814.0"
-  checksum: 10c0/15ffaf1246f5a9b08c0ac6488aacff4b2019d652ab8d3409ff4459cb5d477d1af6c1a73dceeebc294715ee351145ed4f5d5a2b53626557c9cda29e54a30ce1dd
+"kolmafia@npm:^5.28818.0":
+  version: 5.28819.0
+  resolution: "kolmafia@npm:5.28819.0"
+  checksum: 10c0/d23b435d9e69efa388fc579d47d113eb838803795283a33a532d12b00bcddde47687fa7ab36bc323e57a9ac09341504d27f722bde49216f4731895f973cf9157
   languageName: node
   linkType: hard
 
