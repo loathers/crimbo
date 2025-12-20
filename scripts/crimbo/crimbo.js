@@ -22621,7 +22621,7 @@ function islandOutfit(fight) {
   }));
   if (outfit.familiar === $familiar(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["Reagnimated Gnome"])))) outfit.equip($item(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["gnomish housemaid's kgnee"]))));
   if (outfit.familiar === $familiar(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral(["Left-Hand Man"]))) && !sober()) outfit.equip({
-    offhand: $item(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["bone-polishing rag"])))
+    famequip: $item(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["bone-polishing rag"])))
   });
 
   // acc1 reserved for outfit args
