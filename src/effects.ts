@@ -30,6 +30,10 @@ const defaultOptionalEffects: OptionalEffect[] = [
     effect: $effect`Astral Shell`,
     skill: $skill`Astral Shell`,
   },
+  {
+    effect: $effect`Only Dogs Love a Drunken Sailor`,
+    skill: $skill`Only Dogs Love a Drunken Sailor`,
+  }
 ];
 
 export function validDefaultEffects(): OptionalEffect[] {
