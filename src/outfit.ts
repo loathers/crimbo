@@ -290,7 +290,7 @@ export function islandOutfit(
 
   if (outfit.familiar === $familiar`Reagnimated Gnome`)
     outfit.equip($item`gnomish housemaid's kgnee`);
-  if (outfit.familiar === $familiar`Left-Hand Man`)
+  if (outfit.familiar === $familiar`Left-Hand Man` && !sober())
     outfit.equip({ offhand: $item`bone-polishing rag` });
 
   // acc1 reserved for outfit args
