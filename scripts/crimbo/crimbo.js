@@ -22671,7 +22671,7 @@ function islandOutfit(fight) {
     allowEquipment: true,
     allowAttackFamiliars: true
   }));
-  if (outfit.familiar === $familiar(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["Reagnimated Gnome"])))) outfit.equip($item(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["gnomish housemaid's kgnee"]))));
+  outfit.equip(mergeSpecs(ifHave("famequip", equipmentFamiliars.get(outfit.familiar)), ifHave("famequip", $item(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["tiny stillsuit"])))), ifHave("famequip", $item(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["amulet coin"]))))));
   if (outfit.familiar === $familiar(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral(["Left-Hand Man"]))) && !sober()) outfit.equip({
     famequip: $item(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["bone-polishing rag"])))
   });
