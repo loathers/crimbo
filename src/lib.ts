@@ -1,6 +1,7 @@
 import { Args } from "grimoire-kolmafia";
 import {
   Item,
+  Location,
   canEquip,
   descToItem,
   inebrietyLimit,
@@ -170,4 +171,8 @@ export const shouldPickpocket = () =>
 
 export function getLocation() {
   return args.location;
+}
+
+export function isCrimboZone(location: Location): boolean {
+  return location.zone.startsWith("Crimbo")
 }
