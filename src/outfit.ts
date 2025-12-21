@@ -288,8 +288,13 @@ export function islandOutfit(
     allowAttackFamiliars: true,
   });
 
-  if (outfit.familiar === $familiar`Reagnimated Gnome`)
-    outfit.equip($item`gnomish housemaid's kgnee`);
+  outfit.equip(
+    mergeSpecs(
+      ifHave("famequip", equipmentFamiliars.get(outfit.familiar)),
+      ifHave("famequip", $item`tiny stillsuit`),
+      ifHave("famequip", $item`amulet coin`),
+    ),
+  );
   if (outfit.familiar === $familiar`Left-Hand Man` && !sober())
     outfit.equip({ famequip: $item`bone-polishing rag` });
 
