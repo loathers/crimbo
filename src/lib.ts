@@ -174,5 +174,5 @@ export function getLocation() {
 }
 
 export function isCrimboZone(location: Location): boolean {
-  return location.zone.startsWith("Crimbo")
+  return location.zone.startsWith("Crimbo");
 }
