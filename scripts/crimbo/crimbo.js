@@ -22652,7 +22652,7 @@ var accessories = [{
   valueFunction: _ref6 => {
     var location = _ref6.location,
       isFree = _ref6.isFree;
-    return !isFree && isCrimboZone(location) && !have$18($effect(_templateObject56 || (_templateObject56 = _taggedTemplateLiteral(["Everything Looks Red"])))) ? Infinity : 0;
+    return sober() && !isFree && isCrimboZone(location) && !have$18($effect(_templateObject56 || (_templateObject56 = _taggedTemplateLiteral(["Everything Looks Red"])))) ? Infinity : 0;
   }
 }];
 function getBestAccessories(location, isFree) {
