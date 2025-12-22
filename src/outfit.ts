@@ -135,13 +135,20 @@ export function taskOutfit(
   });
   outfit.equip(familiar);
 
-  const famEquip = mergeSpecs(
-    ifHave("famequip", equipmentFamiliars.get(familiar)),
-    ifHave("famequip", $item`tiny stillsuit`),
-    ifHave("famequip", $item`amulet coin`),
-  );
-  outfit.equip(famEquip);
-
+  if (
+    outfit.familiar === $familiar`Left-Hand Man` &&
+    !sober() &&
+    isCrimboZone(location)
+  ) {
+    outfit.equip({ famequip: $item`bone-polishing rag` });
+  } else {
+    const famEquip = mergeSpecs(
+      ifHave("famequip", equipmentFamiliars.get(familiar)),
+      ifHave("famequip", $item`tiny stillsuit`),
+      ifHave("famequip", $item`amulet coin`),
+    );
+    outfit.equip(famEquip);
+  }
   const weapon = mergeSpecs(
     ifHave(
       "weapon",
@@ -211,13 +218,6 @@ export function taskOutfit(
 
   if (!outfit.haveEquipped($item`Buddy Bjorn`))
     outfit.equip(ifHave("hat", $item`Crown of Thrones`));
-
-  if (
-    outfit.familiar === $familiar`Left-Hand Man` &&
-    !sober() &&
-    isCrimboZone(location)
-  )
-    outfit.equip({ famequip: $item`bone-polishing rag` });
 
   for (const { item, value } of getBestAccessories(location, isFree)) {
     if (value === Infinity) outfit.equip(item);
