@@ -1,7 +1,5 @@
 import { CombatStrategy, Engine, Outfit, Quest, Task } from "grimoire-kolmafia";
 import {
-  bjornifyFamiliar,
-  enthroneFamiliar,
   equip,
   equippedAmount,
   haveEquipped,
@@ -11,7 +9,6 @@ import {
 import {
   $familiar,
   $item,
-  CrownOfThrones,
   CrystalBall,
   JuneCleaver,
   PropertiesManager,
@@ -37,8 +34,6 @@ export class CrimboStrategy extends CombatStrategy {
   }
 }
 
-CrownOfThrones.createRiderMode("default", {});
-const chooseRider = () => CrownOfThrones.pickRider("default");
 export class CrimboEngine extends Engine<never, CrimboTask> {
   do(task: CrimboTask): void {
     super.do(task);
@@ -66,13 +61,6 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
 
   dress(task: CrimboTask, outfit: Outfit): void {
     super.dress(task, outfit);
-    if (haveEquipped($item`Buddy Bjorn`)) {
-      const choice = chooseRider();
-      if (choice) bjornifyFamiliar(choice.familiar);
-    } else if (haveEquipped($item`Crown of Thrones`)) {
-      const choice = chooseRider();
-      if (choice) enthroneFamiliar(choice.familiar);
-    }
     if (itemAmount($item`tiny stillsuit`)) {
       equip($familiar`Mosquito`, $item`tiny stillsuit`);
     }

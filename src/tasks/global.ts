@@ -1,6 +1,6 @@
 import { CrimboStrategy, CrimboTask } from "../engine";
 import Macro from "../macro";
-import { wandererOutfit } from "../outfit";
+import { taskOutfit } from "../outfit";
 import { wanderer } from "../wanderer";
 import { Quest } from "grimoire-kolmafia";
 import {
@@ -55,7 +55,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         }
       },
       outfit: () =>
-        wandererOutfit(
+        taskOutfit(
           {
             wandererType: get("ghostLocation") ?? $location.none,
             isFree: true,
@@ -100,7 +100,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         get("_voteFreeFights") < 3,
       do: () => wanderer().getTarget("wanderer").location,
       outfit: () =>
-        wandererOutfit(
+        taskOutfit(
           { wandererType: "wanderer", isFree: true },
           { acc3: $item`"I Voted!" sticker` },
         ),
@@ -113,7 +113,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
       name: "Digitize Wanderer",
       ready: () => Counter.get("Digitize") <= 0,
       outfit: () =>
-        wandererOutfit({
+        taskOutfit({
           wandererType: "wanderer",
           isFree: get("_sourceTerminalDigitizeMonster")?.attributes.includes(
             "FREE",
@@ -133,7 +133,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         get("cursedMagnifyingGlassCount") === 13,
       completed: () => get("_voidFreeFights") >= 5,
       outfit: () =>
-        wandererOutfit(
+        taskOutfit(
           { wandererType: "wanderer", isFree: true },
           { offhand: $item`cursed magnifying glass` },
         ),
@@ -148,7 +148,7 @@ export const GLOBAL_QUEST: Quest<CrimboTask> = {
         have($item`Kramco Sausage-o-Matic™`) && getKramcoWandererChance() >= 1,
       completed: () => getKramcoWandererChance() < 1,
       outfit: () =>
-        wandererOutfit(
+        taskOutfit(
           { wandererType: "wanderer", isFree: true },
           { offhand: $item`Kramco Sausage-o-Matic™` },
         ),

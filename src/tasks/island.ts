@@ -1,7 +1,7 @@
 import { CrimboStrategy, CrimboTask } from "../engine";
 import { getLocation } from "../lib";
 import Macro from "../macro";
-import { islandOutfit } from "../outfit";
+import { taskOutfit } from "../outfit";
 import { OutfitSpec, Quest } from "grimoire-kolmafia";
 import { Item, Skill, mallPrice, myAdventures } from "kolmafia";
 import { $effect, $item, $items, $skill, get, have } from "libram";
@@ -15,7 +15,8 @@ function freeKillTask(
     name: `${action}`,
     do: () => getLocation(),
     sobriety: "sober",
-    outfit: () => islandOutfit("freekill", source),
+    outfit: () =>
+      taskOutfit({ isFree: true, wandererType: getLocation() }, source),
     combat: new CrimboStrategy(() => Macro.islandKillWith(action)),
     ...fragment,
   };
@@ -227,7 +228,7 @@ export const ISLAND_QUEST: Quest<CrimboTask> = {
       completed: () => myAdventures() === 0,
       do: () => getLocation(),
       combat: new CrimboStrategy(() => Macro.islandCombat()),
-      outfit: () => islandOutfit("regular"),
+      outfit: () => taskOutfit({ isFree: false, wandererType: getLocation() }),
       sobriety: "either",
     },
   ] as CrimboTask[],
