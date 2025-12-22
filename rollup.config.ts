@@ -8,6 +8,7 @@ const watch = process.argv.includes("--watch") || process.argv.includes("-w");
 export default {
   input: {
     "scripts/crimbo/crimbo": "src/main.ts",
+    "scripts/crimbo/crimbo_choice": "src/choice.ts",
   },
 
   output: {

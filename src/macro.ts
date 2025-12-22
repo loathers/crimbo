@@ -181,6 +181,7 @@ export default class Macro extends StrictMacro {
 
   standardCombat(): this {
     return this.tryHaveSkill($skill`Curse of Weaksauce`)
+      .tryHaveSkill($skill`Darts: Aim for the Bullseye`)
       .familiarActions()
       .miscSkills()
       .doStandardItems()

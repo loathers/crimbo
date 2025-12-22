@@ -5,7 +5,6 @@ import {
   Session,
   setDefaultMaximizeOptions,
   sinceKolmafiaRevision,
-  withProperty,
 } from "libram";
 
 import { defaultEffects, prebuff } from "./effects";
@@ -41,13 +40,12 @@ export function main(command?: string) {
 
   const sessionStart = Session.current();
 
-  withProperty("recoveryScript", "", () => {
+
     try {
       engine.run();
     } finally {
       engine.destruct();
     }
-  });
 
   const sessionResults = Session.current().diff(sessionStart);
 

@@ -14,6 +14,7 @@ import {
   totalTurnsPlayed,
 } from "kolmafia";
 import {
+  $effect,
   $familiar,
   $familiars,
   $item,
@@ -218,7 +219,10 @@ export function taskOutfit(
   )
     outfit.equip({ famequip: $item`bone-polishing rag` });
 
-  for (const acc of getBestAccessories(location, isFree)) outfit.equip(acc);
+  for (const { item, value }of getBestAccessories(location, isFree)) {
+    if (value === Infinity) outfit.equip(item)
+    else outfit.addBonus(item, value)
+  }
 
   if (outfit.haveEquipped($item`Buddy Bjorn`)) {
     outfit.bjornify(ensureRider().familiar);
@@ -294,6 +298,10 @@ const accessories: {
     item: $item`Mr. Cheeng's spectacles`,
     valueFunction: () => 220,
   },
+  {
+    item: $item`Everfull Dart Holster`,
+    valueFunction: ({ location, isFree,}) => !isFree && isCrimboZone(location) && !have($effect`Everything Looks Red`) ? Infinity : 0
+  }
 ];
 
 function getBestAccessories(location: Location, isFree?: boolean) {
@@ -304,6 +312,5 @@ function getBestAccessories(location: Location, isFree?: boolean) {
       value: valueFunction({ location, isFree }),
     }))
     .sort(({ value: a }, { value: b }) => b - a)
-    .map(({ item }) => item)
     .splice(0, 3);
 }
