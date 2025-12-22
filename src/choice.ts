@@ -1,5 +1,11 @@
-import { abort, availableChoiceOptions, ChoiceAdventureScript, runChoice, xpath } from "kolmafia";
-import { get, maxBy, NumericOrStringProperty } from "libram";
+import {
+  ChoiceAdventureScript,
+  abort,
+  availableChoiceOptions,
+  runChoice,
+  xpath,
+} from "kolmafia";
+import { NumericOrStringProperty, get, maxBy } from "libram";
 
 const DART_PERKS: string[] = [
   "Bullseyes do not impress you much",
@@ -66,4 +72,4 @@ export const main: ChoiceAdventureScript = (choiceNumber, pageText) => {
     case 1557:
       return void runPeridotChoice(pageText);
   }
-}
+};

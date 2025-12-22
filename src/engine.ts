@@ -1,9 +1,5 @@
 import { CombatStrategy, Engine, Quest, Task } from "grimoire-kolmafia";
-import {
-  equippedAmount,
-  haveEquipped,
-  setAutoAttack,
-} from "kolmafia";
+import { equippedAmount, haveEquipped, setAutoAttack } from "kolmafia";
 import {
   $item,
   CrystalBall,
@@ -57,7 +53,7 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
     choiceAdventureScript: "crimbo_choice.js",
     stillsuitFamiliar: "mosquito",
     recoveryScript: "",
-  }
+  };
 
   execute(task: CrimboTask): void {
     super.execute(task);

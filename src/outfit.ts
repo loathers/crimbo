@@ -219,9 +219,9 @@ export function taskOutfit(
   )
     outfit.equip({ famequip: $item`bone-polishing rag` });
 
-  for (const { item, value }of getBestAccessories(location, isFree)) {
-    if (value === Infinity) outfit.equip(item)
-    else outfit.addBonus(item, value)
+  for (const { item, value } of getBestAccessories(location, isFree)) {
+    if (value === Infinity) outfit.equip(item);
+    else outfit.addBonus(item, value);
   }
 
   if (outfit.haveEquipped($item`Buddy Bjorn`)) {
@@ -300,8 +300,11 @@ const accessories: {
   },
   {
     item: $item`Everfull Dart Holster`,
-    valueFunction: ({ location, isFree,}) => !isFree && isCrimboZone(location) && !have($effect`Everything Looks Red`) ? Infinity : 0
-  }
+    valueFunction: ({ location, isFree }) =>
+      !isFree && isCrimboZone(location) && !have($effect`Everything Looks Red`)
+        ? Infinity
+        : 0,
+  },
 ];
 
 function getBestAccessories(location: Location, isFree?: boolean) {

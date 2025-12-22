@@ -40,12 +40,11 @@ export function main(command?: string) {
 
   const sessionStart = Session.current();
 
-
-    try {
-      engine.run();
-    } finally {
-      engine.destruct();
-    }
+  try {
+    engine.run();
+  } finally {
+    engine.destruct();
+  }
 
   const sessionResults = Session.current().diff(sessionStart);
 
