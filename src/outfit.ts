@@ -301,7 +301,10 @@ const accessories: {
   {
     item: $item`Everfull Dart Holster`,
     valueFunction: ({ location, isFree }) =>
-      !isFree && isCrimboZone(location) && !have($effect`Everything Looks Red`)
+      sober() &&
+      !isFree &&
+      isCrimboZone(location) &&
+      !have($effect`Everything Looks Red`)
         ? Infinity
         : 0,
   },
