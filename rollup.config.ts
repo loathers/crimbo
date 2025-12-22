@@ -5,11 +5,7 @@ import replace from "@rollup/plugin-replace";
 
 const watch = process.argv.includes("--watch") || process.argv.includes("-w");
 
-export default {
-  input: {
-    "scripts/crimbo/crimbo": "src/main.ts",
-  },
-
+const baseSettings = {
   output: {
     dir: "dist",
     format: "cjs",
@@ -66,3 +62,7 @@ export default {
       }
     : undefined,
 };
+export default [
+  { "scripts/crimbo/crimbo": "src/main.ts" },
+  { "scripts/crimbo/crimbo_choice": "src/choice.ts" },
+].map((input) => ({ input, ...baseSettings }));

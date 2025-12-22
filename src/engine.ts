@@ -1,13 +1,6 @@
-import { CombatStrategy, Engine, Outfit, Quest, Task } from "grimoire-kolmafia";
+import { CombatStrategy, Engine, Quest, Task } from "grimoire-kolmafia";
+import { equippedAmount, haveEquipped, setAutoAttack } from "kolmafia";
 import {
-  equip,
-  equippedAmount,
-  haveEquipped,
-  itemAmount,
-  setAutoAttack,
-} from "kolmafia";
-import {
-  $familiar,
   $item,
   CrystalBall,
   JuneCleaver,
@@ -55,16 +48,12 @@ export class CrimboEngine extends Engine<never, CrimboTask> {
     return sobriety && super.available(task);
   }
 
-  initPropertiesManager(manager: PropertiesManager): void {
-    super.initPropertiesManager(manager);
-  }
-
-  dress(task: CrimboTask, outfit: Outfit): void {
-    super.dress(task, outfit);
-    if (itemAmount($item`tiny stillsuit`)) {
-      equip($familiar`Mosquito`, $item`tiny stillsuit`);
-    }
-  }
+  static defaultSettings = {
+    ...super.defaultSettings,
+    choiceAdventureScript: "crimbo_choice.js",
+    stillsuitFamiliar: "mosquito",
+    recoveryScript: "",
+  };
 
   execute(task: CrimboTask): void {
     super.execute(task);

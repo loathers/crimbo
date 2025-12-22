@@ -279,6 +279,7 @@ export default class Macro extends StrictMacro {
 
   islandCombat(): Macro {
     return this.pickpocket()
+      .trySkill($skill`Darts: Aim for the Bullseye`)
       .externalIf(
         haveEquipped($item`tearaway pants`),
         Macro.if_(
