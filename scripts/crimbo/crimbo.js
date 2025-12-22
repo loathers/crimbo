@@ -22578,23 +22578,26 @@ function taskOutfit(_ref3) {
     allowEquipment: !("famequip" in mergedOutfits)
   });
   outfit.equip(familiar);
-  var famEquip = mergeSpecs(ifHave("famequip", equipmentFamiliars.get(familiar)), ifHave("famequip", $item(_templateObject1$3 || (_templateObject1$3 = _taggedTemplateLiteral(["tiny stillsuit"])))), ifHave("famequip", $item(_templateObject10$3 || (_templateObject10$3 = _taggedTemplateLiteral(["amulet coin"])))));
-  outfit.equip(famEquip);
-  var weapon = mergeSpecs(ifHave("weapon", $item(_templateObject11$3 || (_templateObject11$3 = _taggedTemplateLiteral(["undertakers' forceps"]))), isCrimboZone(location) && require$$0.myInebriety() <= require$$0.inebrietyLimit()), ifHave("weapon", $item(_templateObject12$3 || (_templateObject12$3 = _taggedTemplateLiteral(["June cleaver"])))), ifHave("weapon", $item(_templateObject13$3 || (_templateObject13$3 = _taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))));
+  if (outfit.familiar === $familiar(_templateObject1$3 || (_templateObject1$3 = _taggedTemplateLiteral(["Left-Hand Man"]))) && !sober() && isCrimboZone(location)) {
+    outfit.equip({
+      famequip: $item(_templateObject10$3 || (_templateObject10$3 = _taggedTemplateLiteral(["bone-polishing rag"])))
+    });
+  } else {
+    var famEquip = mergeSpecs(ifHave("famequip", equipmentFamiliars.get(familiar)), ifHave("famequip", $item(_templateObject11$3 || (_templateObject11$3 = _taggedTemplateLiteral(["tiny stillsuit"])))), ifHave("famequip", $item(_templateObject12$3 || (_templateObject12$3 = _taggedTemplateLiteral(["amulet coin"])))));
+    outfit.equip(famEquip);
+  }
+  var weapon = mergeSpecs(ifHave("weapon", $item(_templateObject13$3 || (_templateObject13$3 = _taggedTemplateLiteral(["undertakers' forceps"]))), isCrimboZone(location) && require$$0.myInebriety() <= require$$0.inebrietyLimit()), ifHave("weapon", $item(_templateObject14$3 || (_templateObject14$3 = _taggedTemplateLiteral(["June cleaver"])))), ifHave("weapon", $item(_templateObject15$3 || (_templateObject15$3 = _taggedTemplateLiteral(["Fourth of May Cosplay Saber"])))));
   outfit.equip(weapon);
-  var offhand = mergeSpecs(ifHave("offhand", $item(_templateObject14$3 || (_templateObject14$3 = _taggedTemplateLiteral(["Drunkula's wineglass"]))), require$$0.myInebriety() > require$$0.inebrietyLimit()), ifHave("offhand", $item(_templateObject15$3 || (_templateObject15$3 = _taggedTemplateLiteral(["bone-polishing rag"]))), isCrimboZone(location)), ifHave("offhand", $item(_templateObject16$3 || (_templateObject16$3 = _taggedTemplateLiteral(["cursed magnifying glass"]))), !isFree && get$2("_voidFreeFights") < 5 && get$2("cursedMagnifyingGlassCount") < 13), ifHave("offhand", $item(_templateObject17$3 || (_templateObject17$3 = _taggedTemplateLiteral(["carnivorous potted plant"]))), !isFree), ifHave("offhand", $item(_templateObject18$3 || (_templateObject18$3 = _taggedTemplateLiteral(["June cleaver"]))), !outfit.haveEquipped($item(_templateObject19$3 || (_templateObject19$3 = _taggedTemplateLiteral(["June cleaver"])))) && outfit.canEquip($item(_templateObject20$3 || (_templateObject20$3 = _taggedTemplateLiteral(["June cleaver"]))))));
+  var offhand = mergeSpecs(ifHave("offhand", $item(_templateObject16$3 || (_templateObject16$3 = _taggedTemplateLiteral(["Drunkula's wineglass"]))), require$$0.myInebriety() > require$$0.inebrietyLimit()), ifHave("offhand", $item(_templateObject17$3 || (_templateObject17$3 = _taggedTemplateLiteral(["bone-polishing rag"]))), isCrimboZone(location)), ifHave("offhand", $item(_templateObject18$3 || (_templateObject18$3 = _taggedTemplateLiteral(["cursed magnifying glass"]))), !isFree && get$2("_voidFreeFights") < 5 && get$2("cursedMagnifyingGlassCount") < 13), ifHave("offhand", $item(_templateObject19$3 || (_templateObject19$3 = _taggedTemplateLiteral(["carnivorous potted plant"]))), !isFree), ifHave("offhand", $item(_templateObject20$3 || (_templateObject20$3 = _taggedTemplateLiteral(["June cleaver"]))), !outfit.haveEquipped($item(_templateObject21$3 || (_templateObject21$3 = _taggedTemplateLiteral(["June cleaver"])))) && outfit.canEquip($item(_templateObject22$3 || (_templateObject22$3 = _taggedTemplateLiteral(["June cleaver"]))))));
   outfit.equip(offhand);
-  var back = mergeSpecs(ifHave("back", $item(_templateObject21$3 || (_templateObject21$3 = _taggedTemplateLiteral(["protonic accelerator pack"]))), get$2("questPAGhost") === "unstarted" && get$2("nextParanormalActivity") <= require$$0.totalTurnsPlayed() && sober()), ifHave("back", $item(_templateObject22$3 || (_templateObject22$3 = _taggedTemplateLiteral(["Buddy Bjorn"])))));
+  var back = mergeSpecs(ifHave("back", $item(_templateObject23$3 || (_templateObject23$3 = _taggedTemplateLiteral(["protonic accelerator pack"]))), get$2("questPAGhost") === "unstarted" && get$2("nextParanormalActivity") <= require$$0.totalTurnsPlayed() && sober()), ifHave("back", $item(_templateObject24$2 || (_templateObject24$2 = _taggedTemplateLiteral(["Buddy Bjorn"])))));
   outfit.equip(back);
-  var pants = mergeSpecs(ifHave("pants", $item(_templateObject23$3 || (_templateObject23$3 = _taggedTemplateLiteral(["designer sweatpants"]))), 25 * get$2("_sweatOutSomeBoozeUsed") + get$2("sweat") < 75), ifHave("pants", $item(_templateObject24$2 || (_templateObject24$2 = _taggedTemplateLiteral(["Pantsgiving"]))), get$2("_pantsgivingCount") < 50 || get$2("_pantsgivingFullness") < 2 && getRemainingStomach() === 0), ifHave("pants", $item(_templateObject25$2 || (_templateObject25$2 = _taggedTemplateLiteral(["tearaway pants"]))), require$$0.getMonsters(location).some(_ref4 => {
+  var pants = mergeSpecs(ifHave("pants", $item(_templateObject25$2 || (_templateObject25$2 = _taggedTemplateLiteral(["designer sweatpants"]))), 25 * get$2("_sweatOutSomeBoozeUsed") + get$2("sweat") < 75), ifHave("pants", $item(_templateObject26$2 || (_templateObject26$2 = _taggedTemplateLiteral(["Pantsgiving"]))), get$2("_pantsgivingCount") < 50 || get$2("_pantsgivingFullness") < 2 && getRemainingStomach() === 0), ifHave("pants", $item(_templateObject27$2 || (_templateObject27$2 = _taggedTemplateLiteral(["tearaway pants"]))), require$$0.getMonsters(location).some(_ref4 => {
     var phylum = _ref4.phylum;
-    return phylum === $phylum(_templateObject26$2 || (_templateObject26$2 = _taggedTemplateLiteral(["plant"])));
+    return phylum === $phylum(_templateObject28$1 || (_templateObject28$1 = _taggedTemplateLiteral(["plant"])));
   })));
   outfit.equip(pants);
-  if (!outfit.haveEquipped($item(_templateObject27$2 || (_templateObject27$2 = _taggedTemplateLiteral(["Buddy Bjorn"]))))) outfit.equip(ifHave("hat", $item(_templateObject28$1 || (_templateObject28$1 = _taggedTemplateLiteral(["Crown of Thrones"])))));
-  if (outfit.familiar === $familiar(_templateObject29$1 || (_templateObject29$1 = _taggedTemplateLiteral(["Left-Hand Man"]))) && !sober() && isCrimboZone(location)) outfit.equip({
-    famequip: $item(_templateObject30$1 || (_templateObject30$1 = _taggedTemplateLiteral(["bone-polishing rag"])))
-  });
+  if (!outfit.haveEquipped($item(_templateObject29$1 || (_templateObject29$1 = _taggedTemplateLiteral(["Buddy Bjorn"]))))) outfit.equip(ifHave("hat", $item(_templateObject30$1 || (_templateObject30$1 = _taggedTemplateLiteral(["Crown of Thrones"])))));
   var _iterator = _createForOfIteratorHelper(getBestAccessories(location, isFree)),
     _step;
   try {
